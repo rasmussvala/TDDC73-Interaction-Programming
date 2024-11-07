@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.app.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -59,7 +62,11 @@ fun Index() {
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "Kotlin + Compose", modifier = Modifier.padding(24.dp))
+            Text(
+                text = "Kotlin + Compose",
+                modifier = Modifier.padding(30.dp),
+                fontSize = 30.sp
+            )
         }
         Box(
             modifier = Modifier
@@ -78,70 +85,92 @@ fun Index() {
         }
 
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
             Row(
                 modifier = Modifier
-                    .padding(vertical = 10.dp)
+                    .padding(vertical = 4.dp)
                     .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
                 Button(
                     modifier = Modifier
-                        .width(100.dp)
-                        .height(40.dp),
+                        .width(160.dp)
+                        .height(60.dp)
+                        .padding(end = 4.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xffd6d7d7),
+                        contentColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(10.dp),
                     onClick = {
                         // TODO
                     }
                 ) {
-                    Text(text = "Button")
+                    Text(text = "BUTTON")
                 }
                 Button(
                     modifier = Modifier
-                        .width(100.dp)
-                        .height(40.dp),
+                        .width(160.dp)
+                        .height(60.dp)
+                        .padding(end = 4.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xffd6d7d7),
+                        contentColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(10.dp),
                     onClick = {
                         // TODO
                     }
                 ) {
-                    Text(text = "Button")
+                    Text(text = "BUTTON")
                 }
             }
             Row(
                 modifier = Modifier
-                    .padding(vertical = 10.dp)
+                    .padding(vertical = 4.dp)
                     .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
                 Button(
                     modifier = Modifier
-                        .width(100.dp)
-                        .height(40.dp),
+                        .width(160.dp)
+                        .height(60.dp)
+                        .padding(end = 4.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xffd6d7d7),
+                        contentColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(10.dp),
                     onClick = {
                         // TODO
                     }
                 ) {
-                    Text(text = "Button")
+                    Text(text = "BUTTON")
                 }
                 Button(
                     modifier = Modifier
-                        .width(100.dp)
-                        .height(40.dp),
+                        .width(160.dp)
+                        .height(60.dp)
+                        .padding(end = 4.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xffd6d7d7),
+                        contentColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(10.dp),
                     onClick = {
                         // TODO
                     }
                 ) {
-                    Text(text = "Button")
+                    Text(text = "BUTTON")
                 }
             }
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(start = 50.dp).padding(end = 50.dp)
         ) {
             Text(
                 text = "Cat name ",
@@ -151,8 +180,7 @@ fun Index() {
             TextField(
                 placeholder = { Text(text = "Enter cat name") },
                 value = catName,
-                onValueChange = { newName -> catName = newName }
-
+                onValueChange = { newName -> catName = newName },
             )
         }
     }
