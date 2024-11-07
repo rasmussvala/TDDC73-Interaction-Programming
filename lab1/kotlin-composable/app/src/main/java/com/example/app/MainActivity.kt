@@ -94,11 +94,7 @@ fun Index() {
                 Button(
                     modifier = Modifier
                         .width(100.dp)
-                        .height(40.dp)
-                        .background(
-                            color = Color(0xffbfffe1),
-                            shape = RoundedCornerShape(50)
-                        ),
+                        .height(40.dp),
                     onClick = {
                         // TODO
                     }
@@ -108,18 +104,13 @@ fun Index() {
                 Button(
                     modifier = Modifier
                         .width(100.dp)
-                        .height(40.dp)
-                        .background(
-                            color = Color(0xffbfffe1),
-                            shape = RoundedCornerShape(50)
-                        ),
+                        .height(40.dp),
                     onClick = {
                         // TODO
                     }
                 ) {
                     Text(text = "Button")
                 }
-
             }
             Row(
                 modifier = Modifier
@@ -131,11 +122,7 @@ fun Index() {
                 Button(
                     modifier = Modifier
                         .width(100.dp)
-                        .height(40.dp)
-                        .background(
-                            color = Color(0xffbfffe1),
-                            shape = RoundedCornerShape(50)
-                        ),
+                        .height(40.dp),
                     onClick = {
                         // TODO
                     }
@@ -145,11 +132,7 @@ fun Index() {
                 Button(
                     modifier = Modifier
                         .width(100.dp)
-                        .height(40.dp)
-                        .background(
-                            color = Color(0xffbfffe1),
-                            shape = RoundedCornerShape(50)
-                        ),
+                        .height(40.dp),
                     onClick = {
                         // TODO
                     }
