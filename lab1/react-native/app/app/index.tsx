@@ -14,6 +14,7 @@ export default function Index() {
   return (
     <View>
       <View style={styles.imageContainer}>
+        <View style={styles.imageBackground}></View>
         <Image
           source={{
             uri: "https://icons.iconarchive.com/icons/iconarchive/cute-animal/512/Cute-Cat-icon.png",
@@ -24,23 +25,23 @@ export default function Index() {
       <View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button}>
-            <Text>button 1a</Text>
+            <Text style={styles.buttonText}>BUTTON</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
-            <Text>button 1b</Text>
+            <Text style={styles.buttonText}>BUTTON</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button}>
-            <Text>button 2a</Text>
+            <Text style={styles.buttonText}>BUTTON</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
-            <Text>button 2b</Text>
+            <Text style={styles.buttonText}>BUTTON</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.inputContainer}>
-        <Text>Cat name</Text>
+        <Text style={styles.inputText}>Cat name</Text>
         <TextInput
           style={styles.inputField}
           onChangeText={(inputName) => setCatName(inputName)}
@@ -53,48 +54,61 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 50,
-    marginVertical: 10,
-  },
-
-  button: {
-    backgroundColor: "#BFFFE1",
-    width: 100,
-    height: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50,
-  },
-
-  inputContainer: {
-    flexDirection: "row",
-    marginVertical: 10,
-    marginHorizontal: 40,
-    alignItems: "center",
-  },
-
-  inputField: {
-    marginHorizontal: 16,
-    borderWidth: 2,
-    borderRadius: 4,
-    borderColor: "grey",
-    padding: 4,
+  image: {
+    width: 200,
+    height: 200,
   },
 
   imageContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    margin: 60,
   },
 
-  image: {
+  imageBackground: {
+    position: "absolute",
     width: 200,
     height: 200,
     backgroundColor: "#BFFFE1",
-    borderRadius: "50%",
+    borderRadius: 100,
+  },
+
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+
+  button: {
+    backgroundColor: "#d6d7d7",
+    width: 160,
+    height: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    margin: 4,
+  },
+
+  buttonText: { fontSize: 16 },
+
+  inputContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  inputField: {
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: "grey",
+    padding: 4,
+    fontSize: 18,
+    color: "grey",
+  },
+
+  inputText: {
+    fontSize: 20,
+    marginRight: 20,
   },
 });
