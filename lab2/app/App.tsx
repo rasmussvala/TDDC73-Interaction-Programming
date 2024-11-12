@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
+    transform: [{ translateY: -100 }],
     backgroundColor: "purple",
     height: 200,
     width: 300,
