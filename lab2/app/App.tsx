@@ -6,11 +6,14 @@ import {
   TextInput,
 } from "react-native";
 
+import { colors, sizes } from "./theme";
+import Card from "./Card";
+
 export default function App() {
   return (
     <View style={styles.wrapper}>
+      <Card />
       <View style={styles.container}>
-        <View style={styles.card}></View>
         <View style={styles.singleInputFieldContainer}>
           <Text style={styles.singleInputFieldText}>Card Number</Text>
           <TextInput style={styles.singleInputField} />
@@ -21,7 +24,7 @@ export default function App() {
         </View>
         <View style={styles.rowInputFieldContainer}>
           <View style={styles.expirationDatesInputsContainer}>
-            <Text>Expiration Date</Text>
+            <Text style={styles.singleInputFieldText}>Expiration Date</Text>
             <View style={styles.expirationDatesInputs}>
               <TextInput
                 style={[styles.singleInputField, styles.datesInputFields]}
@@ -32,7 +35,7 @@ export default function App() {
             </View>
           </View>
           <View style={styles.cvvContainer}>
-            <Text>CVV</Text>
+            <Text style={styles.singleInputFieldText}>CVV</Text>
             <TextInput style={styles.singleInputField} />
           </View>
         </View>
@@ -44,21 +47,6 @@ export default function App() {
   );
 }
 
-const colors = {
-  background: "green",
-  container: "red",
-  border: "purple",
-  text: "black",
-  button: "blue",
-  buttonText: "white",
-};
-
-const sizes = {
-  borderWidth: 1,
-  borderRadius: 6,
-  marginVertical: 8,
-};
-
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
@@ -68,17 +56,14 @@ const styles = StyleSheet.create({
   },
 
   container: {
+    width: 350,
+    height: 400,
     marginVertical: 4,
     padding: 20,
     backgroundColor: colors.container,
     borderRadius: 2 * sizes.borderRadius,
-  },
-
-  card: {
-    transform: [{ translateY: -100 }],
-    backgroundColor: "purple",
-    height: 200,
-    width: 300,
+    justifyContent: "flex-end",
+    elevation: 10,
   },
 
   singleInputFieldContainer: {
@@ -86,6 +71,7 @@ const styles = StyleSheet.create({
   },
 
   singleInputFieldText: {
+    color: colors.text,
     fontSize: 14,
   },
 
