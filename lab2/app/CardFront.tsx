@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, ImageBackground } from "react-native";
 import { colors, sizes } from "./theme";
 
 const chipURL = require("./assets/images/chip.png");
@@ -6,33 +6,47 @@ const logoURL = require("./assets/images/mastercard.png");
 
 export default function CardFront() {
   return (
-    <>
-      <View style={styles.containerTop}>
-        <Image source={chipURL} style={styles.chip} />
-        <Image source={logoURL} style={styles.chip} />
-      </View>
-      <View style={styles.containerCenter}>
-        <View style={styles.cardNumberContainer}>
-          <Text style={styles.cardNumberText}>####</Text>
-          <Text style={styles.cardNumberText}>####</Text>
-          <Text style={styles.cardNumberText}>####</Text>
-          <Text style={styles.cardNumberText}>####</Text>
+    <ImageBackground
+      source={require("./assets/images/21.jpeg")}
+      style={styles.card}
+    >
+      <View style={styles.contentContainer}>
+        <View style={styles.containerTop}>
+          <Image source={chipURL} style={styles.chip} />
+          <Image source={logoURL} style={styles.chip} />
+        </View>
+        <View style={styles.containerCenter}>
+          <View style={styles.cardNumberContainer}>
+            <Text style={styles.cardNumberText}>####</Text>
+            <Text style={styles.cardNumberText}>####</Text>
+            <Text style={styles.cardNumberText}>####</Text>
+            <Text style={styles.cardNumberText}>####</Text>
+          </View>
+        </View>
+        <View style={styles.containerBottom}>
+          <View style={styles.cardHolder}>
+            <Text style={styles.textHeader}>Card Holder</Text>
+            <Text style={styles.cardText}>Yobama Svensson</Text>
+          </View>
+          <View style={styles.expiration}>
+            <Text style={styles.textHeader}>Expires</Text>
+            <Text style={styles.cardText}>MM/YY</Text>
+          </View>
         </View>
       </View>
-      <View style={styles.containerBottom}>
-        <View style={styles.cardHolder}>
-          <Text style={styles.textHeader}>Card Holder</Text>
-          <Text style={styles.cardText}>Yobama Svensson</Text>
-        </View>
-        <View style={styles.expiration}>
-          <Text style={styles.textHeader}>Expires</Text>
-          <Text style={styles.cardText}>MM/YY</Text>
-        </View>
-      </View>
-    </>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
+  contentContainer: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    padding: 16,
+  },
+
+  card: {
+    flex: 1,
+  },
   containerTop: {
     flexDirection: "row",
     flex: 1,
