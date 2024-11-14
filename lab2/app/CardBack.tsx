@@ -1,7 +1,20 @@
-import { View, StyleSheet, ImageBackground, Text } from "react-native";
+import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
 import { colors, sizes } from "./theme";
+import { useEffect, useState } from "react";
 
-export default function CardFront() {
+export default function CardBack() {
+  const [aspectRatio, setAspectRatio] = useState(1);
+
+  useEffect(() => {
+    Image.getSize(
+      require("./assets/images/mastercard.png"),
+      (_width, _height) => {
+        const ratio = _width / _height;
+        setAspectRatio(ratio);
+      }
+    );
+  }, []);
+
   return (
     <ImageBackground
       source={require("./assets/images/21.jpeg")}
@@ -19,7 +32,16 @@ export default function CardFront() {
             <Text>3231</Text>
           </View>
         </View>
-        <View style={styles.containerBottom}></View>
+        <View style={styles.containerBottom}>
+          <Image
+            source={require("./assets/images/mastercard.png")}
+            style={{
+              height: 40,
+              width: 40 * aspectRatio,
+              backgroundColor: "blue",
+            }}
+          />
+        </View>
       </View>
     </ImageBackground>
   );
@@ -73,6 +95,8 @@ const styles = StyleSheet.create({
 
   containerBottom: {
     flex: 1,
-    backgroundColor: "fuchsia",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginHorizontal: 8,
   },
 });
