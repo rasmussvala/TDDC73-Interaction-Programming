@@ -11,7 +11,7 @@
   "dependencies": {
     "-": "^0.0.1",
     "@expo/metro-runtime": "~3.2.3",
-    "expo": "~51.0.28",
+    "expo": "^52.0.6",
     "expo-cli": "^6.3.10",
     "expo-status-bar": "~1.12.1",
     "global": "^4.4.0",
