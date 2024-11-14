@@ -3,16 +3,17 @@ import { colors, sizes } from "./theme";
 import { useEffect, useState } from "react";
 
 export default function CardBack() {
-  const [aspectRatio, setAspectRatio] = useState(1);
+  // Same as in cardFront
+  const imageHeight = 40;
+  const [imageWidth, setImageWidth] = useState<number | null>(null);
+  const imageSource = "./assets/images/mastercard.png";
 
   useEffect(() => {
-    Image.getSize(
-      require("./assets/images/mastercard.png"),
-      (_width, _height) => {
-        const ratio = _width / _height;
-        setAspectRatio(ratio);
-      }
-    );
+    Image.getSize(imageSource, (width, height) => {
+      const aspectRatio = width / height;
+      const calculatedWidth = imageHeight * aspectRatio;
+      setImageWidth(calculatedWidth);
+    });
   }, []);
 
   return (
@@ -33,14 +34,17 @@ export default function CardBack() {
           </View>
         </View>
         <View style={styles.containerBottom}>
-          <Image
-            source={require("./assets/images/mastercard.png")}
-            style={{
-              height: 40,
-              width: 40 * aspectRatio,
-              backgroundColor: "blue",
-            }}
-          />
+          <View>
+            <Image
+              source={require(imageSource)}
+              style={{
+                height: imageHeight,
+                width: imageWidth,
+                maxWidth: 80,
+              }}
+              resizeMode="contain"
+            />
+          </View>
         </View>
       </View>
     </ImageBackground>
@@ -68,6 +72,7 @@ const styles = StyleSheet.create({
   blackBar: {
     backgroundColor: "#0b0f14",
     height: 40,
+    marginBottom: 5,
   },
 
   containerCenter: {

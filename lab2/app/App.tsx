@@ -98,10 +98,12 @@ const styles = StyleSheet.create({
   expirationDatesInputs: {
     flexDirection: "row",
     gap: 8,
+    overflow: "hidden",
   },
 
   datesInputFields: {
     flex: 0.5,
+    width: 0,
   },
 
   cvvContainer: {
