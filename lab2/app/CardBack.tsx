@@ -9,11 +9,11 @@ export default function CardBack() {
   const imageSource = "./assets/images/mastercard.png";
 
   useEffect(() => {
-    Image.getSize(imageSource, (width, height) => {
-      const aspectRatio = width / height;
-      const calculatedWidth = imageHeight * aspectRatio;
-      setImageWidth(calculatedWidth);
-    });
+    const { width, height } = Image.resolveAssetSource(require(imageSource));
+
+    const aspectRatio = width / height;
+    const calculatedWidth = imageHeight * aspectRatio;
+    setImageWidth(calculatedWidth);
   }, []);
 
   return (

@@ -4,21 +4,21 @@ import { useEffect, useState } from "react";
 import { colors, sizes } from "./theme";
 
 const chipURL = require("./assets/images/chip.png");
-const logoURL = require("./assets/images/mastercard.png");
 
 export default function CardFront() {
-  // Same as in cardFront
+  // Same as in cardBack
   const imageHeight = 40;
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const imageSource = "./assets/images/mastercard.png";
 
   useEffect(() => {
-    Image.getSize(imageSource, (width, height) => {
-      const aspectRatio = width / height;
-      const calculatedWidth = imageHeight * aspectRatio;
-      setImageWidth(calculatedWidth);
-    });
+    const { width, height } = Image.resolveAssetSource(require(imageSource));
+
+    const aspectRatio = width / height;
+    const calculatedWidth = imageHeight * aspectRatio;
+    setImageWidth(calculatedWidth);
   }, []);
+
   return (
     <ImageBackground
       source={require("./assets/images/21.jpeg")}
@@ -28,7 +28,7 @@ export default function CardFront() {
         <View style={styles.containerTop}>
           <Image source={chipURL} style={styles.chip} />
           <Image
-            source={logoURL}
+            source={require(imageSource)}
             style={[
               styles.chip,
               {
