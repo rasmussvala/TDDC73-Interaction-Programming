@@ -7,18 +7,24 @@ interface CardProps {
   inFocus?: string;
   cardName?: string;
   cvvText?: string;
+  cardNumbers?: Array<string>;
 }
 
 export default function Card({
   inFocus = "",
   cardName = "",
   cvvText = "",
+  cardNumbers = [],
 }: CardProps) {
   const showCardBack = inFocus === "cvv";
   return (
     <View style={styles.cardContainer}>
       <View style={!showCardBack ? styles.visible : styles.hidden}>
-        <CardFront inFocus={inFocus} cardName={cardName} />
+        <CardFront
+          inFocus={inFocus}
+          cardName={cardName}
+          cardNumbers={cardNumbers}
+        />
       </View>
       <View style={showCardBack ? styles.visible : styles.hidden}>
         <CardBack cvvText={cvvText} />

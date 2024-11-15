@@ -14,11 +14,16 @@ import useImageWidth from "./hooks/useImageWidth";
 interface CardFrontProps {
   inFocus?: string;
   cardName?: string;
+  cardNumbers?: Array<string>;
 }
 
 const chipURL = require("./assets/images/chip.png");
 
-function CardFront({ inFocus = "", cardName = "" }: CardFrontProps) {
+function CardFront({
+  inFocus = "",
+  cardName = "",
+  cardNumbers = [],
+}: CardFrontProps) {
   // Same as in cardBack
   const logoHeight = 40;
   const logoSource = require("./assets/images/mastercard.png");
@@ -45,11 +50,24 @@ function CardFront({ inFocus = "", cardName = "" }: CardFrontProps) {
           />
         </View>
         <View style={styles.containerCenter}>
-          <View style={styles.cardNumberContainer}>
-            <Text style={styles.cardNumberText}>####</Text>
-            <Text style={styles.cardNumberText}>####</Text>
-            <Text style={styles.cardNumberText}>####</Text>
-            <Text style={styles.cardNumberText}>####</Text>
+          <View
+            style={[
+              styles.cardNumberContainer,
+              inFocus === "cardNumber" && styles.isInFocus,
+            ]}
+          >
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[0] ? cardNumbers[0] : ""}
+            </Text>
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[1] ? cardNumbers[1] : ""}
+            </Text>
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[2] ? cardNumbers[2] : ""}
+            </Text>
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[3] ? cardNumbers[3] : ""}
+            </Text>
           </View>
         </View>
         <View style={styles.containerBottom}>
@@ -111,6 +129,8 @@ const styles = StyleSheet.create({
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
     borderColor: "transparent", //colors.cardFocus,
+    width: 240,
+    height: 40,
   },
 
   cardText: {

@@ -8,13 +8,19 @@ import {
 
 import { colors, sizes } from "./theme";
 import Card from "./Card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function App() {
   const cardNameInit = "FULL NAME";
   const cvvInit = "";
+  const carNumberInit = "################";
 
   const [inFocus, setInFocus] = useState<string>("");
+
+  const [cardNumber, setCardNumber] = useState<string>(carNumberInit);
+  const [cardNumberInputValue, setCardNumberInputValue] = useState<string>("");
+  const [cardNumberArray, setCardNumberArray] = useState<Array<string>>([]);
+
   const [cardName, setCardName] = useState<string>(cardNameInit);
   const [cardNameInputValue, setCardNameInputValue] = useState<string>("");
 
@@ -50,13 +56,38 @@ export default function App() {
     setInFocus(areaName);
   };
 
+  useEffect(() => {
+    const numberString = cardNumber !== "" ? cardNumber : carNumberInit;
+
+    const chunks = numberString.match(/.{1,4}/g) || [];
+    setCardNumberArray(chunks);
+  }, [cardNumber]);
+
   return (
     <View style={styles.wrapper}>
-      <Card inFocus={inFocus} cardName={cardName} cvvText={cvvNumbers} />
+      <Card
+        inFocus={inFocus}
+        cardName={cardName}
+        cvvText={cvvNumbers}
+        cardNumbers={cardNumberArray}
+      />
       <View style={styles.container}>
         <View style={styles.singleInputFieldContainer}>
           <Text style={styles.singleInputFieldText}>Card Number</Text>
-          <TextInput style={styles.singleInputField} />
+          <TextInput
+            style={styles.singleInputField}
+            value={cardNumberInputValue}
+            onChangeText={(value) =>
+              handleNumberChange(
+                value,
+                setCardNumberInputValue,
+                setCardNumber,
+                32
+              )
+            }
+            onFocus={() => setFocus("cardNumber")}
+            onBlur={() => setFocus("")}
+          />
         </View>
         <View style={styles.singleInputFieldContainer}>
           <Text style={styles.singleInputFieldText}>Card Name</Text>
