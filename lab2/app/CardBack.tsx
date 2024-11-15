@@ -1,20 +1,12 @@
 import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
 import { colors, sizes } from "./theme";
-import { useEffect, useState } from "react";
+import useImageWidth from "./hooks/useImageWidth";
 
 export default function CardBack() {
   // Same as in cardFront
-  const imageHeight = 40;
-  const [imageWidth, setImageWidth] = useState<number | null>(null);
-  const imageSource = "./assets/images/mastercard.png";
-
-  useEffect(() => {
-    const { width, height } = Image.resolveAssetSource(require(imageSource));
-
-    const aspectRatio = width / height;
-    const calculatedWidth = imageHeight * aspectRatio;
-    setImageWidth(calculatedWidth);
-  }, []);
+  const logoHeight = 40;
+  const logoSource = require("./assets/images/mastercard.png");
+  const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
     <ImageBackground
@@ -36,10 +28,10 @@ export default function CardBack() {
         <View style={styles.containerBottom}>
           <View>
             <Image
-              source={require(imageSource)}
+              source={logoSource}
               style={{
-                height: imageHeight,
-                width: imageWidth,
+                height: logoHeight,
+                width: logoWidth,
                 maxWidth: 80,
               }}
               resizeMode="contain"
