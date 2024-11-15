@@ -6,7 +6,7 @@ import CardBack from "./CardBack";
 export default function Card() {
   return (
     <View style={styles.cardContainer}>
-      <CardBack />
+      <CardFront />
     </View>
   );
 }

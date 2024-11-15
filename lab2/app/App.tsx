@@ -5,11 +5,15 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 import { colors, sizes } from "./theme";
 import Card from "./Card";
+import { useState } from "react";
 
 export default function App() {
+  const [selectedLanguage, setSelectedLanguage] = useState();
+
   return (
     <View style={styles.wrapper}>
       <Card />
@@ -42,6 +46,15 @@ export default function App() {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
+        <Picker
+          selectedValue={selectedLanguage}
+          onValueChange={(itemValue, itemIndex) =>
+            setSelectedLanguage(itemValue)
+          }
+        >
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
       </View>
     </View>
   );
