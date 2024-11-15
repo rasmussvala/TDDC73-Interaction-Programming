@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { colors, sizes } from "./theme";
+import useImageWidth from "./hooks/useImageWidth";
 
 interface CardFrontProps {
   inFocus?: string;
@@ -19,17 +20,9 @@ const chipURL = require("./assets/images/chip.png");
 
 function CardFront({ inFocus = "", cardName = "" }: CardFrontProps) {
   // Same as in cardBack
-  const imageHeight = 40;
-  const [imageWidth, setImageWidth] = useState<number | null>(null);
-  const imageSource = "./assets/images/mastercard.png";
-
-  useEffect(() => {
-    const { width, height } = Image.resolveAssetSource(require(imageSource));
-
-    const aspectRatio = width / height;
-    const calculatedWidth = imageHeight * aspectRatio;
-    setImageWidth(calculatedWidth);
-  }, []);
+  const logoHeight = 40;
+  const logoSource = require("./assets/images/mastercard.png");
+  const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
     <ImageBackground
@@ -40,12 +33,12 @@ function CardFront({ inFocus = "", cardName = "" }: CardFrontProps) {
         <View style={styles.containerTop}>
           <Image source={chipURL} style={styles.chip} />
           <Image
-            source={require(imageSource)}
+            source={logoSource}
             style={[
               styles.chip,
               {
-                height: imageHeight,
-                width: imageWidth,
+                height: logoHeight,
+                width: logoWidth,
                 maxWidth: 80,
               },
             ]}
