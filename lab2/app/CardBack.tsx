@@ -1,38 +1,12 @@
-import {
-  View,
-  StyleSheet,
-  ImageBackground,
-  Text,
-  Image,
-  Platform,
-} from "react-native";
+import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
 import { colors, sizes } from "./theme";
-import { useEffect, useState } from "react";
+import useImageWidth from "./hooks/useImageWidth";
 
 export default function CardBack() {
   // Same as in cardFront
   const logoHeight = 40;
-  const [logoWidth, setlogoWidth] = useState<number>(-1);
   const logoSource = require("./assets/images/mastercard.png");
-
-  useEffect(() => {
-    let calculatedWidth = -1;
-
-    if (Platform.OS == "web") {
-      Image.getSize(logoSource.uri, (width, height) => {
-        const aspectRatio = width / height;
-        calculatedWidth = logoHeight * aspectRatio;
-        setlogoWidth(calculatedWidth);
-      });
-    }
-    // Android and iOS
-    else {
-      const { width, height } = Image.resolveAssetSource(logoSource);
-      const aspectRatio = width / height;
-      calculatedWidth = logoHeight * aspectRatio;
-      setlogoWidth(calculatedWidth);
-    }
-  }, []);
+  const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
     <ImageBackground
