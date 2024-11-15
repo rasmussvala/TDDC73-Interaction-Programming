@@ -14,17 +14,15 @@ export default function Card({
   cardName = "",
   cvvText = "",
 }: CardProps) {
-  const ShowCard = () => {
-    return inFocus === "cvv" ? (
-      <CardBack cvvText={cvvText} />
-    ) : (
-      <CardFront inFocus={inFocus} cardName={cardName} />
-    );
-  };
-
+  const showCardBack = inFocus === "cvv";
   return (
     <View style={styles.cardContainer}>
-      <ShowCard />
+      <View style={!showCardBack ? styles.visible : styles.hidden}>
+        <CardFront inFocus={inFocus} cardName={cardName} />
+      </View>
+      <View style={showCardBack ? styles.visible : styles.hidden}>
+        <CardBack cvvText={cvvText} />
+      </View>
     </View>
   );
 }
@@ -38,5 +36,17 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     overflow: "hidden",
     elevation: 20,
+  },
+
+  visible: {
+    opacity: 1,
+    width: "100%",
+    height: "100%",
+  },
+
+  hidden: {
+    opacity: 0,
+    width: 0,
+    height: 0,
   },
 });

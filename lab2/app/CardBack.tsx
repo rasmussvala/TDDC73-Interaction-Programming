@@ -92,6 +92,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     padding: 8,
     alignItems: "flex-end",
+    justifyContent: "center",
+    height: 28,
   },
 
   containerBottom: {
