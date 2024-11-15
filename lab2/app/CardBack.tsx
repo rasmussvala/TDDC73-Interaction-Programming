@@ -11,26 +11,26 @@ import { useEffect, useState } from "react";
 
 export default function CardBack() {
   // Same as in cardFront
-  const imageHeight = 40;
-  const [imageWidth, setImageWidth] = useState<number>(-1);
-  const imageSource = "./assets/images/mastercard.png";
+  const logoHeight = 40;
+  const [logoWidth, setlogoWidth] = useState<number>(-1);
+  const logoSource = "./assets/images/mastercard.png";
 
   useEffect(() => {
     let calculatedWidth = -1;
 
     if (Platform.OS == "web") {
-      Image.getSize(require(imageSource).uri, (width, height) => {
+      Image.getSize(require(logoSource).uri, (width, height) => {
         const aspectRatio = width / height;
-        calculatedWidth = imageHeight * aspectRatio;
-        setImageWidth(calculatedWidth);
+        calculatedWidth = logoHeight * aspectRatio;
+        setlogoWidth(calculatedWidth);
       });
     }
     // Android and iOS
     else {
-      const { width, height } = Image.resolveAssetSource(require(imageSource));
+      const { width, height } = Image.resolveAssetSource(require(logoSource));
       const aspectRatio = width / height;
-      calculatedWidth = imageHeight * aspectRatio;
-      setImageWidth(calculatedWidth);
+      calculatedWidth = logoHeight * aspectRatio;
+      setlogoWidth(calculatedWidth);
     }
   }, []);
 
@@ -54,10 +54,10 @@ export default function CardBack() {
         <View style={styles.containerBottom}>
           <View>
             <Image
-              source={require(imageSource)}
+              source={require(logoSource)}
               style={{
-                height: imageHeight,
-                width: imageWidth,
+                height: logoHeight,
+                width: logoWidth,
                 maxWidth: 80,
               }}
               resizeMode="contain"
