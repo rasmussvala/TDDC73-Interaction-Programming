@@ -1,4 +1,11 @@
-import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Text,
+  Image,
+  Platform,
+} from "react-native";
 import { colors, sizes } from "./theme";
 import { useEffect, useState } from "react";
 
@@ -9,11 +16,18 @@ export default function CardBack() {
   const imageSource = "./assets/images/mastercard.png";
 
   useEffect(() => {
-    const { width, height } = Image.resolveAssetSource(require(imageSource));
-
-    const aspectRatio = width / height;
-    const calculatedWidth = imageHeight * aspectRatio;
-    setImageWidth(calculatedWidth);
+    if (Platform.OS == "web") {
+      Image.getSize(require(imageSource).uri, (width, height) => {
+        const aspectRatio = width / height;
+        const calculatedWidth = imageHeight * aspectRatio;
+        setImageWidth(calculatedWidth);
+      });
+    } else {
+      const { width, height } = Image.resolveAssetSource(require(imageSource));
+      const aspectRatio = width / height;
+      const calculatedWidth = imageHeight * aspectRatio;
+      setImageWidth(calculatedWidth);
+    }
   }, []);
 
   return (
