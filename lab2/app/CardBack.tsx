@@ -13,13 +13,13 @@ export default function CardBack() {
   // Same as in cardFront
   const logoHeight = 40;
   const [logoWidth, setlogoWidth] = useState<number>(-1);
-  const logoSource = "./assets/images/mastercard.png";
+  const logoSource = require("./assets/images/mastercard.png");
 
   useEffect(() => {
     let calculatedWidth = -1;
 
     if (Platform.OS == "web") {
-      Image.getSize(require(logoSource).uri, (width, height) => {
+      Image.getSize(logoSource.uri, (width, height) => {
         const aspectRatio = width / height;
         calculatedWidth = logoHeight * aspectRatio;
         setlogoWidth(calculatedWidth);
@@ -27,7 +27,7 @@ export default function CardBack() {
     }
     // Android and iOS
     else {
-      const { width, height } = Image.resolveAssetSource(require(logoSource));
+      const { width, height } = Image.resolveAssetSource(logoSource);
       const aspectRatio = width / height;
       calculatedWidth = logoHeight * aspectRatio;
       setlogoWidth(calculatedWidth);
@@ -54,7 +54,7 @@ export default function CardBack() {
         <View style={styles.containerBottom}>
           <View>
             <Image
-              source={require(logoSource)}
+              source={logoSource}
               style={{
                 height: logoHeight,
                 width: logoWidth,
