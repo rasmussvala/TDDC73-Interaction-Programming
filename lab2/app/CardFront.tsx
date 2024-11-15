@@ -2,22 +2,15 @@ import { View, Image, Text, StyleSheet, ImageBackground } from "react-native";
 import { useEffect, useState } from "react";
 
 import { colors, sizes } from "./theme";
+import useImageWidth from "./hooks/useImageWidth";
 
 const chipURL = require("./assets/images/chip.png");
 
 export default function CardFront() {
   // Same as in cardBack
-  const imageHeight = 40;
-  const [imageWidth, setImageWidth] = useState<number | null>(null);
-  const imageSource = "./assets/images/mastercard.png";
-
-  useEffect(() => {
-    const { width, height } = Image.resolveAssetSource(require(imageSource));
-
-    const aspectRatio = width / height;
-    const calculatedWidth = imageHeight * aspectRatio;
-    setImageWidth(calculatedWidth);
-  }, []);
+  const logoHeight = 40;
+  const logoSource = require("./assets/images/mastercard.png");
+  const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
     <ImageBackground
@@ -28,12 +21,12 @@ export default function CardFront() {
         <View style={styles.containerTop}>
           <Image source={chipURL} style={styles.chip} />
           <Image
-            source={require(imageSource)}
+            source={logoSource}
             style={[
               styles.chip,
               {
-                height: imageHeight,
-                width: imageWidth,
+                height: logoHeight,
+                width: logoWidth,
                 maxWidth: 80,
               },
             ]}
