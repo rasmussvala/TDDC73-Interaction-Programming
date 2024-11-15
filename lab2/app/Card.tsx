@@ -3,10 +3,28 @@ import { ImageBackground, View, StyleSheet } from "react-native";
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
 
-export default function Card() {
+interface CardProps {
+  inFocus?: string;
+  cardName?: string;
+  cvvText?: string;
+}
+
+export default function Card({
+  inFocus = "",
+  cardName = "",
+  cvvText = "",
+}: CardProps) {
+  const ShowCard = () => {
+    return inFocus === "cvv" ? (
+      <CardBack cvvText={cvvText} />
+    ) : (
+      <CardFront inFocus={inFocus} cardName={cardName} />
+    );
+  };
+
   return (
     <View style={styles.cardContainer}>
-      <CardBack />
+      <ShowCard />
     </View>
   );
 }
