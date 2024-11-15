@@ -12,20 +12,24 @@ import { useEffect, useState } from "react";
 export default function CardBack() {
   // Same as in cardFront
   const imageHeight = 40;
-  const [imageWidth, setImageWidth] = useState<number | null>(null);
+  const [imageWidth, setImageWidth] = useState<number>(-1);
   const imageSource = "./assets/images/mastercard.png";
 
   useEffect(() => {
+    let calculatedWidth = -1;
+
     if (Platform.OS == "web") {
       Image.getSize(require(imageSource).uri, (width, height) => {
         const aspectRatio = width / height;
-        const calculatedWidth = imageHeight * aspectRatio;
+        calculatedWidth = imageHeight * aspectRatio;
         setImageWidth(calculatedWidth);
       });
-    } else {
+    }
+    // Android and iOS
+    else {
       const { width, height } = Image.resolveAssetSource(require(imageSource));
       const aspectRatio = width / height;
-      const calculatedWidth = imageHeight * aspectRatio;
+      calculatedWidth = imageHeight * aspectRatio;
       setImageWidth(calculatedWidth);
     }
   }, []);
