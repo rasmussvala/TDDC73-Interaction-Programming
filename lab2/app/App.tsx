@@ -26,14 +26,7 @@ export default function App() {
         <View style={styles.rowInputFieldContainer}>
           <View style={styles.expirationDatesInputsContainer}>
             <Text style={styles.singleInputFieldText}>Expiration Date</Text>
-            <View style={styles.expirationDatesInputs}>
-              <TextInput
-                style={[styles.singleInputField, styles.datesInputFields]}
-              />
-              <TextInput
-                style={[styles.singleInputField, styles.datesInputFields]}
-              />
-            </View>
+            <PickerComponent />
           </View>
           <View style={styles.cvvContainer}>
             <Text style={styles.singleInputFieldText}>CVV</Text>
@@ -43,7 +36,6 @@ export default function App() {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
-        <PickerComponent />
       </View>
     </View>
   );
@@ -101,11 +93,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     overflow: "hidden",
-  },
-
-  datesInputFields: {
-    flex: 0.5,
-    width: 0,
   },
 
   cvvContainer: {

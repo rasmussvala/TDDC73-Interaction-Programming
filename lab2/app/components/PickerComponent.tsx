@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { View, Button, Text, Platform } from "react-native";
+import { View, Button, Platform, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { colors, sizes } from "../theme";
 
 const PickerComponent: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>("java");
@@ -16,8 +17,6 @@ const PickerComponent: React.FC = () => {
 
   return (
     <View>
-      <Text>Selected Language: {selectedLanguage}</Text>
-
       {/* iOS */}
       {Platform.OS == "ios" && (
         <>
@@ -36,8 +35,56 @@ const PickerComponent: React.FC = () => {
           )}
         </>
       )}
+
+      {/* Android and Web */}
+      {Platform.OS != "ios" && (
+        <View style={styles.container}>
+          <View style={styles.pickerContainer}>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedLanguage}
+              onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+            >
+              <Picker.Item label="Java" value="java" />
+              <Picker.Item label="JavaScript" value="js" />
+            </Picker>
+          </View>
+          <View style={styles.pickerContainer}>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedLanguage}
+              onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+            >
+              <Picker.Item label="Java" value="java" />
+              <Picker.Item label="JavaScript" value="js" />
+            </Picker>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    gap: 8,
+  },
+
+  pickerContainer: {
+    flex: 1,
+    width: 0,
+    height: 38,
+  },
+
+  picker: {
+    backgroundColor: colors.container,
+    borderWidth: sizes.borderWidth,
+    borderRadius: sizes.borderRadius,
+    borderColor: colors.border,
+    paddingHorizontal: 8,
+    height: "100%",
+  },
+});
 
 export default PickerComponent;
