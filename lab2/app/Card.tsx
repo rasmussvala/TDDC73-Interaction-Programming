@@ -1,4 +1,4 @@
-import { ImageBackground, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
@@ -27,7 +27,7 @@ export default function Card({
         />
       </View>
       <View style={showCardBack ? styles.visible : styles.hidden}>
-        <CardBack cvvText={cvvText} />
+        <CardBack cvvText={cvvText} card4FirstNumbers={cardNumbers[0]} />
       </View>
     </View>
   );

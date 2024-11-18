@@ -102,7 +102,6 @@ export default function App() {
                 setCardName
               )
             }
-            placeholder="Enter cardholder's name"
             onFocus={() => setFocus("cardHolder")}
             onBlur={() => setFocus("")}
           />
@@ -124,7 +123,7 @@ export default function App() {
             </View>
           </View>
           <View style={styles.cvvContainer}>
-            <Text style={styles.singleInputFieldText}>CVVV</Text>
+            <Text style={styles.singleInputFieldText}>CVV</Text>
             <TextInput
               style={styles.singleInputField}
               value={cvvNumberInputValue}

@@ -1,15 +1,8 @@
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Platform,
-} from "react-native";
-import { useEffect, useState } from "react";
+import { View, Image, Text, StyleSheet, ImageBackground } from "react-native";
 
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
+import { getCardType, getLogo } from "./cardLogoUtils";
 
 interface CardFrontProps {
   inFocus?: string;
@@ -17,16 +10,16 @@ interface CardFrontProps {
   cardNumbers?: Array<string>;
 }
 
-const chipURL = require("./assets/images/chip.png");
-
 function CardFront({
   inFocus = "",
   cardName = "",
   cardNumbers = [],
 }: CardFrontProps) {
   // Same as in cardBack
+  const chipURL = require("./assets/images/chip.png");
+
   const logoHeight = 40;
-  const logoSource = require("./assets/images/mastercard.png");
+  const logoSource = getLogo(getCardType(cardNumbers[0]));
   const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
@@ -47,6 +40,7 @@ function CardFront({
                 maxWidth: 80,
               },
             ]}
+            resizeMode="contain"
           />
         </View>
         <View style={styles.containerCenter}>
