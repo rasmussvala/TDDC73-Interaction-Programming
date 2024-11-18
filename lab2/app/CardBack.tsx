@@ -1,18 +1,22 @@
 import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
-import { useMemo } from "react";
+import { getCardType, getLogo } from "./cardLogoUtils";
 
 interface CardBackProps {
   cvvText?: string;
+  card4FirstNumbers?: string;
 }
 
-export default function CardBack({ cvvText = "" }: CardBackProps) {
-  const backgroundImage = useMemo(() => require("./assets/images/21.jpeg"), []);
+export default function CardBack({
+  cvvText = "",
+  card4FirstNumbers = "",
+}: CardBackProps) {
+  const backgroundImage = require("./assets/images/21.jpeg");
 
   // Same as in cardFront
   const logoHeight = 40;
-  const logoSource = require("./assets/images/mastercard.png");
+  const logoSource = getLogo(getCardType(card4FirstNumbers));
   const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
