@@ -1,18 +1,22 @@
 import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
+import { useMemo } from "react";
 
-export default function CardBack() {
+interface CardBackProps {
+  cvvText?: string;
+}
+
+export default function CardBack({ cvvText = "" }: CardBackProps) {
+  const backgroundImage = useMemo(() => require("./assets/images/21.jpeg"), []);
+
   // Same as in cardFront
   const logoHeight = 40;
   const logoSource = require("./assets/images/mastercard.png");
   const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
-    <ImageBackground
-      source={require("./assets/images/21.jpeg")}
-      style={styles.card}
-    >
+    <ImageBackground source={backgroundImage} style={styles.card}>
       <View style={styles.contentContainer}>
         <View style={styles.containerTop}>
           <View style={styles.blackBar} />
@@ -22,7 +26,7 @@ export default function CardBack() {
             <Text style={styles.cvvText}>CVV</Text>
           </View>
           <View style={styles.cvvInputContainer}>
-            <Text>3231</Text>
+            <Text>{cvvText}</Text>
           </View>
         </View>
         <View style={styles.containerBottom}>
@@ -88,6 +92,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     padding: 8,
     alignItems: "flex-end",
+    justifyContent: "center",
+    height: 28,
   },
 
   containerBottom: {
