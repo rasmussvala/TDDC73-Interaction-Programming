@@ -41,7 +41,12 @@ const styles = StyleSheet.create({
     width: 300,
     borderRadius: 14,
     overflow: "hidden",
+    // phone
     elevation: 20,
+    // web
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 30,
   },
 
   visible: {

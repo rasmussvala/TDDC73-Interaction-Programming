@@ -165,7 +165,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.container,
     borderRadius: 2 * sizes.borderRadius,
     justifyContent: "flex-end",
+    // phone
     elevation: 10,
+    // web
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 40,
   },
 
   singleInputFieldContainer: {
