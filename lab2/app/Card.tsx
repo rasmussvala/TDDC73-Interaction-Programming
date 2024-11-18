@@ -1,12 +1,34 @@
-import { ImageBackground, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
 
-export default function Card() {
+interface CardProps {
+  inFocus?: string;
+  cardName?: string;
+  cvvText?: string;
+  cardNumbers?: Array<string>;
+}
+
+export default function Card({
+  inFocus = "",
+  cardName = "",
+  cvvText = "",
+  cardNumbers = [],
+}: CardProps) {
+  const showCardBack = inFocus === "cvv";
   return (
     <View style={styles.cardContainer}>
-      <CardFront />
+      <View style={!showCardBack ? styles.visible : styles.hidden}>
+        <CardFront
+          inFocus={inFocus}
+          cardName={cardName}
+          cardNumbers={cardNumbers}
+        />
+      </View>
+      <View style={showCardBack ? styles.visible : styles.hidden}>
+        <CardBack cvvText={cvvText} card4FirstNumbers={cardNumbers[0]} />
+      </View>
     </View>
   );
 }
@@ -19,6 +41,23 @@ const styles = StyleSheet.create({
     width: 300,
     borderRadius: 14,
     overflow: "hidden",
+    // phone
     elevation: 20,
+    // web
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 30,
+  },
+
+  visible: {
+    opacity: 1,
+    width: "100%",
+    height: "100%",
+  },
+
+  hidden: {
+    opacity: 0,
+    width: 0,
+    height: 0,
   },
 });

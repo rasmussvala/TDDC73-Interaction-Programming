@@ -1,15 +1,25 @@
 import { View, Image, Text, StyleSheet, ImageBackground } from "react-native";
-import { useEffect, useState } from "react";
 
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
+import { getCardType, getLogo } from "./cardLogoUtils";
 
-const chipURL = require("./assets/images/chip.png");
+interface CardFrontProps {
+  inFocus?: string;
+  cardName?: string;
+  cardNumbers?: Array<string>;
+}
 
-export default function CardFront() {
+function CardFront({
+  inFocus = "",
+  cardName = "",
+  cardNumbers = [],
+}: CardFrontProps) {
   // Same as in cardBack
+  const chipURL = require("./assets/images/chip.png");
+
   const logoHeight = 40;
-  const logoSource = require("./assets/images/mastercard.png");
+  const logoSource = getLogo(getCardType(cardNumbers[0]));
   const logoWidth = useImageWidth(logoSource, logoHeight);
 
   return (
@@ -30,22 +40,46 @@ export default function CardFront() {
                 maxWidth: 80,
               },
             ]}
+            resizeMode="contain"
           />
         </View>
         <View style={styles.containerCenter}>
-          <View style={styles.cardNumberContainer}>
-            <Text style={styles.cardNumberText}>####</Text>
-            <Text style={styles.cardNumberText}>####</Text>
-            <Text style={styles.cardNumberText}>####</Text>
-            <Text style={styles.cardNumberText}>####</Text>
+          <View
+            style={[
+              styles.cardNumberContainer,
+              inFocus === "cardNumber" && styles.isInFocus,
+            ]}
+          >
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[0] ? cardNumbers[0] : ""}
+            </Text>
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[1] ? cardNumbers[1] : ""}
+            </Text>
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[2] ? cardNumbers[2] : ""}
+            </Text>
+            <Text style={styles.cardNumberText}>
+              {cardNumbers[3] ? cardNumbers[3] : ""}
+            </Text>
           </View>
         </View>
         <View style={styles.containerBottom}>
-          <View style={styles.cardHolder}>
+          <View
+            style={[
+              styles.cardHolder,
+              inFocus === "cardHolder" && styles.isInFocus,
+            ]}
+          >
             <Text style={styles.textHeader}>Card Holder</Text>
-            <Text style={styles.cardText}>Yobama Svensson</Text>
+            <Text style={styles.cardText}> {cardName}</Text>
           </View>
-          <View style={styles.expiration}>
+          <View
+            style={[
+              styles.expiration,
+              inFocus === "expires" && styles.isInFocus,
+            ]}
+          >
             <Text style={styles.textHeader}>Expires</Text>
             <Text style={styles.cardText}>MM/YY</Text>
           </View>
@@ -88,7 +122,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
-    borderColor: colors.cardFocus,
+    borderColor: "transparent", //colors.cardFocus,
+    width: 240,
+    height: 40,
   },
 
   cardText: {
@@ -122,7 +158,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
-    borderColor: colors.cardFocus,
+    borderColor: "transparent", //colors.cardFocus,
   },
 
   expiration: {
@@ -131,6 +167,12 @@ const styles = StyleSheet.create({
     padding: 8,
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
+    borderColor: "transparent", //colors.cardFocus,
+  },
+
+  isInFocus: {
     borderColor: colors.cardFocus,
   },
 });
+
+export default CardFront;

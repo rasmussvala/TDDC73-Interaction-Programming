@@ -9,19 +9,103 @@ import {
 import { colors, sizes } from "./theme";
 import Card from "./Card";
 import PickerComponent from "./components/PickerComponent";
+import { useState, useEffect } from "react";
 
 export default function App() {
+  const cardNameInit = "FULL NAME";
+  const cvvInit = "";
+  const carNumberInit = "################";
+
+  const [inFocus, setInFocus] = useState<string>("");
+
+  const [cardNumber, setCardNumber] = useState<string>(carNumberInit);
+  const [cardNumberInputValue, setCardNumberInputValue] = useState<string>("");
+  const [cardNumberArray, setCardNumberArray] = useState<Array<string>>([]);
+
+  const [cardName, setCardName] = useState<string>(cardNameInit);
+  const [cardNameInputValue, setCardNameInputValue] = useState<string>("");
+
+  const [cvvNumbers, setCVVNumbers] = useState<string>(cvvInit);
+  const [cvvNumberInputValue, setCVVNumberInputValue] = useState<string>("");
+
+  const handleTextChange = (
+    text: string,
+    textInit: string,
+    stateInputUpdater: React.Dispatch<React.SetStateAction<string>>,
+    stateUpdater: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    const filteredText = text.replace(/[^a-zA-ZÅÄÖåäö\s]/g, "").toUpperCase();
+
+    stateInputUpdater(filteredText);
+    stateUpdater(filteredText ? filteredText : textInit);
+  };
+
+  const handleNumberChange = (
+    number: string,
+    stateInputUpdater: React.Dispatch<React.SetStateAction<string>>,
+    stateUpdater: React.Dispatch<React.SetStateAction<string>>,
+    maxNumbers?: number
+  ) => {
+    let filteredText = number.replace(/[^0-9]/g, "");
+    if (maxNumbers) filteredText = filteredText.slice(0, maxNumbers);
+
+    stateInputUpdater(filteredText);
+    stateUpdater(filteredText);
+  };
+
+  const setFocus = (areaName: string) => {
+    setInFocus(areaName);
+  };
+
+  useEffect(() => {
+    const numberString = cardNumber !== "" ? cardNumber : carNumberInit;
+
+    const chunks = numberString.match(/.{1,4}/g) || [];
+    setCardNumberArray(chunks);
+  }, [cardNumber]);
+
   return (
     <View style={styles.wrapper}>
-      <Card />
+      <Card
+        inFocus={inFocus}
+        cardName={cardName}
+        cvvText={cvvNumbers}
+        cardNumbers={cardNumberArray}
+      />
       <View style={styles.container}>
         <View style={styles.singleInputFieldContainer}>
           <Text style={styles.singleInputFieldText}>Card Number</Text>
-          <TextInput style={styles.singleInputField} />
+          <TextInput
+            style={styles.singleInputField}
+            value={cardNumberInputValue}
+            onChangeText={(value) =>
+              handleNumberChange(
+                value,
+                setCardNumberInputValue,
+                setCardNumber,
+                32
+              )
+            }
+            onFocus={() => setFocus("cardNumber")}
+            onBlur={() => setFocus("")}
+          />
         </View>
         <View style={styles.singleInputFieldContainer}>
           <Text style={styles.singleInputFieldText}>Card Name</Text>
-          <TextInput style={styles.singleInputField} />
+          <TextInput
+            style={styles.singleInputField}
+            value={cardNameInputValue}
+            onChangeText={(value) =>
+              handleTextChange(
+                value,
+                cardNameInit,
+                setCardNameInputValue,
+                setCardName
+              )
+            }
+            onFocus={() => setFocus("cardHolder")}
+            onBlur={() => setFocus("")}
+          />
         </View>
         <View style={styles.rowInputFieldContainer}>
           <View style={styles.expirationDatesInputsContainer}>
@@ -30,7 +114,20 @@ export default function App() {
           </View>
           <View style={styles.cvvContainer}>
             <Text style={styles.singleInputFieldText}>CVV</Text>
-            <TextInput style={styles.singleInputField} />
+            <TextInput
+              style={styles.singleInputField}
+              value={cvvNumberInputValue}
+              onChangeText={(value) =>
+                handleNumberChange(
+                  value,
+                  setCVVNumberInputValue,
+                  setCVVNumbers,
+                  3
+                )
+              }
+              onFocus={() => setFocus("cvv")}
+              onBlur={() => setFocus("")}
+            />
           </View>
         </View>
         <TouchableOpacity style={styles.button}>
@@ -57,7 +154,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.container,
     borderRadius: 2 * sizes.borderRadius,
     justifyContent: "flex-end",
+    // phone
     elevation: 10,
+    // web
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 40,
   },
 
   singleInputFieldContainer: {
@@ -75,8 +177,8 @@ const styles = StyleSheet.create({
     borderRadius: sizes.borderRadius,
     borderColor: colors.border,
     paddingHorizontal: 8,
-    paddingVertical: 6,
-    fontSize: 18,
+    paddingVertical: 10,
+    fontSize: 14,
   },
 
   rowInputFieldContainer: {
