@@ -8,7 +8,7 @@ import {
 
 import { colors, sizes } from "./theme";
 import Card from "./Card";
-import PickerComponent from "./PickerComponent";
+import PickerComponent from "./components/PickerComponent";
 
 export default function App() {
   return (
