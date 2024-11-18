@@ -1,2 +1,62 @@
+# Ignore all IDE files (e.g., .idea, .vscode) in subdirectories
+**/.idea/
+**/.vscode/
+**/.expo/
+*.iml
 
-/.idea
+# Kotlin and Android (both Kotlin + Compose and Kotlin + XML)
+**/.gradle/
+**/build/
+**/local.properties
+**/out/
+*.apk
+*.ap_
+*.aab
+.cxx/
+.externalNativeBuild/
+**/lint/reports/
+**/lint/outputs/
+**/*.log
+
+# Jetpack Compose compiler caches
+**/.idea/kotlin_compiler_cache/
+
+# React Native specific
+node_modules/
+**/node_modules/
+**/ios/Pods/
+**/android/.gradle/
+**/android/app/build/
+*.keystore
+*.hprof
+
+# Flutter specific
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/build/
+**/.metadata
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Common files for all projects
+**/gradle/caches/
+**/gradle/wrapper/
+*.env
+*.env.local
+*.env.development
+*.env.production
+*.DS_Store
+*.log
+*.swp
+*.lock
+*.tmp
+*.bak
+
+# macOS specific files
+**/.DS_Store
+
+# Windows specific files
+**/Thumbs.db
