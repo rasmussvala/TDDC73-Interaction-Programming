@@ -8,6 +8,7 @@ interface CardProps {
   cardName?: string;
   cvvText?: string;
   cardNumbers?: Array<string>;
+  backgroundImageIndex?: string;
 }
 
 export default function Card({
@@ -15,8 +16,10 @@ export default function Card({
   cardName = "",
   cvvText = "",
   cardNumbers = [],
+  backgroundImageIndex = "21",
 }: CardProps) {
   const showCardBack = inFocus === "cvv";
+
   return (
     <View style={styles.cardContainer}>
       <View style={!showCardBack ? styles.visible : styles.hidden}>
@@ -24,10 +27,15 @@ export default function Card({
           inFocus={inFocus}
           cardName={cardName}
           cardNumbers={cardNumbers}
+          backgroundImageIndex={backgroundImageIndex}
         />
       </View>
       <View style={showCardBack ? styles.visible : styles.hidden}>
-        <CardBack cvvText={cvvText} card4FirstNumbers={cardNumbers[0]} />
+        <CardBack
+          cvvText={cvvText}
+          card4FirstNumbers={cardNumbers[0]}
+          backgroundImageIndex={backgroundImageIndex}
+        />
       </View>
     </View>
   );

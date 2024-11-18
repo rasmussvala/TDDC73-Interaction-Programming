@@ -3,17 +3,20 @@ import { View, Image, Text, StyleSheet, ImageBackground } from "react-native";
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
 import { getCardType, getLogo } from "./cardLogoUtils";
+import { getBackgroundImage } from "./backgroundImageUtils";
 
 interface CardFrontProps {
   inFocus?: string;
   cardName?: string;
   cardNumbers?: Array<string>;
+  backgroundImageIndex?: string;
 }
 
 function CardFront({
   inFocus = "",
   cardName = "",
   cardNumbers = [],
+  backgroundImageIndex = "21",
 }: CardFrontProps) {
   // Same as in cardBack
   const chipURL = require("./assets/images/chip.png");
@@ -21,12 +24,10 @@ function CardFront({
   const logoHeight = 40;
   const logoSource = getLogo(getCardType(cardNumbers[0]));
   const logoWidth = useImageWidth(logoSource, logoHeight);
+  const backgroundImage = getBackgroundImage(backgroundImageIndex);
 
   return (
-    <ImageBackground
-      source={require("./assets/images/21.jpeg")}
-      style={styles.card}
-    >
+    <ImageBackground source={backgroundImage} style={styles.card}>
       <View style={styles.contentContainer}>
         <View style={styles.containerTop}>
           <Image source={chipURL} style={styles.chip} />

@@ -2,17 +2,20 @@ import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
 import { getCardType, getLogo } from "./cardLogoUtils";
+import { getBackgroundImage } from "./backgroundImageUtils";
 
 interface CardBackProps {
   cvvText?: string;
   card4FirstNumbers?: string;
+  backgroundImageIndex?: string;
 }
 
 export default function CardBack({
   cvvText = "",
   card4FirstNumbers = "",
+  backgroundImageIndex = "21",
 }: CardBackProps) {
-  const backgroundImage = require("./assets/images/21.jpeg");
+  const backgroundImage = getBackgroundImage(backgroundImageIndex);
 
   // Same as in cardFront
   const logoHeight = 40;
