@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     flex: 1,
     width: 0,
-    height: 38,
+    height: 40,
   },
 
   picker: {
