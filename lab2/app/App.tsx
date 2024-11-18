@@ -110,7 +110,11 @@ export default function App() {
         <View style={styles.rowInputFieldContainer}>
           <View style={styles.expirationDatesInputsContainer}>
             <Text style={styles.singleInputFieldText}>Expiration Date</Text>
-            <PickerComponent />
+            <PickerComponent
+            // Used in the previous TextInput:
+            // onFocus={() => setFocus("expires")}
+            // onBlur={() => setFocus("")}
+            />
           </View>
           <View style={styles.cvvContainer}>
             <Text style={styles.singleInputFieldText}>CVV</Text>
