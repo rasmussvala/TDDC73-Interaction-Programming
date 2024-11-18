@@ -1,76 +1,73 @@
 import { ImageSourcePropType } from "react-native";
 
+/**
+ * Algorithm found at: https://www.regular-expressions.info/creditcard.html
+ * Find all cards at wiki: https://en.wikipedia.org/wiki/Payment_card_number
+ *
+ * This function detect credit card type based on the first four digits of a card.
+ * Note: Cards get updated all the time, so some algorithms may be outdated.
+ *
+ * @param {string} firstFourDigits - The first four digits of the card.
+ *
+ * @returns {sting} - The detected card type.
+ * **/
 export function getCardType(firstFourDigits: string): string {
-  if (
-    !firstFourDigits ||
-    firstFourDigits.length !== 4 ||
-    isNaN(Number(firstFourDigits))
-  ) {
-    return "Invalid input";
-  }
+  const cardPatterns = [
+    {
+      type: "Visa",
+      regex: /^4[0-9]{3}$/,
+    },
+    {
+      type: "MasterCard",
+      regex: /^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|2720)$/,
+    },
 
-  // Check the exact 4-digit prefix
-  if (cardPrefixMap[firstFourDigits]) {
-    return cardPrefixMap[firstFourDigits];
-  }
+    {
+      type: "American_Express",
+      regex: /^(?:34[0-9]{2}|37[0-9]{2})$/,
+    },
+    {
+      type: "Diners_Club",
+      regex: /^(?:300[0-9]|36[0-9]{2}|38[0-9]{2})$/,
+    },
+    {
+      type: "Discover",
+      regex: /^6(?:011|5[0-9]{2})$/,
+    },
+    {
+      type: "JCB",
+      regex: /^(?:2131|1800)$/,
+    },
+    {
+      type: "Troy",
+      regex: /^9792$/,
+    },
+    {
+      type: "UnionPay",
+      regex: /^62[0-9]{2}$/,
+    },
+  ];
 
-  // Otherwise, check shorter prefixes (3 digits, 2 digits)
-  for (let i = 3; i > 0; i--) {
-    const prefix = firstFourDigits.slice(0, i);
-
-    if (cardPrefixMap[prefix]) {
-      return cardPrefixMap[prefix];
+  // Loop though all cardPatters and see if we have a match
+  for (const card of cardPatterns) {
+    if (card.regex.test(firstFourDigits)) {
+      return card.type;
     }
   }
 
+  // No match
   return "Unknown";
 }
 
 export function getLogo(name: string): ImageSourcePropType {
-  return logoMapping[name] || require("./assets/images/mastercard.png");
+  return logoMapping[name] || require("./assets/images/unknown.png");
 }
 
-const cardPrefixMap: { [key: string]: string } = {
-  "4": "Visa",
-  "51": "Mastercard",
-  "52": "Mastercard",
-  "53": "Mastercard",
-  "54": "Mastercard",
-  "55": "Mastercard",
-  "2221": "Mastercard",
-  "2720": "Mastercard",
-  "36": "Diners_Club",
-  "38": "Diners_Club",
-  "39": "Diners_Club",
-  "6011": "Discover",
-  "6221": "Discover",
-  "6222": "Discover",
-  "644": "Discover",
-  "645": "Discover",
-  "646": "Discover",
-  "647": "Discover",
-  "648": "Discover",
-  "649": "Discover",
-  "65": "Discover",
-  "3528": "JCB",
-  "3529": "JCB",
-  "3530": "JCB",
-  "3531": "JCB",
-  "3532": "JCB",
-  "3533": "JCB",
-  "3534": "JCB",
-  "3535": "JCB",
-  "3536": "JCB",
-  "3537": "JCB",
-  "3538": "JCB",
-  "3539": "JCB",
-  "9792": "Troy",
-  "62": "UnionPay",
-};
-
 const logoMapping: { [key: string]: ImageSourcePropType } = {
+  Unknown: require("./assets/images/unknown.png"),
   Visa: require("./assets/images/visa.png"),
   Mastercard: require("./assets/images/mastercard.png"),
+  American_Express: require("./assets/images/amex.png"),
   Diners_Club: require("./assets/images/dinersclub.png"),
   Discover: require("./assets/images/discover.png"),
   JCB: require("./assets/images/jcb.png"),
