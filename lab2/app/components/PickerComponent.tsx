@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Modal,
@@ -11,15 +11,26 @@ import {
 import { colors, sizes } from "../theme";
 
 const PickerComponent: React.FC = () => {
-  const [month, setMonth] = useState("05");
-  const [year, setYear] = useState("2028");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [activeSelection, setActiveSelection] = useState<"month" | "year">(
     "month"
   );
 
-  const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
-  const years = Array.from({ length: 7 }, (_, i) => (2024 + i).toString());
+  useEffect(() => {
+    const year = new Date().getFullYear();
+
+    setYear(year.toString());
+    setMonth("01");
+  }, []);
+
+  const months = Array.from({ length: 12 }, (_, i) =>
+    (i + 1).toString().padStart(2, "0")
+  );
+  const years = Array.from({ length: 7 }, (_, i) =>
+    (Number(year) + i).toString()
+  );
 
   const handleSelect = (value: string) => {
     if (activeSelection === "month") {
