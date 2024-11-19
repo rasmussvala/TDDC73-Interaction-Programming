@@ -16,4 +16,7 @@ export const sizes = {
   borderRadius: 6,
   marginVertical: 8,
   textShadowRadius: 10,
+  paddingHorizontal: 8,
+  paddingVertical: 10,
+  fontSizeInputFields: 14,
 };

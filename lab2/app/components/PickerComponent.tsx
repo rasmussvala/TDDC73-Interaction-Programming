@@ -18,10 +18,7 @@ const PickerComponent: React.FC = () => {
     "month"
   );
 
-  const months = Array.from({ length: 12 }, (_, i) =>
-    (i + 1).toString().padStart(2, "0")
-  );
-
+  const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
   const years = Array.from({ length: 7 }, (_, i) => (2024 + i).toString());
 
   const handleSelect = (value: string) => {
@@ -114,30 +111,34 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
   },
+
   button: {
     flex: 0.5,
     backgroundColor: colors.container,
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
     borderColor: colors.border,
-    padding: 12,
-    alignItems: "center",
+    paddingHorizontal: sizes.paddingHorizontal,
+    paddingVertical: sizes.paddingVertical,
+    fontSize: sizes.fontSizeInputFields,
   },
-  buttonText: {
-    fontSize: 16,
-  },
+
+  buttonText: {},
+
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     justifyContent: "flex-end",
   },
+
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: colors.container,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingBottom: 20,
     maxHeight: "50%",
   },
+
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -146,29 +147,36 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
+
   modalTitle: {
     fontSize: 18,
     fontWeight: "600",
   },
+
   closeButton: {
     fontSize: 20,
     padding: 4,
   },
+
   optionsContainer: {
     padding: 16,
   },
+
   option: {
     padding: 12,
     borderRadius: sizes.borderRadius,
     marginBottom: 8,
   },
+
   selectedOption: {
     backgroundColor: colors.container,
   },
+
   optionText: {
     fontSize: 16,
     textAlign: "center",
   },
+
   selectedOptionText: {
     fontWeight: "600",
   },

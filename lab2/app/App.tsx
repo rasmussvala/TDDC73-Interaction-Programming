@@ -180,9 +180,9 @@ const styles = StyleSheet.create({
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
     borderColor: colors.border,
-    paddingHorizontal: 8,
-    paddingVertical: 10,
-    fontSize: 14,
+    paddingHorizontal: sizes.paddingHorizontal,
+    paddingVertical: sizes.paddingVertical,
+    fontSize: sizes.fontSizeInputFields,
   },
 
   rowInputFieldContainer: {
@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: sizes.marginVertical,
   },
+
   buttonText: {
     fontSize: 18,
     color: colors.buttonText,
