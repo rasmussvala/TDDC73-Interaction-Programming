@@ -1,4 +1,12 @@
-import { View, StyleSheet, ImageBackground, Text, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Text,
+  Image,
+  Animated,
+} from "react-native";
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
 import { getCardType, getLogo } from "./cardLogoUtils";
@@ -17,10 +25,55 @@ export default function CardBack({
 }: CardBackProps) {
   const backgroundImage = getBackgroundImage(backgroundImageIndex);
 
-  // Same as in cardFront
   const logoHeight = 40;
   const logoSource = getLogo(getCardType(card4FirstNumbers));
   const logoWidth = useImageWidth(logoSource, logoHeight);
+
+  const [cvvTextArray, setCVVTextArray] = useState<Array<string>>([]);
+  const [animations, setAnimations] = useState<Array<Animated.Value>>([]);
+
+  useEffect(() => {
+    const newCvvTextArray = cvvText.split("");
+
+    // If the text is growing, add new animations for the new characters
+    if (newCvvTextArray.length > cvvTextArray.length) {
+      const newAnimations = newCvvTextArray
+        .slice(cvvTextArray.length)
+        .map(() => new Animated.Value(0));
+      setAnimations((prevAnimations) => [...prevAnimations, ...newAnimations]);
+
+      // Trigger fade-in animation for the new characters added
+      newAnimations.forEach((animation) => {
+        Animated.timing(animation, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      });
+    }
+
+    // If the text is shrinking (characters are removed), handle fade-out animation
+    if (newCvvTextArray.length < cvvTextArray.length) {
+      const removedCharactersCount =
+        cvvTextArray.length - newCvvTextArray.length;
+      const remainingAnimations = animations.slice(0, newCvvTextArray.length);
+
+      // Animate fade-out for removed characters
+      for (let i = 0; i < removedCharactersCount; i++) {
+        const animation = animations[cvvTextArray.length - 1 - i];
+        Animated.timing(animation, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      }
+
+      setAnimations(remainingAnimations);
+    }
+
+    // Update the cvvTextArray state
+    setCVVTextArray(newCvvTextArray);
+  }, [cvvText]);
 
   return (
     <ImageBackground source={backgroundImage} style={styles.card}>
@@ -33,7 +86,30 @@ export default function CardBack({
             <Text style={styles.cvvText}>CVV</Text>
           </View>
           <View style={styles.cvvInputContainer}>
-            <Text>{cvvText}</Text>
+            {cvvTextArray.map((char, index) => {
+              const animation = animations[index];
+
+              return (
+                <Animated.View
+                  key={index}
+                  style={{
+                    opacity: animation ? animation : 1,
+                    transform: animation
+                      ? [
+                          {
+                            translateY: animation.interpolate({
+                              inputRange: [0, 1],
+                              outputRange: [30, 0],
+                            }),
+                          },
+                        ]
+                      : [],
+                  }}
+                >
+                  <Text>{char}</Text>
+                </Animated.View>
+              );
+            })}
           </View>
         </View>
         <View style={styles.containerBottom}>
@@ -98,9 +174,10 @@ const styles = StyleSheet.create({
     borderRadius: sizes.borderRadius,
     marginHorizontal: 8,
     padding: 8,
-    alignItems: "flex-end",
-    justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "flex-end",
     height: 28,
+    flexDirection: "row",
   },
 
   containerBottom: {
