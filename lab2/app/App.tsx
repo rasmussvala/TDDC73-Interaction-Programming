@@ -8,6 +8,7 @@ import {
 
 import { colors, sizes } from "./theme";
 import Card from "./Card";
+import PickerComponent from "./components/PickerComponent";
 import { useState, useEffect } from "react";
 
 export default function App() {
@@ -122,18 +123,11 @@ export default function App() {
         <View style={styles.rowInputFieldContainer}>
           <View style={styles.expirationDatesInputsContainer}>
             <Text style={styles.singleInputFieldText}>Expiration Date</Text>
-            <View style={styles.expirationDatesInputs}>
-              <TextInput
-                style={[styles.singleInputField, styles.datesInputFields]}
-                onFocus={() => setFocus("expires")}
-                onBlur={() => setFocus("")}
-              />
-              <TextInput
-                style={[styles.singleInputField, styles.datesInputFields]}
-                onFocus={() => setFocus("expires")}
-                onBlur={() => setFocus("")}
-              />
-            </View>
+            <PickerComponent
+            // Used in the previous TextInput:
+            // onFocus={() => setFocus("expires")}
+            // onBlur={() => setFocus("")}
+            />
           </View>
           <View style={styles.cvvContainer}>
             <Text style={styles.singleInputFieldText}>CVV</Text>
@@ -199,9 +193,9 @@ const styles = StyleSheet.create({
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
     borderColor: colors.border,
-    paddingHorizontal: 8,
-    paddingVertical: 10,
-    fontSize: 14,
+    paddingHorizontal: sizes.paddingHorizontal,
+    paddingVertical: sizes.paddingVertical,
+    fontSize: sizes.fontSizeInputFields,
   },
 
   rowInputFieldContainer: {
@@ -220,11 +214,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  datesInputFields: {
-    flex: 0.5,
-    width: 0,
-  },
-
   cvvContainer: {
     flex: 0.33,
   },
@@ -237,6 +226,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: sizes.marginVertical,
   },
+
   buttonText: {
     fontSize: 18,
     color: colors.buttonText,
