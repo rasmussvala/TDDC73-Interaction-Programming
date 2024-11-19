@@ -1,119 +1,110 @@
 import { useState } from "react";
-import { View, Button, Platform, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import {
+  View,
+  Modal,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import { colors, sizes } from "../theme";
 
 const PickerComponent: React.FC = () => {
-  const [month, setMonth] = useState<string>("05");
-  const [year, setYear] = useState<string>("2028");
-  const [isMonthPickerOpen, setIsMonthPickerOpen] = useState<boolean>(false);
-  const [isYearPickerOpen, setIsYearPickerOpen] = useState<boolean>(false);
+  const [month, setMonth] = useState("05");
+  const [year, setYear] = useState("2028");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [activeSelection, setActiveSelection] = useState<"month" | "year">(
+    "month"
+  );
 
-  function openMonth() {
-    setIsMonthPickerOpen(true);
-    setIsYearPickerOpen(false);
-  }
+  const months = Array.from({ length: 12 }, (_, i) =>
+    (i + 1).toString().padStart(2, "0")
+  );
 
-  function closeMonth() {
-    setIsMonthPickerOpen(false);
-  }
+  const years = Array.from({ length: 7 }, (_, i) => (2024 + i).toString());
 
-  function openYear() {
-    setIsYearPickerOpen(true);
-    setIsMonthPickerOpen(false);
-  }
-
-  function closeYear() {
-    setIsYearPickerOpen(false);
-  }
+  const handleSelect = (value: string) => {
+    if (activeSelection === "month") {
+      setMonth(value);
+    } else {
+      setYear(value);
+    }
+  };
 
   return (
     <View>
-      {/* iOS */}
-      {Platform.OS == "ios" && (
-        <>
-          <View style={styles.buttonContainer}>
-            <View style={styles.buttonIOS}>
-              <Button
-                title={month}
-                onPress={isMonthPickerOpen ? closeMonth : openMonth}
-              />
-            </View>
-            <View style={styles.buttonIOS}>
-              <Button
-                title={year}
-                onPress={isYearPickerOpen ? closeYear : openYear}
-              />
-            </View>
-          </View>
-          {isMonthPickerOpen && (
-            <View style={styles.pickerContainerIOS}>
-              <Picker
-                style={styles.pickerIOS}
-                selectedValue={month}
-                onValueChange={(itemValue) => setMonth(itemValue)}
-              >
-                <Picker.Item label="01" value="01" />
-                <Picker.Item label="02" value="02" />
-                <Picker.Item label="03" value="03" />
-                <Picker.Item label="04" value="04" />
-                <Picker.Item label="05" value="05" />
-                <Picker.Item label="06" value="06" />
-                <Picker.Item label="07" value="07" />
-                <Picker.Item label="08" value="08" />
-                <Picker.Item label="09" value="09" />
-                <Picker.Item label="10" value="10" />
-                <Picker.Item label="11" value="11" />
-                <Picker.Item label="12" value="12" />
-              </Picker>
-            </View>
-          )}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setActiveSelection("month");
+            setIsModalVisible(true);
+          }}
+        >
+          <Text style={styles.buttonText}>{month}</Text>
+        </TouchableOpacity>
 
-          {isYearPickerOpen && (
-            <View style={styles.pickerContainerIOS}>
-              <Picker
-                style={styles.pickerIOS}
-                selectedValue={year}
-                onValueChange={(itemValue) => setYear(itemValue)}
-              >
-                <Picker.Item label="2024" value="2024" />
-                <Picker.Item label="2025" value="2025" />
-                <Picker.Item label="2026" value="2026" />
-                <Picker.Item label="2027" value="2027" />
-                <Picker.Item label="2028" value="2028" />
-                <Picker.Item label="2029" value="2029" />
-                <Picker.Item label="2030" value="2030" />
-              </Picker>
-            </View>
-          )}
-        </>
-      )}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setActiveSelection("year");
+            setIsModalVisible(true);
+          }}
+        >
+          <Text style={styles.buttonText}>{year}</Text>
+        </TouchableOpacity>
+      </View>
 
-      {/* Android and Web */}
-      {Platform.OS != "ios" && (
-        <View style={styles.buttonContainer}>
-          <View style={styles.pickerContainerWebAndAndroid}>
-            <Picker
-              style={styles.pickerWebAndAndroid}
-              selectedValue={month}
-              onValueChange={(itemValue) => setMonth(itemValue)}
-            >
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
-            </Picker>
+      <Modal
+        visible={isModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <Pressable
+          style={styles.modalOverlay}
+          onPress={() => setIsModalVisible(false)}
+        >
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>
+                Select {activeSelection === "month" ? "Month" : "Year"}
+              </Text>
+              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                <Text style={styles.closeButton}>✕</Text>
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.optionsContainer}>
+              {(activeSelection === "month" ? months : years).map((value) => (
+                <TouchableOpacity
+                  key={value}
+                  style={[
+                    styles.option,
+                    value === (activeSelection === "month" ? month : year) &&
+                      styles.selectedOption,
+                  ]}
+                  onPress={() => {
+                    handleSelect(value);
+                    setIsModalVisible(false);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      value === (activeSelection === "month" ? month : year) &&
+                        styles.selectedOptionText,
+                    ]}
+                  >
+                    {value}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
-          <View style={styles.pickerContainerWebAndAndroid}>
-            <Picker
-              style={styles.pickerWebAndAndroid}
-              selectedValue={month}
-              onValueChange={(itemValue) => setMonth(itemValue)}
-            >
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
-            </Picker>
-          </View>
-        </View>
-      )}
+        </Pressable>
+      </Modal>
     </View>
   );
 };
@@ -123,47 +114,63 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
   },
-
-  pickerContainerWebAndAndroid: {
-    flex: 1,
-    width: 0,
-    height: 40,
-  },
-
-  pickerWebAndAndroid: {
-    backgroundColor: colors.container,
-    borderWidth: sizes.borderWidth,
-    borderRadius: sizes.borderRadius,
-    borderColor: colors.border,
-    paddingHorizontal: 8,
-    height: "100%",
-  },
-
-  buttonIOS: {
-    backgroundColor: colors.container,
-    borderWidth: sizes.borderWidth,
-    borderRadius: sizes.borderRadius,
-    borderColor: colors.border,
+  button: {
     flex: 0.5,
-  },
-
-  pickerContainerIOS: {
     backgroundColor: colors.container,
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
     borderColor: colors.border,
-
-    position: "absolute",
-    top: 48,
-    height: 150,
-    overflow: "hidden",
-    width: "100%",
-    zIndex: 999,
+    padding: 12,
+    alignItems: "center",
   },
-
-  pickerIOS: {
-    // Sry for bad code
-    transform: [{ translateY: -35 }],
+  buttonText: {
+    fontSize: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-end",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingBottom: 20,
+    maxHeight: "50%",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  closeButton: {
+    fontSize: 20,
+    padding: 4,
+  },
+  optionsContainer: {
+    padding: 16,
+  },
+  option: {
+    padding: 12,
+    borderRadius: sizes.borderRadius,
+    marginBottom: 8,
+  },
+  selectedOption: {
+    backgroundColor: colors.container,
+  },
+  optionText: {
+    fontSize: 16,
+    textAlign: "center",
+  },
+  selectedOptionText: {
+    fontWeight: "600",
   },
 });
 
