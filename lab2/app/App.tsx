@@ -27,6 +27,10 @@ export default function App() {
   const [cvvNumbers, setCVVNumbers] = useState<string>(cvvInit);
   const [cvvNumberInputValue, setCVVNumberInputValue] = useState<string>("");
 
+  const [randBackgrounImageIndex] = useState<string>(
+    (Math.floor(Math.random() * 21) + 1).toString()
+  );
+
   const handleTextChange = (
     text: string,
     textInit: string,
@@ -70,6 +74,7 @@ export default function App() {
         cardName={cardName}
         cvvText={cvvNumbers}
         cardNumbers={cardNumberArray}
+        backgroundImageIndex={randBackgrounImageIndex}
       />
       <View style={styles.container}>
         <View style={styles.singleInputFieldContainer}>
