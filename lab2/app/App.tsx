@@ -10,6 +10,7 @@ import { colors, sizes } from "./theme";
 import Card from "./Card";
 import PickerComponent from "./components/PickerComponent";
 import { useState, useEffect } from "react";
+import { ExpirationProvider } from "./components/ExpirationContext";
 
 export default function App() {
   const cardNameInit = "FULL NAME";
@@ -69,80 +70,82 @@ export default function App() {
   }, [cardNumber]);
 
   return (
-    <View style={styles.wrapper}>
-      <Card
-        inFocus={inFocus}
-        cardName={cardName}
-        cvvText={cvvNumbers}
-        cardNumbers={cardNumberArray}
-        backgroundImageIndex={randBackgrounImageIndex}
-      />
-      <View style={styles.container}>
-        <View style={styles.singleInputFieldContainer}>
-          <Text style={styles.singleInputFieldText}>Card Number</Text>
-          <TextInput
-            style={styles.singleInputField}
-            value={cardNumberInputValue}
-            onChangeText={(value) =>
-              handleNumberChange(
-                value,
-                setCardNumberInputValue,
-                setCardNumber,
-                32
-              )
-            }
-            onFocus={() => setFocus("cardNumber")}
-            onBlur={() => setFocus("")}
-          />
-        </View>
-        <View style={styles.singleInputFieldContainer}>
-          <Text style={styles.singleInputFieldText}>Card Name</Text>
-          <TextInput
-            style={styles.singleInputField}
-            value={cardNameInputValue}
-            onChangeText={(value) =>
-              handleTextChange(
-                value,
-                cardNameInit,
-                setCardNameInputValue,
-                setCardName
-              )
-            }
-            onFocus={() => setFocus("cardHolder")}
-            onBlur={() => setFocus("")}
-          />
-        </View>
-        <View style={styles.rowInputFieldContainer}>
-          <View style={styles.expirationDatesInputsContainer}>
-            <Text style={styles.singleInputFieldText}>Expiration Date</Text>
-            <PickerComponent
-              onFocus={() => setFocus("expires")}
-              onBlur={() => setFocus("")}
-            />
-          </View>
-          <View style={styles.cvvContainer}>
-            <Text style={styles.singleInputFieldText}>CVV</Text>
+    <ExpirationProvider>
+      <View style={styles.wrapper}>
+        <Card
+          inFocus={inFocus}
+          cardName={cardName}
+          cvvText={cvvNumbers}
+          cardNumbers={cardNumberArray}
+          backgroundImageIndex={randBackgrounImageIndex}
+        />
+        <View style={styles.container}>
+          <View style={styles.singleInputFieldContainer}>
+            <Text style={styles.singleInputFieldText}>Card Number</Text>
             <TextInput
               style={styles.singleInputField}
-              value={cvvNumberInputValue}
+              value={cardNumberInputValue}
               onChangeText={(value) =>
                 handleNumberChange(
                   value,
-                  setCVVNumberInputValue,
-                  setCVVNumbers,
-                  3
+                  setCardNumberInputValue,
+                  setCardNumber,
+                  32
                 )
               }
-              onFocus={() => setFocus("cvv")}
+              onFocus={() => setFocus("cardNumber")}
               onBlur={() => setFocus("")}
             />
           </View>
+          <View style={styles.singleInputFieldContainer}>
+            <Text style={styles.singleInputFieldText}>Card Name</Text>
+            <TextInput
+              style={styles.singleInputField}
+              value={cardNameInputValue}
+              onChangeText={(value) =>
+                handleTextChange(
+                  value,
+                  cardNameInit,
+                  setCardNameInputValue,
+                  setCardName
+                )
+              }
+              onFocus={() => setFocus("cardHolder")}
+              onBlur={() => setFocus("")}
+            />
+          </View>
+          <View style={styles.rowInputFieldContainer}>
+            <View style={styles.expirationDatesInputsContainer}>
+              <Text style={styles.singleInputFieldText}>Expiration Date</Text>
+              <PickerComponent
+                onFocus={() => setFocus("expires")}
+                onBlur={() => setFocus("")}
+              />
+            </View>
+            <View style={styles.cvvContainer}>
+              <Text style={styles.singleInputFieldText}>CVV</Text>
+              <TextInput
+                style={styles.singleInputField}
+                value={cvvNumberInputValue}
+                onChangeText={(value) =>
+                  handleNumberChange(
+                    value,
+                    setCVVNumberInputValue,
+                    setCVVNumbers,
+                    3
+                  )
+                }
+                onFocus={() => setFocus("cvv")}
+                onBlur={() => setFocus("")}
+              />
+            </View>
+          </View>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </ExpirationProvider>
   );
 }
 

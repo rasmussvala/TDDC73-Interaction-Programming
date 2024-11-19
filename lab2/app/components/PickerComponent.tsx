@@ -9,6 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import { colors, sizes } from "../theme";
+import { useExpiration } from "./ExpirationContext";
 
 interface PickerComponentProps {
   onFocus?: () => void;
@@ -19,31 +20,25 @@ const PickerComponent: React.FC<PickerComponentProps> = ({
   onFocus,
   onBlur,
 }) => {
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [activeSelection, setActiveSelection] = useState<"month" | "year">(
     "month"
   );
 
-  useEffect(() => {
-    const year = new Date().getFullYear();
-    setYear(year.toString());
-    setMonth("01");
-  }, []);
+  const { month, updateMonth, year, updateYear } = useExpiration();
 
   const months = Array.from({ length: 12 }, (_, i) =>
     (i + 1).toString().padStart(2, "0")
   );
   const years = Array.from({ length: 7 }, (_, i) =>
-    (Number(year) + i).toString()
+    (Number(new Date().getFullYear()) + i).toString()
   );
 
   const handleSelect = (value: string) => {
     if (activeSelection === "month") {
-      setMonth(value);
+      updateMonth(value);
     } else {
-      setYear(value);
+      updateYear(value);
     }
   };
 
