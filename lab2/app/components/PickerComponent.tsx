@@ -56,7 +56,7 @@ const PickerComponent: React.FC = () => {
       <Modal
         visible={isModalVisible}
         transparent
-        animationType="fade"
+        animationType="slide"
         onRequestClose={() => setIsModalVisible(false)}
       >
         <Pressable
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
     justifyContent: "flex-end",
   },
 
