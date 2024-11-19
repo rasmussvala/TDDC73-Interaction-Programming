@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
     color: colors.cardText,
     textShadowColor: colors.textShadowColor,
     textShadowRadius: sizes.textShadowRadius,
+    overflow: "hidden",
   },
 
   cardNumberText: {
