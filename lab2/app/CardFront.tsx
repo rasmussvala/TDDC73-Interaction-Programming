@@ -75,7 +75,7 @@ function CardFront({
             resizeMode="contain"
           />
         </View>
-        <View style={styles.containerCenter}> {writeNumbers(cardNumbers)}</View>
+        <View style={styles.containerCenter}>{writeNumbers(cardNumbers)}</View>
         <View style={styles.containerBottom}>
           <View
             style={[

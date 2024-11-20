@@ -1,8 +1,14 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
 import { useEffect, useState } from "react";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 interface CardProps {
   inFocus?: string;
@@ -20,28 +26,52 @@ export default function Card({
   backgroundImageIndex = "21",
 }: CardProps) {
   const [showCardBack, setShowCardBack] = useState<boolean>(false);
+  const rotate = useSharedValue(0);
 
   useEffect(() => {
+    rotate.value = inFocus === "cvv" ? 1 : 0;
+
     setShowCardBack(inFocus === "cvv");
   }, [inFocus]);
 
+  const frontAnimatedStyles = useAnimatedStyle(() => {
+    const rotateValue = interpolate(rotate.value, [0, 1], [0, 180]);
+    return {
+      transform: [
+        {
+          rotateY: withTiming(`${rotateValue}deg`, { duration: 1000 }),
+        },
+      ],
+    };
+  });
+  const backAnimatedStyles = useAnimatedStyle(() => {
+    const rotateValue = interpolate(rotate.value, [0, 1], [180, 360]);
+    return {
+      transform: [
+        {
+          rotateY: withTiming(`${rotateValue}deg`, { duration: 1000 }),
+        },
+      ],
+    };
+  });
+
   return (
     <View style={styles.cardContainer}>
-      <View style={!showCardBack ? styles.visible : styles.hidden}>
+      <Animated.View style={[styles.card, styles.front, frontAnimatedStyles]}>
         <CardFront
           inFocus={inFocus}
           cardName={cardName}
           cardNumbers={cardNumbers}
           backgroundImageIndex={backgroundImageIndex}
         />
-      </View>
-      <View style={showCardBack ? styles.visible : styles.hidden}>
+      </Animated.View>
+      <Animated.View style={[styles.card, styles.back, backAnimatedStyles]}>
         <CardBack
           cvvText={cvvText}
           card4FirstNumbers={cardNumbers[0]}
           backgroundImageIndex={backgroundImageIndex}
         />
-      </View>
+      </Animated.View>
     </View>
   );
 }
@@ -52,14 +82,30 @@ const styles = StyleSheet.create({
     transform: [{ translateY: 80 }],
     height: 200,
     width: 300,
+  },
+
+  card: {
     borderRadius: 14,
-    overflow: "hidden",
     // phone
     elevation: 20,
     // web
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 30,
+    overflow: "hidden",
+  },
+
+  front: {
+    position: "absolute",
+    backfaceVisibility: "hidden",
+    width: "100%",
+    height: "100%",
+  },
+  back: {
+    position: "absolute",
+    backfaceVisibility: "hidden",
+    width: "100%",
+    height: "100%",
   },
 
   visible: {
