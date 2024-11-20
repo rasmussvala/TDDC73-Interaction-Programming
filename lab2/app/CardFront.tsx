@@ -84,7 +84,7 @@ function CardFront({
             ]}
           >
             <Text style={styles.textHeader}>Card Holder</Text>
-            <Text style={styles.cardText}> {cardName}</Text>
+            <Text style={styles.cardText}>{cardName}</Text>
           </View>
           <View
             style={[
