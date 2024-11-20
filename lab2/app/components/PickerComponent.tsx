@@ -9,35 +9,48 @@ import {
   Pressable,
 } from "react-native";
 import { colors, sizes } from "../theme";
+import { useExpiration } from "./ExpirationContext";
 
-const PickerComponent: React.FC = () => {
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+interface PickerComponentProps {
+  onFocus?: () => void;
+  onBlur?: () => void;
+}
+
+const PickerComponent: React.FC<PickerComponentProps> = ({
+  onFocus,
+  onBlur,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [activeSelection, setActiveSelection] = useState<"month" | "year">(
     "month"
   );
 
-  useEffect(() => {
-    const year = new Date().getFullYear();
-
-    setYear(year.toString());
-    setMonth("01");
-  }, []);
+  const { month, updateMonth, year, updateYear } = useExpiration();
 
   const months = Array.from({ length: 12 }, (_, i) =>
     (i + 1).toString().padStart(2, "0")
   );
   const years = Array.from({ length: 7 }, (_, i) =>
-    (Number(year) + i).toString()
+    (Number(new Date().getFullYear()) + i).toString()
   );
 
   const handleSelect = (value: string) => {
     if (activeSelection === "month") {
-      setMonth(value);
+      updateMonth(value);
     } else {
-      setYear(value);
+      updateYear(value);
     }
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    onBlur?.();
+  };
+
+  const handleButtonPress = (selection: "month" | "year") => {
+    setActiveSelection(selection);
+    setIsModalVisible(true);
+    onFocus?.();
   };
 
   return (
@@ -45,20 +58,14 @@ const PickerComponent: React.FC = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            setActiveSelection("month");
-            setIsModalVisible(true);
-          }}
+          onPress={() => handleButtonPress("month")}
         >
           <Text style={styles.buttonText}>{month}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            setActiveSelection("year");
-            setIsModalVisible(true);
-          }}
+          onPress={() => handleButtonPress("year")}
         >
           <Text style={styles.buttonText}>{year}</Text>
         </TouchableOpacity>
@@ -68,18 +75,15 @@ const PickerComponent: React.FC = () => {
         visible={isModalVisible}
         transparent
         animationType="slide"
-        onRequestClose={() => setIsModalVisible(false)}
+        onRequestClose={handleModalClose}
       >
-        <Pressable
-          style={styles.modalOverlay}
-          onPress={() => setIsModalVisible(false)}
-        >
+        <Pressable style={styles.modalOverlay} onPress={handleModalClose}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>
                 Select {activeSelection === "month" ? "Month" : "Year"}
               </Text>
-              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+              <TouchableOpacity onPress={handleModalClose}>
                 <Text style={styles.closeButton}>✕</Text>
               </TouchableOpacity>
             </View>
@@ -95,7 +99,7 @@ const PickerComponent: React.FC = () => {
                   ]}
                   onPress={() => {
                     handleSelect(value);
-                    setIsModalVisible(false);
+                    handleModalClose();
                   }}
                 >
                   <Text
