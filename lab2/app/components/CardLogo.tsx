@@ -19,7 +19,7 @@ const CardLogo: React.FC<CardLogoProps> = ({
   const prevLengthRef = useRef<number>(0);
 
   useEffect(() => {
-    if (!firstFourDigits) return;
+    if (!firstFourDigits || firstFourDigits === "####") return;
 
     const currentLength = firstFourDigits.length;
     const prevLength = prevLengthRef.current;
@@ -48,7 +48,7 @@ const CardLogo: React.FC<CardLogoProps> = ({
 
     // Update the ref for next render
     prevLengthRef.current = currentLength;
-  }, [logoSource, firstFourDigits]);
+  }, [firstFourDigits]);
 
   return (
     <Animated.View style={{ opacity: fadeAnim }}>
