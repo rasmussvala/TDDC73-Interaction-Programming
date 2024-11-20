@@ -35,25 +35,7 @@ export default function CardBack({
   useEffect(() => {
     const newCvvTextArray = cvvText.split("");
 
-    // If the text is growing, add new animations for the new characters
-    if (newCvvTextArray.length > cvvTextArray.length) {
-      const newAnimations = newCvvTextArray
-        .slice(cvvTextArray.length)
-        .map(() => new Animated.Value(0));
-      setAnimations((prevAnimations) => [...prevAnimations, ...newAnimations]);
-
-      // Trigger fade-in animation for the new characters added
-      newAnimations.forEach((animation) => {
-        Animated.timing(animation, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }).start();
-      });
-    }
-
-    // If the text is shrinking (characters are removed), handle fade-out animation
-    if (newCvvTextArray.length < cvvTextArray.length) {
+    const fadeOut = () => {
       const removedCharactersCount =
         cvvTextArray.length - newCvvTextArray.length;
       const remainingAnimations = animations.slice(0, newCvvTextArray.length);
@@ -69,7 +51,29 @@ export default function CardBack({
       }
 
       setAnimations(remainingAnimations);
-    }
+    };
+
+    const fadeIn = () => {
+      const newAnimations = newCvvTextArray
+        .slice(cvvTextArray.length)
+        .map(() => new Animated.Value(0));
+      setAnimations((prevAnimations) => [...prevAnimations, ...newAnimations]);
+
+      // Trigger fade-in animation for the new characters added
+      newAnimations.forEach((animation) => {
+        Animated.timing(animation, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: false,
+        }).start();
+      });
+    };
+
+    // If the text is growing, add new animations for the new characters
+    if (newCvvTextArray.length > cvvTextArray.length) fadeIn();
+
+    // If the text is shrinking (characters are removed), handle fade-out animation
+    if (newCvvTextArray.length < cvvTextArray.length) fadeOut();
 
     // Update the cvvTextArray state
     setCVVTextArray(newCvvTextArray);
