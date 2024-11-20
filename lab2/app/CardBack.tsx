@@ -90,7 +90,7 @@ export default function CardBack({
               const animation = animations[index];
 
               return (
-                <Animated.View
+                <Animated.Text
                   key={index}
                   style={{
                     opacity: animation ? animation : 1,
@@ -106,8 +106,8 @@ export default function CardBack({
                       : [],
                   }}
                 >
-                  <Text>{char}</Text>
-                </Animated.View>
+                  {char}
+                </Animated.Text>
               );
             })}
           </View>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: sizes.borderRadius,
     marginHorizontal: 8,
-    padding: 8,
+    paddingHorizontal: 8,
     alignItems: "center",
     justifyContent: "flex-end",
     height: 28,
