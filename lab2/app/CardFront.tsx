@@ -4,6 +4,7 @@ import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
 import { getCardType, getLogo } from "./cardLogoUtils";
 import { getBackgroundImage } from "./backgroundImageUtils";
+import { useExpiration } from "./components/ExpirationContext";
 
 interface CardFrontProps {
   inFocus?: string;
@@ -18,13 +19,13 @@ function CardFront({
   cardNumbers = [],
   backgroundImageIndex = "21",
 }: CardFrontProps) {
-  // Same as in cardBack
   const chipURL = require("./assets/images/chip.png");
 
   const logoHeight = 40;
   const logoSource = getLogo(getCardType(cardNumbers[0]));
   const logoWidth = useImageWidth(logoSource, logoHeight);
   const backgroundImage = getBackgroundImage(backgroundImageIndex);
+  const { month, year } = useExpiration();
 
   return (
     <ImageBackground source={backgroundImage} style={styles.card}>
@@ -82,7 +83,9 @@ function CardFront({
             ]}
           >
             <Text style={styles.textHeader}>Expires</Text>
-            <Text style={styles.cardText}>MM/YY</Text>
+            <Text style={styles.cardText}>
+              {month}/{year.substring(2)}
+            </Text>
           </View>
         </View>
       </View>
