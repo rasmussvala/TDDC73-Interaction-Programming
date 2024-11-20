@@ -30,7 +30,8 @@ function CardFront({
   const chipURL = require("./assets/images/chip.png");
 
   const logoHeight = 40;
-  const logoSource = getLogo(getCardType(cardNumbers[0]));
+  const cardType = getCardType(cardNumbers[0]);
+  const logoSource = getLogo(cardType);
   const logoWidth = useImageWidth(logoSource, logoHeight);
   const backgroundImage = getBackgroundImage(backgroundImageIndex);
   const { month, year } = useExpiration();
@@ -114,7 +115,7 @@ function CardFront({
         <View style={styles.containerTop}>
           <Image source={chipURL} style={styles.chip} />
           <CardLogo
-            firstFourDigits={cardNumbers[0]}
+            cardType={cardType}
             logoSource={logoSource}
             logoHeight={logoHeight}
             logoWidth={logoWidth}

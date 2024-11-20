@@ -1,69 +1,33 @@
-import React, { useEffect, useRef } from "react";
-import { Image, Animated } from "react-native";
+import React from "react";
 import type { ImageSourcePropType } from "react-native";
+import Animated, { FlipInEasyX, FlipOutEasyX } from "react-native-reanimated";
 
 interface CardLogoProps {
-  firstFourDigits: string;
+  cardType: string;
   logoSource: ImageSourcePropType;
   logoHeight: number;
   logoWidth: number;
 }
 
 const CardLogo: React.FC<CardLogoProps> = ({
-  firstFourDigits,
+  cardType,
   logoSource,
   logoHeight,
   logoWidth,
 }) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const prevLengthRef = useRef<number>(0);
-
-  useEffect(() => {
-    if (!firstFourDigits || firstFourDigits === "####") return;
-
-    const currentLength = firstFourDigits.length;
-    const prevLength = prevLengthRef.current;
-
-    const thresholdDown = prevLength >= 4 && currentLength < 4;
-    const thresholdUp = prevLength < 4 && currentLength >= 4;
-
-    if (thresholdDown) {
-      fadeAnim.setValue(1);
-      Animated.sequence([
-        Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 150,
-          useNativeDriver: false,
-        }),
-      ]).start();
-    } else if (thresholdUp) {
-      fadeAnim.setValue(0);
-      Animated.sequence([
-        Animated.delay(200),
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 150,
-          useNativeDriver: false,
-        }),
-      ]).start();
-    }
-
-    // Update the ref for next render
-    prevLengthRef.current = currentLength;
-  }, [firstFourDigits]);
-
   return (
-    <Animated.View style={{ opacity: fadeAnim }}>
-      <Image
-        source={logoSource}
-        style={{
-          height: logoHeight,
-          width: logoWidth,
-          maxWidth: 80,
-        }}
-        resizeMode="contain"
-      />
-    </Animated.View>
+    <Animated.Image
+      source={logoSource}
+      style={{
+        height: logoHeight,
+        width: logoWidth,
+        maxWidth: 80,
+      }}
+      resizeMode="contain"
+      entering={FlipInEasyX}
+      exiting={FlipOutEasyX}
+      key={cardType}
+    />
   );
 };
 
