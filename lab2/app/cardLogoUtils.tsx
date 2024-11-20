@@ -1,5 +1,7 @@
 import { ImageSourcePropType } from "react-native";
 
+let lastValidCardType = "Visa";
+
 /**
  * Algorithm found at: https://www.regular-expressions.info/creditcard.html
  * Find all cards at wiki: https://en.wikipedia.org/wiki/Payment_card_number
@@ -51,22 +53,22 @@ export function getCardType(firstFourDigits: string): string {
   // Loop though all cardPatters and see if we have a match
   for (const card of cardPatterns) {
     if (card.regex.test(firstFourDigits)) {
+      lastValidCardType = card.type;
       return card.type;
     }
   }
 
-  // No match
-  return "Unknown";
+  // No match, keep the last valid card to be able to fade out card
+  return lastValidCardType;
 }
 
 export function getLogo(name: string): ImageSourcePropType {
-  return logoMapping[name] || require("./assets/images/unknown.png");
+  return logoMapping[name];
 }
 
 const logoMapping: { [key: string]: ImageSourcePropType } = {
-  Unknown: require("./assets/images/unknown.png"),
   Visa: require("./assets/images/visa.png"),
-  Mastercard: require("./assets/images/mastercard.png"),
+  MasterCard: require("./assets/images/mastercard.png"),
   American_Express: require("./assets/images/amex.png"),
   Diners_Club: require("./assets/images/dinersclub.png"),
   Discover: require("./assets/images/discover.png"),

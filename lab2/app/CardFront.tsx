@@ -34,6 +34,7 @@ function CardFront({
         <View style={styles.containerTop}>
           <Image source={chipURL} style={styles.chip} />
           <CardLogo
+            firstFourDigits={cardNumbers[0]}
             logoSource={logoSource}
             logoHeight={logoHeight}
             logoWidth={logoWidth}
