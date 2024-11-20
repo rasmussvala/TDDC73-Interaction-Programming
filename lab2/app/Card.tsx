@@ -2,6 +2,7 @@ import { View, StyleSheet } from "react-native";
 
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
+import { useEffect, useState } from "react";
 
 interface CardProps {
   inFocus?: string;
@@ -18,7 +19,11 @@ export default function Card({
   cardNumbers = [],
   backgroundImageIndex = "21",
 }: CardProps) {
-  const showCardBack = inFocus === "cvv";
+  const [showCardBack, setShowCardBack] = useState<boolean>(false);
+
+  useEffect(() => {
+    setShowCardBack(inFocus === "cvv");
+  }, [inFocus]);
 
   return (
     <View style={styles.cardContainer}>
