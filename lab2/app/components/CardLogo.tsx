@@ -28,19 +28,21 @@ const CardLogo: React.FC<CardLogoProps> = ({
     const thresholdUp = prevLength < 4 && currentLength >= 4;
 
     if (thresholdDown) {
+      fadeAnim.setValue(1);
       Animated.sequence([
         Animated.timing(fadeAnim, {
           toValue: 0,
-          duration: 1000,
+          duration: 150,
           useNativeDriver: false,
         }),
       ]).start();
     } else if (thresholdUp) {
+      fadeAnim.setValue(0);
       Animated.sequence([
         Animated.delay(200),
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 1000,
+          duration: 150,
           useNativeDriver: false,
         }),
       ]).start();
