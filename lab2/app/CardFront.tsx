@@ -1,4 +1,11 @@
 import { View, Image, Text, StyleSheet, ImageBackground } from "react-native";
+import Animated, {
+  FlipInXUp,
+  RotateInDownRight,
+  RotateOutDownRight,
+  FadeInUp,
+  FadeOutDown,
+} from "react-native-reanimated";
 
 import { colors, sizes } from "./theme";
 import useImageWidth from "./hooks/useImageWidth";
@@ -47,13 +54,55 @@ function CardFront({
               }}
             >
               {characters.map((number, charIndex) => (
-                <Text key={charIndex} style={styles.cardNumberText}>
+                <Animated.Text
+                  key={charIndex + "-" + number}
+                  style={styles.cardNumberText}
+                  entering={FadeInUp}
+                  exiting={FadeOutDown}
+                >
                   {number}
-                </Text>
+                </Animated.Text>
               ))}
             </View>
           );
         })}
+      </View>
+    );
+  };
+
+  const writeName = (_name: string) => {
+    const characters = _name.split("");
+    return characters.map((char, charIndex) => (
+      <Animated.View
+        key={charIndex + "-" + char}
+        entering={RotateInDownRight}
+        exiting={RotateOutDownRight}
+      >
+        <Text style={styles.textChar}>{char}</Text>
+      </Animated.View>
+    ));
+  };
+
+  const writeDate = (_month: string, _year: string) => {
+    return (
+      <View style={styles.MMYYRow}>
+        <Animated.Text
+          style={styles.textChar}
+          key={_month}
+          entering={FadeInUp}
+          exiting={FadeOutDown}
+        >
+          {_month}
+        </Animated.Text>
+        <Text style={styles.textChar}>/</Text>
+        <Animated.Text
+          style={styles.textChar}
+          key={_year}
+          entering={FadeInUp}
+          exiting={FadeOutDown}
+        >
+          {_year}
+        </Animated.Text>
       </View>
     );
   };
@@ -85,7 +134,7 @@ function CardFront({
             ]}
           >
             <Text style={styles.textHeader}>Card Holder</Text>
-            <Text style={styles.cardText}> {cardName}</Text>
+            <View style={styles.cardTextContainer}>{writeName(cardName)}</View>
           </View>
           <View
             style={[
@@ -94,8 +143,9 @@ function CardFront({
             ]}
           >
             <Text style={styles.textHeader}>Expires</Text>
-            <Text style={styles.cardText}>
-              {month}/{year.substring(2)}
+            <Text style={styles.cardTextContainer}>
+              {" "}
+              {writeDate(month, year.substring(2))}
             </Text>
           </View>
         </View>
@@ -142,12 +192,17 @@ const styles = StyleSheet.create({
     height: 40,
   },
 
-  cardText: {
+  cardTextContainer: {
+    overflow: "hidden",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+  },
+
+  textChar: {
     fontSize: 14,
     color: colors.cardText,
     textShadowColor: colors.textShadowColor,
     textShadowRadius: sizes.textShadowRadius,
-    overflow: "hidden",
   },
 
   cardNumberText: {
@@ -184,6 +239,10 @@ const styles = StyleSheet.create({
     borderWidth: sizes.borderWidth,
     borderRadius: sizes.borderRadius,
     borderColor: "transparent", //colors.cardFocus,
+  },
+
+  MMYYRow: {
+    flexDirection: "row",
   },
 
   isInFocus: {
