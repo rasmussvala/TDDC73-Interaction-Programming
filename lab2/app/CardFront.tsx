@@ -5,6 +5,7 @@ import useImageWidth from "./hooks/useImageWidth";
 import { getCardType, getLogo } from "./cardLogoUtils";
 import { getBackgroundImage } from "./backgroundImageUtils";
 import { useExpiration } from "./components/ExpirationContext";
+import CardLogo from "./components/CardLogo";
 
 interface CardFrontProps {
   inFocus?: string;
@@ -32,17 +33,10 @@ function CardFront({
       <View style={styles.contentContainer}>
         <View style={styles.containerTop}>
           <Image source={chipURL} style={styles.chip} />
-          <Image
-            source={logoSource}
-            style={[
-              styles.chip,
-              {
-                height: logoHeight,
-                width: logoWidth,
-                maxWidth: 80,
-              },
-            ]}
-            resizeMode="contain"
+          <CardLogo
+            logoSource={logoSource}
+            logoHeight={logoHeight}
+            logoWidth={logoWidth}
           />
         </View>
         <View style={styles.containerCenter}>
