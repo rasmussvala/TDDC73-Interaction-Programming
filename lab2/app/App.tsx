@@ -98,7 +98,7 @@ export default function App() {
                   value,
                   setCardNumberInputValue,
                   setCardNumber,
-                  32
+                  16
                 )
               }
               onFocus={() => setFocus("cardNumber")}
