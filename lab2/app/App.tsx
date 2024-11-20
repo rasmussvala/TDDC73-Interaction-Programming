@@ -101,6 +101,7 @@ export default function App() {
             }
             onFocus={() => setFocus("cardNumber")}
             onBlur={() => setFocus("")}
+            // keyboardType="numeric"
           />
         </View>
         <View style={styles.singleInputFieldContainer}>
@@ -123,11 +124,7 @@ export default function App() {
         <View style={styles.rowInputFieldContainer}>
           <View style={styles.expirationDatesInputsContainer}>
             <Text style={styles.singleInputFieldText}>Expiration Date</Text>
-            <PickerComponent
-            // Used in the previous TextInput:
-            // onFocus={() => setFocus("expires")}
-            // onBlur={() => setFocus("")}
-            />
+            <PickerComponent />
           </View>
           <View style={styles.cvvContainer}>
             <Text style={styles.singleInputFieldText}>CVV</Text>
@@ -144,6 +141,7 @@ export default function App() {
               }
               onFocus={() => setFocus("cvv")}
               onBlur={() => setFocus("")}
+              // keyboardType="numeric"
             />
           </View>
         </View>
@@ -161,6 +159,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
+
+    zIndex: 0,
   },
 
   container: {
@@ -171,8 +171,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.container,
     borderRadius: 2 * sizes.borderRadius,
     justifyContent: "flex-end",
+
     // phone
     elevation: 10,
+
     // web
     shadowColor: "#000",
     shadowOpacity: 0.2,

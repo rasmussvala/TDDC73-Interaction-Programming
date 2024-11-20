@@ -2,7 +2,7 @@ import { View, StyleSheet, Text, Pressable } from "react-native";
 
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -25,17 +25,21 @@ export default function Card({
   cardNumbers = [],
   backgroundImageIndex = "21",
 }: CardProps) {
-  const [showCardBack, setShowCardBack] = useState<boolean>(false);
   const rotate = useSharedValue(0);
 
-  useEffect(() => {
-    rotate.value = inFocus === "cvv" ? 1 : 0;
+  const nrOfExtraFlips = 0;
 
-    setShowCardBack(inFocus === "cvv");
+  useEffect(() => {
+    const showCardBack = inFocus === "cvv";
+    rotate.value = showCardBack ? 1 : 0;
   }, [inFocus]);
 
   const frontAnimatedStyles = useAnimatedStyle(() => {
-    const rotateValue = interpolate(rotate.value, [0, 1], [0, 180]);
+    const rotateValue = interpolate(
+      rotate.value,
+      [0, 1],
+      [0, 180 + 180 * nrOfExtraFlips]
+    );
     return {
       transform: [
         {
@@ -45,7 +49,11 @@ export default function Card({
     };
   });
   const backAnimatedStyles = useAnimatedStyle(() => {
-    const rotateValue = interpolate(rotate.value, [0, 1], [180, 360]);
+    const rotateValue = interpolate(
+      rotate.value,
+      [0, 1],
+      [180, 360 + 180 * nrOfExtraFlips]
+    );
     return {
       transform: [
         {
@@ -57,7 +65,7 @@ export default function Card({
 
   return (
     <View style={styles.cardContainer}>
-      <Animated.View style={[styles.card, styles.front, frontAnimatedStyles]}>
+      <Animated.View style={[styles.card, frontAnimatedStyles]}>
         <CardFront
           inFocus={inFocus}
           cardName={cardName}
@@ -65,7 +73,7 @@ export default function Card({
           backgroundImageIndex={backgroundImageIndex}
         />
       </Animated.View>
-      <Animated.View style={[styles.card, styles.back, backAnimatedStyles]}>
+      <Animated.View style={[styles.card, backAnimatedStyles]}>
         <CardBack
           cvvText={cvvText}
           card4FirstNumbers={cardNumbers[0]}
@@ -78,45 +86,31 @@ export default function Card({
 
 const styles = StyleSheet.create({
   cardContainer: {
+    // Android
+    elevation: 1,
+
+    // IOS
     zIndex: 1,
+
     transform: [{ translateY: 80 }],
     height: 200,
     width: 300,
+    position: "relative",
   },
 
   card: {
+    overflow: "hidden",
+    position: "absolute",
+    backfaceVisibility: "hidden",
+    width: "100%",
+    height: "100%",
     borderRadius: 14,
+
     // phone
     elevation: 20,
     // web
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 30,
-    overflow: "hidden",
-  },
-
-  front: {
-    position: "absolute",
-    backfaceVisibility: "hidden",
-    width: "100%",
-    height: "100%",
-  },
-  back: {
-    position: "absolute",
-    backfaceVisibility: "hidden",
-    width: "100%",
-    height: "100%",
-  },
-
-  visible: {
-    opacity: 1,
-    width: "100%",
-    height: "100%",
-  },
-
-  hidden: {
-    opacity: 0,
-    width: 0,
-    height: 0,
   },
 });
