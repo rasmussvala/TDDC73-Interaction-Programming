@@ -27,6 +27,37 @@ function CardFront({
   const backgroundImage = getBackgroundImage(backgroundImageIndex);
   const { month, year } = useExpiration();
 
+  const writeNumbers = (cardNumbers: string[]) => {
+    return (
+      <View
+        style={[
+          styles.cardNumberContainer,
+          inFocus === "cardNumber" && styles.isInFocus,
+        ]}
+      >
+        {cardNumbers.map((chunk, index) => {
+          const characters = chunk.split(""); // Split each chunk into characters
+          return (
+            <View
+              key={index}
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              {characters.map((number, charIndex) => (
+                <Text key={charIndex} style={styles.cardNumberText}>
+                  {number}
+                </Text>
+              ))}
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
+
   return (
     <ImageBackground source={backgroundImage} style={styles.card}>
       <View style={styles.contentContainer}>
@@ -45,27 +76,7 @@ function CardFront({
             resizeMode="contain"
           />
         </View>
-        <View style={styles.containerCenter}>
-          <View
-            style={[
-              styles.cardNumberContainer,
-              inFocus === "cardNumber" && styles.isInFocus,
-            ]}
-          >
-            <Text style={styles.cardNumberText}>
-              {cardNumbers[0] ? cardNumbers[0] : ""}
-            </Text>
-            <Text style={styles.cardNumberText}>
-              {cardNumbers[1] ? cardNumbers[1] : ""}
-            </Text>
-            <Text style={styles.cardNumberText}>
-              {cardNumbers[2] ? cardNumbers[2] : ""}
-            </Text>
-            <Text style={styles.cardNumberText}>
-              {cardNumbers[3] ? cardNumbers[3] : ""}
-            </Text>
-          </View>
-        </View>
+        <View style={styles.containerCenter}>{writeNumbers(cardNumbers)}</View>
         <View style={styles.containerBottom}>
           <View
             style={[
@@ -136,6 +147,7 @@ const styles = StyleSheet.create({
     color: colors.cardText,
     textShadowColor: colors.textShadowColor,
     textShadowRadius: sizes.textShadowRadius,
+    overflow: "hidden",
   },
 
   cardNumberText: {

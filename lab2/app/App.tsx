@@ -15,7 +15,7 @@ import { ExpirationProvider } from "./components/ExpirationContext";
 export default function App() {
   const cardNameInit = "FULL NAME";
   const cvvInit = "";
-  const carNumberInit = "################";
+  const carNumberInit = "";
 
   const [inFocus, setInFocus] = useState<string>("");
 
@@ -65,8 +65,16 @@ export default function App() {
   useEffect(() => {
     const numberString = cardNumber !== "" ? cardNumber : carNumberInit;
 
-    const chunks = numberString.match(/.{1,4}/g) || [];
-    setCardNumberArray(chunks);
+    // Split the number string into chunks of 4 digits
+    const chunks: string[] = numberString.match(/.{1,4}/g) || [];
+
+    while (chunks.length < 4) {
+      chunks.push("####");
+    }
+
+    const paddedChunks = chunks.map((chunk) => chunk.padEnd(4, "#"));
+
+    setCardNumberArray(paddedChunks);
   }, [cardNumber]);
 
   return (
@@ -95,6 +103,7 @@ export default function App() {
               }
               onFocus={() => setFocus("cardNumber")}
               onBlur={() => setFocus("")}
+              // keyboardType="numeric"
             />
           </View>
           <View style={styles.singleInputFieldContainer}>
@@ -155,6 +164,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
+
+    zIndex: 0,
   },
 
   container: {
@@ -165,8 +176,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.container,
     borderRadius: 2 * sizes.borderRadius,
     justifyContent: "flex-end",
+
     // phone
     elevation: 10,
+
     // web
     shadowColor: "#000",
     shadowOpacity: 0.2,
