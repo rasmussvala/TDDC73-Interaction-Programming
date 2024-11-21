@@ -4,14 +4,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<Album> fetchAlbum() async {
-  final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/2'));
+Future<List<Album>> fetchAlbums() async {
+  final response =
+      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
 
   if (response.statusCode == 200) {
-    return Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    List<dynamic> jsonList = jsonDecode(response.body);
+    return jsonList
+        .map((json) => Album.fromJson(json as Map<String, dynamic>))
+        .toList();
   } else {
-    throw Exception('Failed to load album');
+    throw Exception('Failed to load albums');
   }
 }
 
@@ -27,19 +30,11 @@ class Album {
   });
 
   factory Album.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'userId': int userId,
-        'id': int id,
-        'title': String title,
-      } =>
-        Album(
-          userId: userId,
-          id: id,
-          title: title,
-        ),
-      _ => throw const FormatException('Failed to load album.'),
-    };
+    return Album(
+      userId: json['userId'] as int,
+      id: json['id'] as int,
+      title: json['title'] as String,
+    );
   }
 }
 
@@ -53,12 +48,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<Album> futureAlbum;
+  late Future<List<Album>> futureAlbums;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    futureAlbums = fetchAlbums();
   }
 
   @override
@@ -73,11 +68,20 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Fetch Data Example'),
         ),
         body: Center(
-          child: FutureBuilder<Album>(
-            future: futureAlbum,
+          child: FutureBuilder<List<Album>>(
+            future: futureAlbums,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data!.title);
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final album = snapshot.data![index];
+                    return ListTile(
+                      title: Text(album.title),
+                      subtitle: Text('Album ID: ${album.id}'),
+                    );
+                  },
+                );
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
