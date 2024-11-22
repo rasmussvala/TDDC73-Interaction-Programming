@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const RepoPage()));
+                                builder: (_) => RepoPage(repository: repo)));
                       },
                     );
                   },
