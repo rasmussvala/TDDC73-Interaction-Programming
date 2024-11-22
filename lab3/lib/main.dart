@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lab3/widgets/repo_page.dart';
 
 import 'models/repository.dart';
 import 'services/api_service.dart';
@@ -30,6 +31,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Trending GitHub Repositories'),
+          backgroundColor: Colors.green,
         ),
         body: Center(
           child: FutureBuilder<List<Repository>>(
@@ -44,7 +46,10 @@ class _MyAppState extends State<MyApp> {
                       title: Text(repo.name),
                       subtitle: Text('By ${repo.owner} • ⭐ ${repo.stars}'),
                       onTap: () {
-                        _openRepository(repo);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const RepoPage()));
                       },
                     );
                   },
@@ -61,7 +66,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void _openRepository(Repository repo) {
-    // DO SOMETHING
-  }
+  // void _openRepository(Repository repo) {
+  //   // DO SOMETHING
+  // }
 }
