@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 
 const confirmPasswordWidget = () => {
   const [confirmPassword, setconfirmPassword] = useState(null);
 
   return (
     <View>
-      <Text>Enter new password</Text>
-      <TextInput value={confirmPassword} onChangeText={setconfirmPassword} />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm password"
+        value={confirmPassword}
+        onChangeText={setconfirmPassword}
+      />
     </View>
   );
 };
@@ -19,11 +23,26 @@ const PasswordStrengthMeter = () => {
   return (
     <View>
       <View>
-        <Text>Enter new password</Text>
-        <TextInput value={password} onChangeText={setPassword} />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter password"
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
       {checkconfirmPassword && confirmPasswordWidget()}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+  },
+});
+
 export default PasswordStrengthMeter;
