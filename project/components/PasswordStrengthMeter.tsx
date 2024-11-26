@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Text } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 
 const confirmPasswordWidget = () => {
   const [confirmPassword, setconfirmPassword] = useState("");
@@ -21,18 +21,17 @@ const PasswordStrengthMeter = () => {
   const checkconfirmPassword = true;
 
   return (
-    // <View>
-    //   <View>
-    //     <TextInput
-    //       style={styles.input}
-    //       placeholder="Enter password"
-    //       value={password}
-    //       onChangeText={setPassword}
-    //     />
-    //   </View>
-    //   {checkconfirmPassword && confirmPasswordWidget()}
-    // </View>
-    <Text>Welcome</Text>
+    <View>
+      <View>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter password"
+          value={password}
+          onChangeText={setPassword}
+        />
+      </View>
+      {checkconfirmPassword && confirmPasswordWidget()}
+    </View>
   );
 };
 

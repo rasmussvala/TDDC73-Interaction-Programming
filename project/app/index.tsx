@@ -1,5 +1,6 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
 
 export default function Index() {
   return (
@@ -10,8 +11,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
       <StatusBar style="auto"></StatusBar>
+      <PasswordStrengthMeter />
     </View>
   );
 }
