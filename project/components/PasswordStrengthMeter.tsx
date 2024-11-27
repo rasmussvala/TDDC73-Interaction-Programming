@@ -81,8 +81,6 @@ const PasswordStrengthMeter = () => {
   return (
     <View style={styles.wrapper}>
       <View>
-        <Text>strength: {strength}</Text>
-        <Text>password: {password}</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter password"
