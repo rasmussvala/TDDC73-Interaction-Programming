@@ -1,6 +1,7 @@
 # Ignore all IDE files (e.g., .idea, .vscode) in subdirectories
 **/.idea/
 **/.vscode/
+**/.expo/
 *.iml
 
 # Kotlin and Android (both Kotlin + Compose and Kotlin + XML)
