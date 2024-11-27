@@ -105,9 +105,7 @@ const PasswordStrengthMeter = () => {
           style={[styles.statusItem, { backgroundColor: statusBarDColor }]}
         />
       </View>
-      <View style={styles.statusTextContainer}>
-        <Text style={styles.statusText}>Strong</Text>
-      </View>
+      <Text style={styles.statusText}>Strong</Text>
       <View style={styles.recommendContainer}>
         <Text style={styles.recommendHeader}>Recommended</Text>
         <View style={styles.recommendation}>
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
   },
 
   status: {
-    flex: 1,
+    height: 8,
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 4,
@@ -166,11 +164,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 4,
     borderRadius: 10,
-  },
-
-  statusTextContainer: {
-    flex: 1,
-    flexDirection: "row",
   },
 
   statusText: {
