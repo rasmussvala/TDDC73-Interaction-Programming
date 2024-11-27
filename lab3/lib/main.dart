@@ -65,8 +65,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-  // void _openRepository(Repository repo) {
-  //   // DO SOMETHING
-  // }
 }

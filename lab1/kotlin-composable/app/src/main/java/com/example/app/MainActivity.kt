@@ -64,7 +64,7 @@ fun Index() {
         ) {
             Text(
                 text = "Kotlin + Compose",
-                modifier = Modifier.padding(30.dp),
+                modifier = Modifier.padding(top = 60.dp, bottom = 20.dp),
                 fontSize = 30.sp
             )
         }
@@ -106,7 +106,7 @@ fun Index() {
                     ),
                     shape = RoundedCornerShape(10.dp),
                     onClick = {
-                        // TODO
+                        // DO SOMETHING
                     }
                 ) {
                     Text(text = "BUTTON")
@@ -122,7 +122,7 @@ fun Index() {
                     ),
                     shape = RoundedCornerShape(10.dp),
                     onClick = {
-                        // TODO
+                        // DO SOMETHING
                     }
                 ) {
                     Text(text = "BUTTON")
@@ -145,7 +145,7 @@ fun Index() {
                     ),
                     shape = RoundedCornerShape(10.dp),
                     onClick = {
-                        // TODO
+                        // DO SOMETHING
                     }
                 ) {
                     Text(text = "BUTTON")
@@ -161,7 +161,7 @@ fun Index() {
                     ),
                     shape = RoundedCornerShape(10.dp),
                     onClick = {
-                        // TODO
+                        // DO SOMETHING
                     }
                 ) {
                     Text(text = "BUTTON")
