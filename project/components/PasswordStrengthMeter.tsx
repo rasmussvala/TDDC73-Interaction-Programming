@@ -16,16 +16,17 @@ const ConfirmPasswordWidget = () => {
   );
 };
 
-const PasswordStrengthMeter = () => {
+const PasswordStrengthMeter = ({ nrOfCharacters = 8 }) => {
   const [password, setPassword] = useState<string>("");
   const [strength, setStrength] = useState<number>(0.0);
   const [statusBarAColor, setStatusBarAColor] = useState<string>(colors.gray);
   const [statusBarBColor, setStatusBarBColor] = useState<string>(colors.gray);
   const [statusBarCColor, setStatusBarCColor] = useState<string>(colors.gray);
   const [statusBarDColor, setStatusBarDColor] = useState<string>(colors.gray);
+  const textStatusArray = ["Weak", "Okay", "Good", "Strong"];
+  const [textStatus, setTextStatus] = useState<string>(textStatusArray[0]);
 
   const checkconfirmPassword = true;
-  const charLength = 8;
 
   const handlePasswordChange = (event: string) => {
     setPassword(event);
@@ -33,7 +34,7 @@ const PasswordStrengthMeter = () => {
 
   useEffect(() => {
     const getPasswordStrength = () => {
-      const weightLength = Math.min(password.length / charLength, 1.0);
+      const weightLength = Math.min(password.length / nrOfCharacters, 1.0);
       const weightNumber = password.match(/[0-9]/) ? 1.0 : 0.0;
       const weightUpperCase = password.match(/[A-Z]/) ? 1.0 : 0.0;
       const weightSpecialCharacter = /[^a-zA-Z0-9]/.test(password) ? 1.0 : 0.0;
@@ -62,18 +63,22 @@ const PasswordStrengthMeter = () => {
   useEffect(() => {
     const setStatusBar = () => {
       if (strength === undefined) return;
-      strength >= 0.25
-        ? setStatusBarAColor(colors.red)
-        : setStatusBarAColor(colors.gray);
-      strength >= 0.5
-        ? setStatusBarBColor(colors.orange)
-        : setStatusBarBColor(colors.gray);
-      strength >= 0.75
-        ? setStatusBarCColor(colors.yellow)
-        : setStatusBarCColor(colors.gray);
-      strength >= 1.0
-        ? setStatusBarDColor(colors.green)
-        : setStatusBarDColor(colors.gray);
+      setStatusBarAColor(strength >= 0.25 ? colors.red : colors.gray);
+      setStatusBarBColor(strength >= 0.5 ? colors.orange : colors.gray);
+      setStatusBarCColor(strength >= 0.75 ? colors.yellow : colors.gray);
+      setStatusBarDColor(strength >= 1.0 ? colors.green : colors.gray);
+
+      setTextStatus(
+        strength >= 1.0
+          ? textStatusArray[3]
+          : strength >= 0.75
+          ? textStatusArray[2]
+          : strength >= 0.5
+          ? textStatusArray[1]
+          : strength >= 0.25
+          ? textStatusArray[0]
+          : "Strenght"
+      );
     };
     setStatusBar();
   }, [strength]);
@@ -81,8 +86,6 @@ const PasswordStrengthMeter = () => {
   return (
     <View style={styles.wrapper}>
       <View>
-        <Text>strength: {strength}</Text>
-        <Text>password: {password}</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter password"
@@ -105,7 +108,7 @@ const PasswordStrengthMeter = () => {
           style={[styles.statusItem, { backgroundColor: statusBarDColor }]}
         />
       </View>
-      <Text style={styles.statusText}>Strong</Text>
+      <Text style={styles.statusText}>{textStatus}</Text>
       <View style={styles.recommendContainer}>
         <Text style={styles.recommendHeader}>Recommended</Text>
         <View style={styles.recommendation}>
@@ -122,7 +125,7 @@ const PasswordStrengthMeter = () => {
         </View>
         <View style={styles.recommendation}>
           <Text>✔</Text>
-          <Text style={styles.recommendText}>{charLength} characters</Text>
+          <Text style={styles.recommendText}>{nrOfCharacters} characters</Text>
         </View>
       </View>
     </View>
@@ -131,7 +134,7 @@ const PasswordStrengthMeter = () => {
 
 const colors = {
   green: "#2a9d8f",
-  yellow: "#e9c46a",
+  yellow: "#bbce60",
   orange: "#f4a261",
   red: "#e76f51",
   gray: "#d3d3d3",
