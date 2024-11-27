@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
 
   status: {
-    flex: 1,
+    height: 8,
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 4,
