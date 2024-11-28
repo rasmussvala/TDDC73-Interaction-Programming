@@ -12,7 +12,7 @@ type PasswordStrengthMeterProps = {
 
 const PasswordStrengthMeter = ({
   nrOfChars = 8,
-  hasAtLeastOneUpperCase = false,
+  hasAtLeastOneUpperCase = true,
   hasAtLeastOneSpecialChar = true,
   hasAtLeastOneNumber = true,
   confirmPassword = true,
@@ -103,7 +103,7 @@ const PasswordStrengthMeter = ({
           ? textStatusArray[1]
           : strength >= 0.25
           ? textStatusArray[0]
-          : "Strenght"
+          : "Strength"
       );
     };
     setStatusBar();
@@ -145,17 +145,17 @@ const PasswordStrengthMeter = ({
           achieved={hasAtLeastOneNumber}
         />
         <RecommendationItem
-          text="1 upper case Char"
+          text="1 upper case character"
           color={achievementColors.upperCase}
           achieved={hasAtLeastOneUpperCase}
         />
         <RecommendationItem
-          text="1 special Char"
+          text="1 special character"
           color={achievementColors.specialChar}
           achieved={hasAtLeastOneSpecialChar}
         />
         <RecommendationItem
-          text={`${nrOfChars} Chars`}
+          text={`${nrOfChars} characters`}
           color={achievementColors.length}
           achieved={true}
         />
