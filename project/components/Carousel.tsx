@@ -12,16 +12,14 @@ type Props = {
 };
 
 const Carousel = ({ images }: Props) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(-1);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setCurrentIndex((currentIndex + 1) % images.length);
   };
 
   const handlePrevious = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    );
+    setCurrentIndex((currentIndex - 1) % images.length);
   };
 
   const getImageIndex = (index: number) => {
