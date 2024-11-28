@@ -13,7 +13,7 @@ const RecommendationItem = ({
   return (
     achieved && (
       <View style={styles.recommendation}>
-        <Text style={[styles.recommendText, { color }]}>{`✔`}</Text>
+        <Text style={[styles.recommendTextIcon, { color }]}>{`✓`}</Text>
         <Text style={[styles.recommendText, { color }]}>{text}</Text>
       </View>
     )

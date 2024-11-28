@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  recomendIcon: {
+  recommendTextIcon: {
     fontSize: 12,
     fontWeight: "900",
   },
