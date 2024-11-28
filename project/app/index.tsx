@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
+import PasswordStrengthMeter from "@/components/PasswordStrengthMeter/PasswordStrengthMeter";
 
 export default function Index() {
   return (
