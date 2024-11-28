@@ -7,6 +7,7 @@ type PasswordStrengthMeterProps = {
   hasAtLeastOneSpecialChar?: boolean;
   hasAtLeastOneNumber?: boolean;
   confirmPassword?: boolean;
+  onStrengthChange: (strength: number) => void;
 };
 
 const PasswordStrengthMeter = ({
@@ -15,6 +16,7 @@ const PasswordStrengthMeter = ({
   hasAtLeastOneSpecialChar = true,
   hasAtLeastOneNumber = true,
   confirmPassword = true,
+  onStrengthChange,
 }: PasswordStrengthMeterProps) => {
   const [password, setPassword] = useState<string>("");
   const [strength, setStrength] = useState<number>(0.0);
@@ -105,6 +107,7 @@ const PasswordStrengthMeter = ({
       );
     };
     setStatusBar();
+    onStrengthChange(strength);
   }, [strength]);
 
   return (
