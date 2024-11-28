@@ -48,3 +48,30 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+# Carousel
+
+Our carousel (also called slider or slideshow) is a React Native component that displays a series of images in a rotating manner.
+
+...
+
+## Usage
+
+To use the Carousel you need to pass the images as arguments to the Carousel component.
+
+```typescript
+const Index = () => {
+  const images = [
+    require('../assets/images/carousel/image1.jpg'),
+    require('../assets/images/carousel/image2.jpg'),
+    require('../assets/images/carousel/image3.jpg'),
+    // Add all your images here
+  ];
+
+  return (
+    <Carousel images={{images}}>
+  );
+};
+
+export default Carousel;
+```
