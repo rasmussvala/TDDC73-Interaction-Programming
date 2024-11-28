@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
 import { colors, styles } from "./styles/styles";
 import PasswordInput from "./components/PasswordInput";
 import StatusBar from "./components/StatusBar";
 import StrengthText from "./components/StrengthText";
 import Recommendations from "./components/Recommendations";
-import ConfirmPasswordWidget from "./components/ConfirmPasswordWidget";
+import ConfirmPasswordInput from "./components/ConfirmPasswordInput";
 
 type PasswordStrengthMeterProps = {
   nrOfChars?: number;
@@ -142,7 +142,7 @@ const PasswordStrengthMeter = ({
         setShowInput={setShowInput}
         placeholder="Enter password"
       />
-      <ConfirmPasswordWidget
+      <ConfirmPasswordInput
         value={passwordChecker}
         onChangeText={setPasswordChecker}
         isCorrect={equalPasswords || password === ""}

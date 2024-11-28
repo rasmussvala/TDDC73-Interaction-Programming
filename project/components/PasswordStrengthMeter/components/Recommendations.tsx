@@ -2,6 +2,13 @@ import { View, Text } from "react-native";
 import RecommendationItem from "./RecommendationItem";
 import { styles } from "../styles/styles";
 
+type AchievementColors = {
+  length: string;
+  upperCase: string;
+  specialChar: string;
+  number: string;
+};
+
 const Recommendations = ({
   achievementColors,
   nrOfChars,
@@ -46,13 +53,6 @@ const Recommendations = ({
       )}
     </View>
   );
-};
-
-type AchievementColors = {
-  length: string;
-  upperCase: string;
-  specialChar: string;
-  number: string;
 };
 
 export default Recommendations;

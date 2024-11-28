@@ -1,6 +1,14 @@
 import { TextInput, View } from "react-native";
 import { colors, styles } from "../styles/styles";
 
+type ConfirmPasswordWidgetProps = {
+  value: string;
+  onChangeText: React.Dispatch<React.SetStateAction<string>>;
+  isCorrect: boolean;
+  showInput: boolean;
+  visible?: boolean;
+};
+
 const ConfirmPasswordWidget = ({
   visible = true,
   value,
@@ -29,14 +37,6 @@ const ConfirmPasswordWidget = ({
       )}
     </View>
   );
-};
-
-type ConfirmPasswordWidgetProps = {
-  value: string;
-  onChangeText: React.Dispatch<React.SetStateAction<string>>;
-  isCorrect: boolean;
-  showInput: boolean;
-  visible?: boolean;
 };
 
 export default ConfirmPasswordWidget;
