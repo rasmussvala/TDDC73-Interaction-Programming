@@ -10,7 +10,7 @@ type Props = {
   images: ImageSourcePropType[];
 };
 
-const Carousel: React.FC<Props> = ({ images }) => {
+const Carousel = ({ images }: Props) => {
   return (
     <ScrollView
       horizontal
