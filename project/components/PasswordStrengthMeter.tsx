@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 
 type PasswordStrengthMeterProps = {
@@ -74,9 +74,11 @@ const PasswordStrengthMeter = ({
         weightLength +
         weightUpperCase * weightUpperCaseOn +
         weightSpecialChar * weightSpecialCharOn +
-        weightNumber * weightNumber;
+        weightNumber * weightNumberOn;
       const denom =
         1.0 + weightUpperCaseOn + weightSpecialCharOn + weightNumberOn;
+
+      console.log(weightLength + " / " + 1.0);
 
       return num / denom;
     };
