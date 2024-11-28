@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 const ConfirmPasswordWidget = () => {
   const [confirmPassword, setconfirmPassword] = useState("");
@@ -19,10 +20,12 @@ const ConfirmPasswordWidget = () => {
 const PasswordStrengthMeter = ({ nrOfCharacters = 8 }) => {
   const [password, setPassword] = useState<string>("");
   const [strength, setStrength] = useState<number>(0.0);
-  const [statusBarAColor, setStatusBarAColor] = useState<string>(colors.gray);
-  const [statusBarBColor, setStatusBarBColor] = useState<string>(colors.gray);
-  const [statusBarCColor, setStatusBarCColor] = useState<string>(colors.gray);
-  const [statusBarDColor, setStatusBarDColor] = useState<string>(colors.gray);
+  const [statusColors, setStatusColors] = useState([
+    colors.gray,
+    colors.gray,
+    colors.gray,
+    colors.gray,
+  ]);
   const textStatusArray = ["Weak", "Okay", "Good", "Strong"];
   const [textStatus, setTextStatus] = useState<string>(textStatusArray[0]);
 
@@ -63,10 +66,13 @@ const PasswordStrengthMeter = ({ nrOfCharacters = 8 }) => {
   useEffect(() => {
     const setStatusBar = () => {
       if (strength === undefined) return;
-      setStatusBarAColor(strength >= 0.25 ? colors.red : colors.gray);
-      setStatusBarBColor(strength >= 0.5 ? colors.orange : colors.gray);
-      setStatusBarCColor(strength >= 0.75 ? colors.yellow : colors.gray);
-      setStatusBarDColor(strength >= 1.0 ? colors.green : colors.gray);
+      const updatedColors = [
+        strength >= 0.25 ? colors.red : colors.gray,
+        strength >= 0.5 ? colors.orange : colors.gray,
+        strength >= 0.75 ? colors.yellow : colors.gray,
+        strength >= 1.0 ? colors.green : colors.gray,
+      ];
+      setStatusColors(updatedColors);
 
       setTextStatus(
         strength >= 1.0
@@ -95,18 +101,14 @@ const PasswordStrengthMeter = ({ nrOfCharacters = 8 }) => {
       </View>
       {checkconfirmPassword && <ConfirmPasswordWidget />}
       <View style={styles.status}>
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarAColor }]}
-        />
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarBColor }]}
-        />
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarCColor }]}
-        />
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarDColor }]}
-        />
+        {statusColors.map((color, index) => (
+          <Animated.View
+            key={`status-bar-${index}-with-color-${color}`}
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={[styles.statusItem, { backgroundColor: color }]}
+          />
+        ))}
       </View>
       <Text style={styles.statusText}>{textStatus}</Text>
       <View style={styles.recommendContainer}>
