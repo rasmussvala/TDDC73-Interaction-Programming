@@ -35,12 +35,10 @@ const PasswordStrengthMeter = ({
   const [password, setPassword] = useState<string>("");
   const [passwordChecker, setPasswordChecker] = useState<string>("");
   const [strength, setStrength] = useState<number>(0.0);
-  const [statusColors, setStatusColors] = useState([
-    colors.gray,
-    colors.gray,
-    colors.gray,
-    colors.gray,
-  ]);
+  const [statusColors, setStatusColors] = useState<string[]>(
+    Array(4).fill(colors.gray)
+  );
+
   const textStatusArray = ["Weak", "Okay", "Good", "Strong"];
   const [textStatus, setTextStatus] = useState<string>(textStatusArray[0]);
   const [achievementColors, setAchievementColors] = useState({
@@ -52,17 +50,27 @@ const PasswordStrengthMeter = ({
   const [equalPasswords, setEqualPasswords] = useState(false);
   const [showInput, setShowInput] = useState(false);
 
-  const handlePasswordChange = (event: string) => {
-    setPassword(event);
-  };
-
   useEffect(() => {
-    const setFulfilledRecommendation = (
-      weightLength: number,
-      weightUpperCase: number,
-      weightSpecialChar: number,
-      weightNumber: number
-    ) => {
+    const evaluatePasswordStrength = () => {
+      const weightLength = Math.min(password.length / nrOfChars, 1.0);
+      const weightUpperCase = password.match(/[A-Z]/) ? 1.0 : 0.0;
+      const weightSpecialChar = /[^a-zA-Z0-9]/.test(password) ? 1.0 : 0.0;
+      const weightNumber = password.match(/[0-9]/) ? 1.0 : 0.0;
+
+      const weightUpperCaseOn = hasAtLeastOneUpperCase ? 1 : 0;
+      const weightSpecialCharOn = hasAtLeastOneSpecialChar ? 1 : 0;
+      const weightNumberOn = hasAtLeastOneNumber ? 1 : 0;
+
+      const numerator =
+        weightLength +
+        weightUpperCase * weightUpperCaseOn +
+        weightSpecialChar * weightSpecialCharOn +
+        weightNumber * weightNumberOn;
+      const denominator =
+        1.0 + weightUpperCaseOn + weightSpecialCharOn + weightNumberOn;
+
+      const computedStrength = numerator / denominator;
+      setStrength(computedStrength);
       setAchievementColors({
         length: weightLength >= 1.0 ? colors.green : colors.darkGray,
         upperCase: weightUpperCase >= 1.0 ? colors.green : colors.darkGray,
@@ -71,51 +79,15 @@ const PasswordStrengthMeter = ({
       });
     };
 
-    const getPasswordStrength = () => {
-      const weightLength = Math.min(password.length / nrOfChars, 1.0);
-      const weightNumber = password.match(/[0-9]/) ? 1.0 : 0.0;
-      const weightUpperCase = password.match(/[A-Z]/) ? 1.0 : 0.0;
-      const weightSpecialChar = /[^a-zA-Z0-9]/.test(password) ? 1.0 : 0.0;
-
-      setFulfilledRecommendation(
-        weightLength,
-        weightUpperCase,
-        weightSpecialChar,
-        weightNumber
-      );
-
-      const weightUpperCaseOn = Number(hasAtLeastOneUpperCase);
-      const weightSpecialCharOn = Number(hasAtLeastOneSpecialChar);
-      const weightNumberOn = Number(hasAtLeastOneNumber);
-
-      const num =
-        weightLength +
-        weightUpperCase * weightUpperCaseOn +
-        weightSpecialChar * weightSpecialCharOn +
-        weightNumber * weightNumberOn;
-      const denom =
-        1.0 + weightUpperCaseOn + weightSpecialCharOn + weightNumberOn;
-
-      return num / denom;
-    };
-
-    const weight = getPasswordStrength();
-    setStrength(weight ? weight : 0.0);
+    evaluatePasswordStrength();
   }, [password]);
 
   useEffect(() => {
-    const testChecker = () => {
-      password === passwordChecker
-        ? setEqualPasswords(true)
-        : setEqualPasswords(false);
-    };
-
-    confirmPassword ? testChecker() : setEqualPasswords(true);
+    setEqualPasswords(confirmPassword ? password === passwordChecker : true);
   }, [password, passwordChecker]);
 
   useEffect(() => {
-    const setStatusBar = () => {
-      if (strength === undefined) return;
+    const determineStatusBar = () => {
       const updatedColors = [
         strength >= 0.25 ? colors.red : colors.gray,
         strength >= 0.5 ? colors.orange : colors.gray,
@@ -123,92 +95,170 @@ const PasswordStrengthMeter = ({
         strength >= 1.0 ? colors.green : colors.gray,
       ];
       setStatusColors(updatedColors);
-
-      setTextStatus(
-        strength >= 1.0
-          ? textStatusArray[3]
-          : strength >= 0.75
-          ? textStatusArray[2]
-          : strength >= 0.5
-          ? textStatusArray[1]
-          : strength >= 0.25
-          ? textStatusArray[0]
-          : "Strength"
-      );
+      onStrengthChange?.(strength);
     };
-    setStatusBar();
 
-    onStrengthChange && onStrengthChange(strength);
+    determineStatusBar();
   }, [strength]);
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter password"
-          value={password}
-          onChangeText={(e) => handlePasswordChange(e)}
-          secureTextEntry={!showInput}
-        ></TextInput>
-        <TouchableOpacity
-          style={styles.showButton}
-          onPress={() => setShowInput(!showInput)}
-        >
-          <Text>{showInput ? "Hide" : "Show"}</Text>
-        </TouchableOpacity>
-      </View>
-      {confirmPassword && (
-        <ConfirmPasswordWidget
-          passwordChecker={passwordChecker}
-          setPasswordChecker={setPasswordChecker}
-          isCorrect={equalPasswords || password === ""}
-          showInput={showInput}
+      <PasswordInput
+        value={password}
+        onChangeText={setPassword}
+        showInput={showInput}
+        setShowInput={setShowInput}
+        placeholder="Enter password"
+      />
+      <ConfirmPasswordWidget
+        passwordChecker={passwordChecker}
+        setPasswordChecker={setPasswordChecker}
+        isCorrect={equalPasswords || password === ""}
+        showInput={showInput}
+      />
+      <StatusBar colors={statusColors} />
+      <StrengthText strength={strength} textStatusArray={textStatusArray} />
+
+      <Recommendations
+        achievementColors={achievementColors}
+        nrOfChars={nrOfChars}
+        hasAtLeastOneUpperCase={hasAtLeastOneUpperCase}
+        hasAtLeastOneSpecialChar={hasAtLeastOneSpecialChar}
+        hasAtLeastOneNumber={hasAtLeastOneNumber}
+        visible={showRecomendations}
+      />
+    </View>
+  );
+};
+
+const PasswordInput = ({
+  value,
+  onChangeText,
+  showInput,
+  setShowInput,
+  placeholder,
+}: {
+  value: string;
+  onChangeText: (value: string) => void;
+  showInput: boolean;
+  setShowInput: (value: boolean) => void;
+  placeholder: string;
+}) => {
+  return (
+    <View style={styles.inputWrapper}>
+      <TextInput
+        style={styles.input}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        secureTextEntry={!showInput}
+      />
+      <TouchableOpacity
+        style={styles.showButton}
+        onPress={() => setShowInput(!showInput)}
+      >
+        <Text>{showInput ? "Hide" : "Show"}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+type StatusBarProps = { colors: string[] };
+
+const StatusBar = ({ colors }: StatusBarProps) => {
+  return (
+    <View style={styles.status}>
+      {colors.map((color, index) => (
+        <Animated.View
+          key={`status-bar-${index}-with-color-${color}`}
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={[styles.statusItem, { backgroundColor: color }]}
         />
-      )}
-      <View style={styles.status}>
-        {statusColors.map((color, index) => (
-          <Animated.View
-            key={`status-bar-${index}-with-color-${color}`}
-            entering={FadeIn}
-            exiting={FadeOut}
-            style={[styles.statusItem, { backgroundColor: color }]}
+      ))}
+    </View>
+  );
+};
+
+const StrengthText = ({
+  strength,
+  textStatusArray,
+}: {
+  strength: number;
+  textStatusArray: string[];
+}) => {
+  const textStatus =
+    strength >= 1.0
+      ? textStatusArray[3]
+      : strength >= 0.75
+      ? textStatusArray[2]
+      : strength >= 0.5
+      ? textStatusArray[1]
+      : textStatusArray[0];
+
+  return (
+    <View style={styles.statusTextWrapper}>
+      <Animated.Text
+        style={styles.statusText}
+        key={textStatus}
+        entering={FadeInLeft}
+        exiting={FadeOutRight}
+      >
+        {textStatus}
+      </Animated.Text>
+    </View>
+  );
+};
+
+type AchievementColors = {
+  length: string;
+  upperCase: string;
+  specialChar: string;
+  number: string;
+};
+
+const Recommendations = ({
+  achievementColors,
+  nrOfChars,
+  hasAtLeastOneUpperCase,
+  hasAtLeastOneSpecialChar,
+  hasAtLeastOneNumber,
+  visible = true,
+}: {
+  achievementColors: AchievementColors;
+  nrOfChars: number;
+  hasAtLeastOneUpperCase: boolean;
+  hasAtLeastOneSpecialChar: boolean;
+  hasAtLeastOneNumber: boolean;
+  visible?: boolean;
+}) => {
+  return (
+    <View>
+      {visible && (
+        <View style={styles.recommendContainer}>
+          <Text style={styles.recommendHeader}>Recommended</Text>
+          <RecommendationItem
+            text="1 number"
+            color={achievementColors.number}
+            achieved={hasAtLeastOneNumber}
           />
-        ))}
-      </View>
-      <View style={styles.statusTextWrapper}>
-        <Animated.Text
-          style={styles.statusText}
-          key={textStatus}
-          entering={FadeInLeft}
-          exiting={FadeOutRight}
-        >
-          {textStatus}
-        </Animated.Text>
-      </View>
-      <View style={styles.recommendContainer}>
-        <Text style={styles.recommendHeader}>Recommended</Text>
-        <RecommendationItem
-          text="1 number"
-          color={achievementColors.number}
-          achieved={hasAtLeastOneNumber}
-        />
-        <RecommendationItem
-          text="1 upper case character"
-          color={achievementColors.upperCase}
-          achieved={hasAtLeastOneUpperCase}
-        />
-        <RecommendationItem
-          text="1 special character"
-          color={achievementColors.specialChar}
-          achieved={hasAtLeastOneSpecialChar}
-        />
-        <RecommendationItem
-          text={`${nrOfChars} characters`}
-          color={achievementColors.length}
-          achieved={true}
-        />
-      </View>
+          <RecommendationItem
+            text="1 upper case character"
+            color={achievementColors.upperCase}
+            achieved={hasAtLeastOneUpperCase}
+          />
+          <RecommendationItem
+            text="1 special character"
+            color={achievementColors.specialChar}
+            achieved={hasAtLeastOneSpecialChar}
+          />
+          <RecommendationItem
+            text={`${nrOfChars} characters`}
+            color={achievementColors.length}
+            achieved={true}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -222,19 +272,14 @@ const RecommendationItem = ({
   color: string;
   achieved: boolean;
 }) => {
-  return achieved ? (
-    <View style={styles.recommendation}>
-      <Text style={[styles.recommendText, { color: color }]}>✔</Text>
-      <Animated.Text
-        style={[styles.recommendText, { color: color }]}
-        key={color + "-" + text}
-        entering={FadeIn}
-        exiting={FadeOut}
-      >
-        {text}
-      </Animated.Text>
-    </View>
-  ) : null;
+  return (
+    achieved && (
+      <View style={styles.recommendation}>
+        <Text style={[styles.recommendText, { color }]}>{`✔`}</Text>
+        <Text style={[styles.recommendText, { color }]}>{text}</Text>
+      </View>
+    )
+  );
 };
 
 type ConfirmPasswordWidgetProps = {
@@ -242,28 +287,34 @@ type ConfirmPasswordWidgetProps = {
   setPasswordChecker: React.Dispatch<React.SetStateAction<string>>;
   isCorrect: boolean;
   showInput: boolean;
+  visible?: boolean;
 };
 
 const ConfirmPasswordWidget = ({
+  visible = true,
   passwordChecker,
   setPasswordChecker,
   isCorrect,
   showInput,
 }: ConfirmPasswordWidgetProps) => {
   return (
-    <View
-      style={[
-        styles.inputWrapper,
-        { backgroundColor: isCorrect ? "none" : colors.warning },
-      ]}
-    >
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm password"
-        value={passwordChecker}
-        onChangeText={setPasswordChecker}
-        secureTextEntry={!showInput}
-      />
+    <View>
+      {visible && (
+        <View
+          style={[
+            styles.inputWrapper,
+            { backgroundColor: isCorrect ? "none" : colors.warning },
+          ]}
+        >
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm password"
+            value={passwordChecker}
+            onChangeText={setPasswordChecker}
+            secureTextEntry={!showInput}
+          />
+        </View>
+      )}
     </View>
   );
 };
