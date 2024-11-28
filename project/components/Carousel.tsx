@@ -1,5 +1,10 @@
 import React from "react";
-import { View, Image, StyleSheet, ImageSourcePropType } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  ImageSourcePropType,
+  ScrollView,
+} from "react-native";
 
 type Props = {
   images: ImageSourcePropType[];
@@ -7,18 +12,27 @@ type Props = {
 
 const Carousel: React.FC<Props> = ({ images }) => {
   return (
-    <View>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.container}
+    >
       {images.map((image, index) => (
         <Image key={index} source={image} style={styles.image} />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    // ADD SOMETHING
+  },
+
   image: {
     width: 200,
     height: 200,
+    margin: 5,
   },
 });
 
