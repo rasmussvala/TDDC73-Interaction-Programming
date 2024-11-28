@@ -1,38 +1,30 @@
-import React from "react";
-import {
-  Image,
-  StyleSheet,
-  ImageSourcePropType,
-  ScrollView,
-} from "react-native";
+import React, { useState } from "react";
+import { Image, StyleSheet, ImageSourcePropType, View } from "react-native";
 
 type Props = {
   images: ImageSourcePropType[];
 };
 
 const Carousel = ({ images }: Props) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={styles.container}
-    >
+    <View>
       {images.map((image, index) => (
-        <Image key={index} source={image} style={styles.image} />
+        <View key={index}>
+          {currentIndex === index && (
+            <Image source={image} style={styles.image} />
+          )}
+        </View>
       ))}
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // ADD SOMETHING
-  },
-
   image: {
     width: 200,
     height: 200,
-    margin: 5,
   },
 });
 
