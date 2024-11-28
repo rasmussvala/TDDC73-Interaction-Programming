@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import RecommendationItem from "./RecommendationItem";
-import { styles } from "../styles/styles";
+import { styles } from "../../styles/styles";
 
 type AchievementColors = {
   length: string;

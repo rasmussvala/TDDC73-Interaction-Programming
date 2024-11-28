@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated";
-import { styles } from "../styles/styles";
+import { styles } from "../../styles/styles";
 
-const StrengthText = ({
+const StatusBarText = ({
   strength,
   textStatusArray,
 }: {
@@ -32,4 +32,4 @@ const StrengthText = ({
   );
 };
 
-export default StrengthText;
+export default StatusBarText;

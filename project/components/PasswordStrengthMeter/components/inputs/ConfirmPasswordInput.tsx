@@ -1,7 +1,7 @@
 import { TextInput, View } from "react-native";
-import { colors, styles } from "../styles/styles";
+import { colors, styles } from "../../styles/styles";
 
-type ConfirmPasswordWidgetProps = {
+type ConfirmPasswordInputProps = {
   value: string;
   onChangeText: React.Dispatch<React.SetStateAction<string>>;
   isCorrect: boolean;
@@ -9,13 +9,13 @@ type ConfirmPasswordWidgetProps = {
   visible?: boolean;
 };
 
-const ConfirmPasswordWidget = ({
+const ConfirmPasswordInput = ({
   visible = true,
   value,
   onChangeText,
   isCorrect,
   showInput,
-}: ConfirmPasswordWidgetProps) => {
+}: ConfirmPasswordInputProps) => {
   return (
     <View>
       {visible && (
@@ -39,4 +39,4 @@ const ConfirmPasswordWidget = ({
   );
 };
 
-export default ConfirmPasswordWidget;
+export default ConfirmPasswordInput;

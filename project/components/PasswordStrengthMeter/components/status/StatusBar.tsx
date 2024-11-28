@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { styles } from "../styles/styles";
+import { styles } from "../../styles/styles";
 
 type StatusBarProps = { colors: string[] };
 

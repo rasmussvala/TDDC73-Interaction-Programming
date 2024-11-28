@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 
 import { colors, styles } from "./styles/styles";
-import PasswordInput from "./components/PasswordInput";
-import StatusBar from "./components/StatusBar";
-import StrengthText from "./components/StrengthText";
-import Recommendations from "./components/Recommendations";
-import ConfirmPasswordInput from "./components/ConfirmPasswordInput";
+import PasswordInput from "./components/inputs/PasswordInput";
+import StatusBar from "./components/status/StatusBar";
+import StatusBarText from "./components/status/StatusBarText";
+import Recommendations from "./components/recomendations/Recommendations";
+import ConfirmPasswordInput from "./components/inputs/ConfirmPasswordInput";
 
 type PasswordStrengthMeterProps = {
   nrOfChars?: number;
@@ -149,7 +149,7 @@ const PasswordStrengthMeter = ({
         showInput={showInput}
       />
       <StatusBar colors={statusColors} />
-      <StrengthText strength={strength} textStatusArray={textStatusArray} />
+      <StatusBarText strength={strength} textStatusArray={textStatusArray} />
 
       <Recommendations
         achievementColors={achievementColors}
