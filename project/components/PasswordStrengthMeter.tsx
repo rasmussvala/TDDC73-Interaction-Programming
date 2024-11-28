@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  FadeInLeft,
+  FadeOutRight,
+} from "react-native-reanimated";
 
 type PasswordStrengthMeterProps = {
   nrOfChars?: number;
@@ -140,7 +145,16 @@ const PasswordStrengthMeter = ({
           />
         ))}
       </View>
-      <Text style={styles.statusText}>{textStatus}</Text>
+      <View style={styles.statusTextWrapper}>
+        <Animated.Text
+          style={styles.statusText}
+          key={textStatus}
+          entering={FadeInLeft}
+          exiting={FadeOutRight}
+        >
+          {textStatus}
+        </Animated.Text>
+      </View>
       <View style={styles.recommendContainer}>
         <Text style={styles.recommendHeader}>Recommended</Text>
         <RecommendationItem
@@ -180,7 +194,14 @@ const RecommendationItem = ({
   return achieved ? (
     <View style={styles.recommendation}>
       <Text style={[styles.recommendText, { color: color }]}>✔</Text>
-      <Text style={[styles.recommendText, { color: color }]}>{text}</Text>
+      <Animated.Text
+        style={[styles.recommendText, { color: color }]}
+        key={color + "-" + text}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
+        {text}
+      </Animated.Text>
     </View>
   ) : null;
 };
@@ -236,6 +257,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 4,
     borderRadius: 10,
+  },
+
+  statusTextWrapper: {
+    height: 16,
   },
 
   statusText: {
