@@ -35,10 +35,12 @@ const PasswordStrengthMeter = ({
   const [password, setPassword] = useState<string>("");
   const [passwordChecker, setPasswordChecker] = useState<string>("");
   const [strength, setStrength] = useState<number>(0.0);
-  const [statusBarAColor, setStatusBarAColor] = useState<string>(colors.gray);
-  const [statusBarBColor, setStatusBarBColor] = useState<string>(colors.gray);
-  const [statusBarCColor, setStatusBarCColor] = useState<string>(colors.gray);
-  const [statusBarDColor, setStatusBarDColor] = useState<string>(colors.gray);
+  const [statusColors, setStatusColors] = useState([
+    colors.gray,
+    colors.gray,
+    colors.gray,
+    colors.gray,
+  ]);
   const textStatusArray = ["Weak", "Okay", "Good", "Strong"];
   const [textStatus, setTextStatus] = useState<string>(textStatusArray[0]);
   const [achievementColors, setAchievementColors] = useState({
@@ -114,10 +116,13 @@ const PasswordStrengthMeter = ({
   useEffect(() => {
     const setStatusBar = () => {
       if (strength === undefined) return;
-      setStatusBarAColor(strength >= 0.25 ? colors.red : colors.gray);
-      setStatusBarBColor(strength >= 0.5 ? colors.orange : colors.gray);
-      setStatusBarCColor(strength >= 0.75 ? colors.yellow : colors.gray);
-      setStatusBarDColor(strength >= 1.0 ? colors.green : colors.gray);
+      const updatedColors = [
+        strength >= 0.25 ? colors.red : colors.gray,
+        strength >= 0.5 ? colors.orange : colors.gray,
+        strength >= 0.75 ? colors.yellow : colors.gray,
+        strength >= 1.0 ? colors.green : colors.gray,
+      ];
+      setStatusColors(updatedColors);
 
       setTextStatus(
         strength >= 1.0
@@ -162,44 +167,48 @@ const PasswordStrengthMeter = ({
         />
       )}
       <View style={styles.status}>
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarAColor }]}
+        {statusColors.map((color, index) => (
+          <Animated.View
+            key={`status-bar-${index}-with-color-${color}`}
+            entering={FadeIn}
+            exiting={FadeOut}
+            style={[styles.statusItem, { backgroundColor: color }]}
+          />
+        ))}
+      </View>
+      <View style={styles.statusTextWrapper}>
+        <Animated.Text
+          style={styles.statusText}
+          key={textStatus}
+          entering={FadeInLeft}
+          exiting={FadeOutRight}
+        >
+          {textStatus}
+        </Animated.Text>
+      </View>
+      <View style={styles.recommendContainer}>
+        <Text style={styles.recommendHeader}>Recommended</Text>
+        <RecommendationItem
+          text="1 number"
+          color={achievementColors.number}
+          achieved={hasAtLeastOneNumber}
         />
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarBColor }]}
+        <RecommendationItem
+          text="1 upper case character"
+          color={achievementColors.upperCase}
+          achieved={hasAtLeastOneUpperCase}
         />
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarCColor }]}
+        <RecommendationItem
+          text="1 special character"
+          color={achievementColors.specialChar}
+          achieved={hasAtLeastOneSpecialChar}
         />
-        <View
-          style={[styles.statusItem, { backgroundColor: statusBarDColor }]}
+        <RecommendationItem
+          text={`${nrOfChars} characters`}
+          color={achievementColors.length}
+          achieved={true}
         />
       </View>
-      {showRecomendations && (
-        <View style={styles.recommendContainer}>
-          <Text style={styles.recommendHeader}>Recommended</Text>
-          <RecommendationItem
-            text="1 number"
-            color={achievementColors.number}
-            achieved={hasAtLeastOneNumber}
-          />
-          <RecommendationItem
-            text="1 upper case character"
-            color={achievementColors.upperCase}
-            achieved={hasAtLeastOneUpperCase}
-          />
-          <RecommendationItem
-            text="1 special character"
-            color={achievementColors.specialChar}
-            achieved={hasAtLeastOneSpecialChar}
-          />
-          <RecommendationItem
-            text={`${nrOfChars} characters`}
-            color={achievementColors.length}
-            achieved={true}
-          />
-        </View>
-      )}
     </View>
   );
 };
@@ -215,7 +224,7 @@ const RecommendationItem = ({
 }) => {
   return achieved ? (
     <View style={styles.recommendation}>
-      <Text style={[styles.recomendIcon, { color: color }]}>✓</Text>
+      <Text style={[styles.recommendText, { color: color }]}>✔</Text>
       <Animated.Text
         style={[styles.recommendText, { color: color }]}
         key={color + "-" + text}
@@ -310,6 +319,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 4,
     borderRadius: 10,
+  },
+
+  statusTextWrapper: {
+    height: 16,
   },
 
   statusText: {
