@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   StyleSheet,
@@ -6,6 +6,11 @@ import {
   View,
   Button,
 } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 type Props = {
   images: ImageSourcePropType[];
@@ -13,14 +18,29 @@ type Props = {
 
 const Carousel = ({ images }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
+  const translateX = useSharedValue(0);
+
+  useEffect(() => {
+    translateX.value = withTiming(0, { duration: 0 });
+  }, [currentIndex]);
 
   const handleNext = () => {
-    setCurrentIndex((currentIndex + 1) % images.length);
+    translateX.value = withTiming(-100, { duration: 300 }, () => {
+      setCurrentIndex((currentIndex + 1) % images.length);
+    });
   };
 
   const handlePrevious = () => {
-    setCurrentIndex((currentIndex - 1) % images.length);
+    translateX.value = withTiming(100, { duration: 300 }, () => {
+      setCurrentIndex((currentIndex - 1 + images.length) % images.length);
+    });
   };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
 
   const getImageIndex = (index: number) => {
     return (index + images.length) % images.length;
@@ -29,18 +49,28 @@ const Carousel = ({ images }: Props) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.imageContainer}>
-        <Image
-          source={images[getImageIndex(currentIndex - 1)]}
-          style={styles.image}
-        />
-        <Image
-          source={images[getImageIndex(currentIndex)]}
-          style={styles.image}
-        />
-        <Image
-          source={images[getImageIndex(currentIndex + 1)]}
-          style={styles.image}
-        />
+        <Animated.View style={[styles.animatedImageContainer, animatedStyle]}>
+          <Image
+            source={images[getImageIndex(currentIndex - 2)]}
+            style={styles.image}
+          />
+          <Image
+            source={images[getImageIndex(currentIndex - 1)]}
+            style={styles.image}
+          />
+          <Image
+            source={images[getImageIndex(currentIndex)]}
+            style={styles.image}
+          />
+          <Image
+            source={images[getImageIndex(currentIndex + 1)]}
+            style={styles.image}
+          />
+          <Image
+            source={images[getImageIndex(currentIndex + 2)]}
+            style={styles.image}
+          />
+        </Animated.View>
       </View>
       <View style={styles.buttonContainter}>
         <View style={styles.button}>
@@ -60,17 +90,19 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    flexDirection: "row",
     overflow: "hidden",
-    justifyContent: "center",
     borderLeftWidth: 1,
     borderRightWidth: 1,
+  },
+
+  animatedImageContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
 
   image: {
     width: 100,
     height: 100,
-    margin: 10,
   },
 
   buttonContainter: {
