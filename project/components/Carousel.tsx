@@ -14,24 +14,27 @@ import Animated, {
 
 type Props = {
   images: ImageSourcePropType[];
+  imageSize: number;
+  imageMargin: number;
 };
 
-const Carousel = ({ images }: Props) => {
+const Carousel = ({ images, imageSize = 100, imageMargin = 5 }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const translateX = useSharedValue(0);
+  const translateXValue = imageSize + 2 * imageMargin;
 
   useEffect(() => {
     translateX.value = withTiming(0, { duration: 0 });
   }, [currentIndex]);
 
   const handleNext = () => {
-    translateX.value = withTiming(-100, { duration: 300 }, () => {
+    translateX.value = withTiming(-translateXValue, { duration: 300 }, () => {
       setCurrentIndex((currentIndex + 1) % images.length);
     });
   };
 
   const handlePrevious = () => {
-    translateX.value = withTiming(100, { duration: 300 }, () => {
+    translateX.value = withTiming(translateXValue, { duration: 300 }, () => {
       setCurrentIndex((currentIndex - 1 + images.length) % images.length);
     });
   };
@@ -46,29 +49,37 @@ const Carousel = ({ images }: Props) => {
     return (index + images.length) % images.length;
   };
 
+  const dynamicStyles = StyleSheet.create({
+    image: {
+      width: imageSize,
+      height: imageSize,
+      margin: imageMargin,
+    },
+  });
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.imageContainer}>
         <Animated.View style={[styles.animatedImageContainer, animatedStyle]}>
           <Image
             source={images[getImageIndex(currentIndex - 2)]}
-            style={styles.image}
+            style={dynamicStyles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex - 1)]}
-            style={styles.image}
+            style={dynamicStyles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex)]}
-            style={styles.image}
+            style={dynamicStyles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex + 1)]}
-            style={styles.image}
+            style={dynamicStyles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex + 2)]}
-            style={styles.image}
+            style={dynamicStyles.image}
           />
         </Animated.View>
       </View>
@@ -98,11 +109,6 @@ const styles = StyleSheet.create({
   animatedImageContainer: {
     flexDirection: "row",
     justifyContent: "center",
-  },
-
-  image: {
-    width: 100,
-    height: 100,
   },
 
   buttonContainter: {

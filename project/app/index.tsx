@@ -13,7 +13,6 @@ export default function Index() {
     require("../assets/images/carousel/6.png"),
   ];
 
-
   return (
     <View
       style={{
@@ -23,7 +22,7 @@ export default function Index() {
       }}
     >
       <StatusBar style="auto"></StatusBar>
-      <Carousel images={images} />
+      <Carousel images={images} imageSize={120} imageMargin={5} />
     </View>
   );
 }
