@@ -27,8 +27,8 @@ const Carousel = ({ images }: Props) => {
   };
 
   return (
-    <>
-      <View style={styles.container}>
+    <View style={styles.wrapper}>
+      <View style={styles.imageContainer}>
         <Image
           source={images[getImageIndex(currentIndex - 1)]}
           style={styles.image}
@@ -42,17 +42,29 @@ const Carousel = ({ images }: Props) => {
           style={styles.image}
         />
       </View>
-      <View style={styles.buttons}>
-        <Button title="Previous" onPress={handlePrevious} />
-        <Button title="Next" onPress={handleNext} />
+      <View style={styles.buttonContainter}>
+        <View style={styles.button}>
+          <Button title="Previous" onPress={handlePrevious} />
+        </View>
+        <View style={styles.button}>
+          <Button title="Next" onPress={handleNext} />
+        </View>
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
+    width: 220,
+  },
+
+  imageContainer: {
     flexDirection: "row",
+    overflow: "hidden",
+    justifyContent: "center",
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
   },
 
   image: {
@@ -61,10 +73,14 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 
-  buttons: {
+  buttonContainter: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     gap: 10,
+  },
+
+  button: {
+    width: 100,
   },
 });
 
