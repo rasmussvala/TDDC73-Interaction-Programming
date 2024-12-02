@@ -31,13 +31,25 @@ type Props = {
  * A React Native component for displaying a horizontally scrolling set of images.
  * Learn more about how to use this component in the: [Carousel README](https://www.google.se)
  *
+ * @component
  * @param {Object} props - The props for the component.
  * @param {ImageSourcePropType[]} props.images - An array of image sources to display in the carousel (e.g., require('./image.png')).
- * @param {number} [props.imageWidth=100] - The width of each image in pixels. Default is 100.
- * @param {number} [props.imageHeight=100] - The height of each image in pixels. Default is 100.
- * @param {number} [props.imageMargin=5] - The margin between individual images in pixels. Default is 5.
- * @param {number} [props.wrapperWidth=220] - The width of the carousel wrapper in pixels. Default is 220.
+ * @param {number} props.wrapperWidth - The width of the carousel wrapper in pixels. Default is 220.
+ * @param {number} props.imageWidth - The width of each image in pixels. Default is 100.
+ * @param {number} props.imageHeight - The height of each image in pixels. Default is 100.
+ * @param {number} props.imageMargin - The margin between individual images in pixels. Default is 5.
+ * @param {string} props.buttonBackgroundColor - The background color of navigation buttons. Default is "lightgray".
+ * @param {string} props.buttonIconColor - The color of the navigation button icons. Default is "black".
  * @returns The rendered carousel component.
+ *
+ * * @example
+ * const images = [
+ *   require("./image1.png"),
+ *   require("./image2.png"),
+ *   require("./image3.png"),
+ * ];
+ *
+ * <Carousel images={images} />
  */
 const Carousel = ({
   images,

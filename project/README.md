@@ -60,11 +60,11 @@ Our carousel (also called slider or slideshow) is a React Native component that 
 To use the Carousel you need to pass the images as arguments to the Carousel component.
 
 ```typescript
-const Index = () => {
+const App = () => {
   const images = [
-    require('../assets/images/carousel/image1.jpg'),
-    require('../assets/images/carousel/image2.jpg'),
-    require('../assets/images/carousel/image3.jpg'),
+    require('./image1.jpg'),
+    require('./image2.jpg'),
+    require('./image3.jpg'),
     // Add all your images here
   ];
 
