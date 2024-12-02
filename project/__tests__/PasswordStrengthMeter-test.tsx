@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react-native";
-import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
+import PasswordStrengthMeter from "@/components/PasswordStrengthMeter/PasswordStrengthMeter";
 
 describe("Password Strength Meter", () => {
   test("Renders password input correctly", () => {

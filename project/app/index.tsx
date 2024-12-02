@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import PasswordStrengthMeter from "@/components/PasswordStrengthMeter";
+import PasswordStrengthMeter from "@/components/PasswordStrengthMeter/PasswordStrengthMeter";
 import Carousel from "@/components/Carousel";
 
 export default function Index() {
@@ -31,6 +31,8 @@ export default function Index() {
         // buttonBackgroundColor="pink"
         // buttonIconColor="darkred"
       />
+
+      <PasswordStrengthMeter />
     </View>
   );
 }
