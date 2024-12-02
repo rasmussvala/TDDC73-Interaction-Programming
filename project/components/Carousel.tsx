@@ -14,9 +14,9 @@ import Animated, {
 
 type Props = {
   images: ImageSourcePropType[];
-  imageSize: number;
-  imageMargin: number;
-  wrapperWidth: number;
+  imageSize?: number;
+  imageMargin?: number;
+  wrapperWidth?: number;
 };
 
 const Carousel = ({
