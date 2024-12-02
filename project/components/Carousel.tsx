@@ -4,7 +4,8 @@ import {
   StyleSheet,
   ImageSourcePropType,
   View,
-  Button,
+  TouchableOpacity,
+  Text,
 } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -14,17 +15,21 @@ import Animated, {
 
 type Props = {
   images: ImageSourcePropType[];
+  wrapperWidth?: number;
+
   imageWidth?: number;
   imageHeight?: number;
   imageMargin?: number;
-  wrapperWidth?: number;
+
+  buttonBackgroundColor?: string;
+  buttonIconColor?: string;
 };
 
 /**
  * Carousel Component
  *
  * A React Native component for displaying a horizontally scrolling set of images.
- * It supports customization of image size, margin, and the overall wrapper width.
+ * Learn more about how to use this component in the: [Carousel README](https://www.google.se)
  *
  * @param {Object} props - The props for the component.
  * @param {ImageSourcePropType[]} props.images - An array of image sources to display in the carousel (e.g., require('./image.png')).
@@ -36,10 +41,12 @@ type Props = {
  */
 const Carousel = ({
   images,
+  wrapperWidth = 220,
   imageWidth = 100,
   imageHeight = 100,
   imageMargin = 5,
-  wrapperWidth = 220,
+  buttonBackgroundColor = "lightgray",
+  buttonIconColor = "black",
 }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const translateX = useSharedValue(0);
@@ -71,77 +78,85 @@ const Carousel = ({
     return (index + images.length) % images.length;
   };
 
-  const dynamicStyles = StyleSheet.create({
+  const styles = StyleSheet.create({
+    wrapper: {
+      width: wrapperWidth,
+    },
+
     image: {
       width: imageWidth,
       height: imageHeight,
       margin: imageMargin,
     },
 
-    wrapper: {
-      width: wrapperWidth,
+    imageContainer: {
+      overflow: "hidden",
+      borderLeftWidth: 1,
+      borderRightWidth: 1,
+    },
+
+    animatedImageContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+    },
+
+    buttonContainter: {
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      gap: 10,
+    },
+
+    button: {
+      backgroundColor: buttonBackgroundColor,
+      justifyContent: "center",
+      alignItems: "center",
+      width: 35,
+      height: 35,
+      borderRadius: "50%",
+      overflow: "hidden",
+    },
+
+    buttonIcon: {
+      color: buttonIconColor,
     },
   });
 
   return (
-    <View style={dynamicStyles.wrapper}>
+    <View style={styles.wrapper}>
       <View style={styles.imageContainer}>
         <Animated.View style={[styles.animatedImageContainer, animatedStyle]}>
           <Image
             source={images[getImageIndex(currentIndex - 2)]}
-            style={dynamicStyles.image}
+            style={styles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex - 1)]}
-            style={dynamicStyles.image}
+            style={styles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex)]}
-            style={dynamicStyles.image}
+            style={styles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex + 1)]}
-            style={dynamicStyles.image}
+            style={styles.image}
           />
           <Image
             source={images[getImageIndex(currentIndex + 2)]}
-            style={dynamicStyles.image}
+            style={styles.image}
           />
         </Animated.View>
       </View>
       <View style={styles.buttonContainter}>
-        <View style={styles.button}>
-          <Button title="Previous" onPress={handlePrevious} />
-        </View>
-        <View style={styles.button}>
-          <Button title="Next" onPress={handleNext} />
-        </View>
+        <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+          <Text style={styles.buttonIcon}>🡨</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonIcon}>🡪</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    overflow: "hidden",
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-  },
-
-  animatedImageContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-
-  buttonContainter: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    gap: 10,
-  },
-
-  button: {
-    width: 100,
-  },
-});
 
 export default Carousel;
