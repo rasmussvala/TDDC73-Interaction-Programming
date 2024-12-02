@@ -29,7 +29,6 @@ export const styles = StyleSheet.create({
     padding: 10,
 
     flex: 1,
-    outline: "none",
   },
 
   showButton: {

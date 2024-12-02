@@ -38,12 +38,8 @@ const PasswordStrengthMeter = ({
     Array(4).fill(colors.gray)
   );
 
-  const [textStatusArray, setTextStatusArray] = useState([
-    "Weak",
-    "Okay",
-    "Good",
-    "Strong",
-  ]);
+  const textStatusArrayInit = ["Weak", "Okay", "Good", "Strong"];
+  const [textStatusArray, setTextStatusArray] = useState(textStatusArrayInit);
   const [achievementColors, setAchievementColors] = useState({
     length: colors.darkGray,
     upperCase: colors.darkGray,
@@ -71,7 +67,10 @@ const PasswordStrengthMeter = ({
 
   useEffect(() => {
     const setUserStreangthText = () => {
-      if (!streangthText || streangthText.length < 4) return;
+      if (!streangthText || streangthText.length < 4) {
+        setTextStatusArray(textStatusArrayInit);
+        return;
+      }
       setTextStatusArray([
         streangthText[0],
         streangthText[1],
@@ -143,6 +142,7 @@ const PasswordStrengthMeter = ({
         placeholder="Enter password"
       />
       <ConfirmPasswordInput
+        visible={confirmPassword}
         value={passwordChecker}
         onChangeText={setPasswordChecker}
         isCorrect={equalPasswords || password === ""}

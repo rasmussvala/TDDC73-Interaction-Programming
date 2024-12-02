@@ -12,6 +12,7 @@ export default function Index() {
       }}
     >
       <StatusBar style="auto"></StatusBar>
+
       <PasswordStrengthMeter />
     </View>
   );
