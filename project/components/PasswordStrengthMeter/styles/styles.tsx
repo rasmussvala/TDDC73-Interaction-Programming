@@ -8,7 +8,7 @@ export const colors = {
   gray: "#d3d3d3",
   darkGray: "#808080",
   black: "#000",
-  warning: "rgba(231, 111, 81, 0.3)",
+  warning: "#e76f5177",
 };
 
 export const styles = StyleSheet.create({
