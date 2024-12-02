@@ -60,12 +60,12 @@ const Carousel = ({
   buttonBackgroundColor = "#d3d3d3aa",
   buttonIconColor = "black",
 }: Props) => {
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const translateX = useSharedValue(0);
   const translateXValue = imageWidth + 2 * imageMargin;
 
   useEffect(() => {
-    translateX.value = withTiming(0, { duration: 0 });
+    translateX.value = 0;
   }, [currentIndex]);
 
   const handleNext = () => {
