@@ -20,6 +20,31 @@ type PasswordStrengthMeterProps = {
   streangthText?: string[];
 };
 
+/**
+ * PasswordStrengthMeter Component
+ *
+ * A React Native component for measuring password strength with customizable criteria, color palette, and recommendations.
+ * It includes inputs for password and optional confirmation, along with a dynamic strength indicator.
+ *
+ * @param {Object} props - The properties for the PasswordStrengthMeter component.
+ * @param {number} [props.nrOfChars=8] - Minimum number of characters for a strong password.
+ * @param {boolean} [props.hasAtLeastOneUpperCase=true] - Whether the password must include at least one uppercase letter.
+ * @param {boolean} [props.hasAtLeastOneSpecialChar=true] - Whether the password must include at least one special character.
+ * @param {boolean} [props.hasAtLeastOneNumber=true] - Whether the password must include at least one number.
+ * @param {boolean} [props.confirmPassword=true] - Whether to include the confirm password input field.
+ * @param {(strength: number) => void} [props.onStrengthChange] - Callback triggered when the password strength changes.
+ * @param {boolean} [props.showRecomendations=true] - Whether to display password recommendations.
+ * @param {Object} [props.colorPalette] - Custom color palette for styling various components.
+ * @param {string} [props.colorPalette.firstColor] - Color for the weakest strength level.
+ * @param {string} [props.colorPalette.secondColor] - Color for the low strength level.
+ * @param {string} [props.colorPalette.thirdColor] - Color for the medium strength level.
+ * @param {string} [props.colorPalette.forthColor] - Color for the strongest strength level.
+ * @param {string} [props.colorPalette.warning] - Color for warnings (e.g., mismatched passwords).
+ * @param {string} [props.colorPalette.darkColor] - Dark color for text or other components.
+ * @param {string} [props.colorPalette.mediumDarkColor] - Medium-dark color for secondary elements.
+ * @param {string} [props.colorPalette.lightColor] - Light color for backgrounds or accents.
+ * @param {string[]} [props.streangthText] - Custom labels for strength levels (must be an array of 4 strings).
+ */
 const PasswordStrengthMeter = ({
   nrOfChars = 8,
   hasAtLeastOneUpperCase = true,

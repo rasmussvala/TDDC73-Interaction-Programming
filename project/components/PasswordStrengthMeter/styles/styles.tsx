@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
-
+    borderRadius: 8,
     flex: 1,
   },
 
