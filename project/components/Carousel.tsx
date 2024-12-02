@@ -38,7 +38,7 @@ type Props = {
  * @param {number} props.imageWidth - The width of each image in pixels. Default is 100.
  * @param {number} props.imageHeight - The height of each image in pixels. Default is 100.
  * @param {number} props.imageMargin - The margin between individual images in pixels. Default is 5.
- * @param {string} props.buttonBackgroundColor - The background color of navigation buttons. Default is "lightgray".
+ * @param {string} props.buttonBackgroundColor - The background color of navigation buttons. Default is "#d3d3d3aa".
  * @param {string} props.buttonIconColor - The color of the navigation button icons. Default is "black".
  * @returns The rendered carousel component.
  *
@@ -57,7 +57,7 @@ const Carousel = ({
   imageWidth = 100,
   imageHeight = 100,
   imageMargin = 5,
-  buttonBackgroundColor = "lightgray",
+  buttonBackgroundColor = "#d3d3d3aa",
   buttonIconColor = "black",
 }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
@@ -112,10 +112,19 @@ const Carousel = ({
       justifyContent: "center",
     },
 
+    buttonWrapper: {
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
     buttonContainter: {
+      width: "100%",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: 5,
+      height: "100%",
+      position: "absolute",
       flexDirection: "row",
-      justifyContent: "space-evenly",
-      gap: 10,
     },
 
     button: {
@@ -159,6 +168,7 @@ const Carousel = ({
           />
         </Animated.View>
       </View>
+      <View style={styles.buttonWrapper}></View>
       <View style={styles.buttonContainter}>
         <TouchableOpacity style={styles.button} onPress={handlePrevious}>
           <Text style={styles.buttonIcon}>🡨</Text>
