@@ -16,9 +16,15 @@ type Props = {
   images: ImageSourcePropType[];
   imageSize: number;
   imageMargin: number;
+  wrapperWidth: number;
 };
 
-const Carousel = ({ images, imageSize = 100, imageMargin = 5 }: Props) => {
+const Carousel = ({
+  images,
+  imageSize = 100,
+  imageMargin = 5,
+  wrapperWidth = 220,
+}: Props) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const translateX = useSharedValue(0);
   const translateXValue = imageSize + 2 * imageMargin;
@@ -55,10 +61,14 @@ const Carousel = ({ images, imageSize = 100, imageMargin = 5 }: Props) => {
       height: imageSize,
       margin: imageMargin,
     },
+
+    wrapper: {
+      width: wrapperWidth,
+    },
   });
 
   return (
-    <View style={styles.wrapper}>
+    <View style={dynamicStyles.wrapper}>
       <View style={styles.imageContainer}>
         <Animated.View style={[styles.animatedImageContainer, animatedStyle]}>
           <Image
@@ -96,10 +106,6 @@ const Carousel = ({ images, imageSize = 100, imageMargin = 5 }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    width: 220,
-  },
-
   imageContainer: {
     overflow: "hidden",
     borderLeftWidth: 1,

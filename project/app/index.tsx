@@ -22,7 +22,12 @@ export default function Index() {
       }}
     >
       <StatusBar style="auto"></StatusBar>
-      <Carousel images={images} imageSize={120} imageMargin={5} />
+      <Carousel
+        images={images}
+        imageSize={120}
+        imageMargin={5}
+        wrapperWidth={220}
+      />
     </View>
   );
 }
