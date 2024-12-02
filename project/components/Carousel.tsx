@@ -14,20 +14,22 @@ import Animated, {
 
 type Props = {
   images: ImageSourcePropType[];
-  imageSize?: number;
+  imageWidth?: number;
+  imageHeight?: number;
   imageMargin?: number;
   wrapperWidth?: number;
 };
 
 const Carousel = ({
   images,
-  imageSize = 100,
+  imageWidth = 100,
+  imageHeight = 100,
   imageMargin = 5,
   wrapperWidth = 220,
 }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const translateX = useSharedValue(0);
-  const translateXValue = imageSize + 2 * imageMargin;
+  const translateXValue = imageWidth + 2 * imageMargin;
 
   useEffect(() => {
     translateX.value = withTiming(0, { duration: 0 });
@@ -57,8 +59,8 @@ const Carousel = ({
 
   const dynamicStyles = StyleSheet.create({
     image: {
-      width: imageSize,
-      height: imageSize,
+      width: imageWidth,
+      height: imageHeight,
       margin: imageMargin,
     },
 

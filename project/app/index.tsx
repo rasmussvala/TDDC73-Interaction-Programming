@@ -24,9 +24,10 @@ export default function Index() {
       <StatusBar style="auto"></StatusBar>
       <Carousel
         images={images}
-        imageSize={120}
-        imageMargin={5}
-        wrapperWidth={220}
+        imageWidth={10}
+        imageHeight={100}
+        imageMargin={50}
+        wrapperWidth={250}
       />
     </View>
   );
