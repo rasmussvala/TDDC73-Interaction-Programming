@@ -83,3 +83,30 @@ export const colors = {
 | `colorPalette.mediumDarkColor` | `string`   | `undefined`   | Medium-dark color for secondary elements.                                   |
 | `colorPalette.lightColor`      | `string`   | `undefined`   | Light color for backgrounds or accents.                                     |
 | `streangthText`                | `string[]` | `undefined`   | Custom labels for strength levels (array of exactly 4 strings).             |
+
+# Carousel
+
+Our carousel (also called slider or slideshow) is a React Native component that displays a series of images in a rotating manner.
+
+...
+
+## Usage
+
+To use the Carousel you need to pass the images as arguments to the Carousel component.
+
+```typescript
+const App = () => {
+  const images = [
+    require('./image1.jpg'),
+    require('./image2.jpg'),
+    require('./image3.jpg'),
+    // Add all your images here
+  ];
+
+  return (
+    <Carousel images={{images}}>
+  );
+};
+
+export default Carousel;
+```
