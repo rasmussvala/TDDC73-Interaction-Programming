@@ -24,6 +24,8 @@ type Props = {
 
   buttonBackgroundColor?: string;
   buttonIconColor?: string;
+
+  autoplayTimer?: number;
 };
 
 /**
@@ -42,6 +44,7 @@ type Props = {
  * @param {string} props.imageBorderRadius - The border radius for each image in the carousel.
  * @param {string} props.buttonBackgroundColor - The background color of navigation buttons. Default is "#d3d3d3aa".
  * @param {string} props.buttonIconColor - The color of the navigation button icons. Default is "black".
+ * @param {number} props.autoplayTimer - The interval of how long an image is visible. Minimum is 500 ms. If no value is given autoplay is off.
  * @returns The rendered carousel component.
  *
  * @example
@@ -62,26 +65,39 @@ const Carousel = ({
   imageBorderRadius = 5,
   buttonBackgroundColor = "#d3d3d3aa",
   buttonIconColor = "black",
+  autoplayTimer = -1,
 }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const translateX = useSharedValue(0);
   const translateXValue = imageWidth + 2 * imageMargin;
 
-  useEffect(() => {
-    translateX.value = 0;
-  }, [currentIndex]);
-
   const handleNext = () => {
     translateX.value = withTiming(-translateXValue, { duration: 300 }, () => {
-      setCurrentIndex((currentIndex + 1) % images.length);
+      setCurrentIndex((i) => (i + 1) % images.length);
     });
   };
 
   const handlePrevious = () => {
     translateX.value = withTiming(translateXValue, { duration: 300 }, () => {
-      setCurrentIndex((currentIndex - 1 + images.length) % images.length);
+      setCurrentIndex((i) => (i - 1 + images.length) % images.length);
     });
   };
+
+  useEffect(() => {
+    if (autoplayTimer < 500) return;
+
+    const t = setInterval(() => {
+      handleNext();
+    }, autoplayTimer);
+
+    return () => {
+      clearInterval(t);
+    };
+  }, [autoplayTimer]);
+
+  useEffect(() => {
+    translateX.value = 0;
+  }, [currentIndex]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
