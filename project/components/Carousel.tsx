@@ -80,17 +80,33 @@ const Carousel = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const translateX = useSharedValue(0);
   const translateXValue = imageWidth + 2 * imageMargin;
+  const animationTime = 300;
 
   const handleNext = () => {
-    translateX.value = withTiming(-translateXValue, { duration: 300 }, () => {
-      setCurrentIndex((i) => (i + 1) % images.length);
-    });
+    translateX.value = withTiming(
+      -translateXValue,
+      { duration: animationTime },
+      () => {}
+    );
+    setTimeout(() => {
+      setCurrentIndex(
+        (prevCurrentIndex) => (prevCurrentIndex + 1) % images.length
+      );
+    }, animationTime);
   };
 
   const handlePrevious = () => {
-    translateX.value = withTiming(translateXValue, { duration: 300 }, () => {
-      setCurrentIndex((i) => (i - 1 + images.length) % images.length);
-    });
+    translateX.value = withTiming(
+      translateXValue,
+      { duration: animationTime },
+      () => {}
+    );
+    setTimeout(() => {
+      setCurrentIndex(
+        (prevCurrentIndex) =>
+          (prevCurrentIndex - 1 + images.length) % images.length
+      );
+    }, animationTime);
   };
 
   useEffect(() => {
