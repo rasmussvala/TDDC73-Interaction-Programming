@@ -4,21 +4,25 @@ A customizable React Native component for evaluating and displaying password str
 
 ## Features
 
-- **Password Strength Evaluation:** Dynamically evaluates the strength of a password based on configurable rules (length, uppercase, special characters, and numbers).
-- **Customizable Color Palette:** Modify strength bar colors, warning colors, and other visual elements via props.
+- **Password Strength Evaluation:** Dynamically evaluates the strength of a password, in the rage 0 to 1, based on configurable rules (length, uppercase, special characters, and numbers).
+- **Customizable Color Palette:** Modify strength bar colors, warning colors.
 - **Recommendations Display:** Shows user-friendly recommendations for creating strong passwords.
 - **Password Confirmation:** Includes an optional confirm-password field to ensure password consistency.
 - **Dynamic Strength Bar:** A visual indicator that adapts to the strength of the entered password.
-- **Fully Responsive:** Mobile-friendly design with adjustable width and styles.
+- **Fully Responsive:** Mobile-friendly design with adjustable styles.
 
 ## Usage
 
 Below is an example of how to use the PasswordStrengthMeter component in your project. This example demonstrates how to configure the component with various options, such as minimum password length, character requirements, and the callback for password strength changes.
 
-Simply follow the instructions to integrate it into your project and customize it according to your needs.
-
 ```typescript
-const YourApp = () => {
+const App = () => {
+  const handleStrengthChange = (strength: number) => {
+    if (strength === 1) {
+      // Password is strong. Do something
+    }
+  };
+
   return (
     <PasswordStrengthMeter
       nrOfChars={8}
@@ -26,9 +30,7 @@ const YourApp = () => {
       hasAtLeastOneSpecialChar={true}
       hasAtLeastOneNumber={true}
       confirmPassword={true}
-      onStrengthChange={(strength) =>
-        console.log("Password strength:", strength)
-      }
+      onStrengthChange={handleStrengthChange}
       showRecomendations={true}
       colorPalette={{
         firstColor: "#ffcccc",
@@ -45,50 +47,36 @@ const YourApp = () => {
 export default YourApp;
 ```
 
-# Styles and Colors
-
-The default color palette is defined in the `styles` folder and can be overridden using the `colorPalette` prop.
-
-```JavaScript
-export const colors = {
-  green: "#2a9d8f",
-  yellow: "#bbce60",
-  orange: "#f4a261",
-  red: "#e76f51",
-  gray: "#d3d3d3",
-  darkGray: "#808080",
-  black: "#000",
-  warning: "#e76f5177",
-};
-```
-
 ## Props
 
-| Name                           | Type       | Default Value | Description                                                                 |
-| ------------------------------ | ---------- | ------------- | --------------------------------------------------------------------------- |
-| `nrOfChars`                    | `number`   | `8`           | Minimum number of characters for a strong password.                         |
-| `hasAtLeastOneUpperCase`       | `boolean`  | `true`        | Whether the password must include at least one uppercase letter.            |
-| `hasAtLeastOneSpecialChar`     | `boolean`  | `true`        | Whether the password must include at least one special character.           |
-| `hasAtLeastOneNumber`          | `boolean`  | `true`        | Whether the password must include at least one number.                      |
-| `confirmPassword`              | `boolean`  | `true`        | Whether to include the confirm password input field and it's functionality. |
-| `onStrengthChange`             | `function` | `undefined`   | Callback triggered when the password strength changes.                      |
-| `showRecomendations`           | `boolean`  | `true`        | Whether to display password recommendations to the user.                    |
-| `colorPalette`                 | `object`   | `undefined`   | Custom color palette for styling various components.                        |
-| `colorPalette.firstColor`      | `string`   | `undefined`   | Color for the weakest strength level.                                       |
-| `colorPalette.secondColor`     | `string`   | `undefined`   | Color for the low strength level.                                           |
-| `colorPalette.thirdColor`      | `string`   | `undefined`   | Color for the medium strength level.                                        |
-| `colorPalette.forthColor`      | `string`   | `undefined`   | Color for the strongest strength level.                                     |
-| `colorPalette.warning`         | `string`   | `undefined`   | Color for warnings (e.g., mismatched passwords).                            |
-| `colorPalette.darkColor`       | `string`   | `undefined`   | Dark color for text or other components.                                    |
-| `colorPalette.mediumDarkColor` | `string`   | `undefined`   | Medium-dark color for secondary elements.                                   |
-| `colorPalette.lightColor`      | `string`   | `undefined`   | Light color for backgrounds or accents.                                     |
-| `streangthText`                | `string[]` | `undefined`   | Custom labels for strength levels (array of exactly 4 strings).             |
+| Name                       | Type       | Default Value                        | Description                                                                                  | Optional |
+| -------------------------- | ---------- | ------------------------------------ | -------------------------------------------------------------------------------------------- | -------- |
+| `nrOfChars`                | `number`   | `8`                                  | Minimum number of characters for a strong password.                                          | Yes      |
+| `hasAtLeastOneUpperCase`   | `boolean`  | `true`                               | Whether the password must include at least one uppercase letter.                             | Yes      |
+| `hasAtLeastOneSpecialChar` | `boolean`  | `true`                               | Whether the password must include at least one special character.                            | Yes      |
+| `hasAtLeastOneNumber`      | `boolean`  | `true`                               | Whether the password must include at least one number.                                       | Yes      |
+| `confirmPassword`          | `boolean`  | `true`                               | Whether to include the confirm password input field and its functionality.                   | Yes      |
+| `onStrengthChange`         | `function` |                                      | Callback triggered when the password strength changes. Return a strength number between 0-1. | Yes      |
+| `showRecomendations`       | `boolean`  | `true`                               | Whether to display password recommendations to the user.                                     | Yes      |
+| `colorPalette`             | `object`   |                                      | Custom color palette for styling various components.                                         | Yes      |
+| `colorPalette.firstColor`  | `string`   | `#e76f51`                            | Color for the weakest strength level.                                                        | Yes      |
+| `colorPalette.secondColor` | `string`   | `#f4a261`                            | Color for the low strength level.                                                            | Yes      |
+| `colorPalette.thirdColor`  | `string`   | `#bbce60`                            | Color for the medium strength level.                                                         | Yes      |
+| `colorPalette.forthColor`  | `string`   | `#2a9d8f`                            | Color for the strongest strength level.                                                      | Yes      |
+| `colorPalette.warning`     | `string`   | `#e76f5177`                          | Color for warnings (e.g., mismatched passwords).                                             | Yes      |
+| `strengthText`             | `string[]` | `["Weak", "Okay", "Good", "Strong"]` | Custom labels for strength levels (array of exactly 4 strings).                              | Yes      |
 
-# Carousel
+# 🎠 Carousel
 
-Our carousel (also called slider or slideshow) is a React Native component that displays a series of images in a rotating manner.
+A React Native component for displaying a horizontally scrolling set of images. The Carousel is versatile, customizable, and can display 1–3 images at a time.
 
-...
+## Features
+
+- Display 1–3 images simultaneously in a rotating carousel.
+- Configurable image dimensions, margins, and border radius.
+- Optional navigation buttons for manual control.
+- Autoplay functionality with configurable intervals.
+- Customizable button styles, including background color and icon color.
 
 ## Usage
 
@@ -110,3 +98,18 @@ const App = () => {
 
 export default Carousel;
 ```
+
+## Props
+
+| Name                    | Type                    | Default       | Description                                                                                                                     | Optional |
+| ----------------------- | ----------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `images`                | `ImageSourcePropType[]` | **Required**  | An array of image sources to display in the carousel (e.g., `require('./image.png')`) Requires at least two images to function. | No       |
+| `wrapperWidth`          | `number`                | `350`         | The width of the carousel wrapper in pixels.                                                                                    | Yes      |
+| `imageWidth`            | `number`                | `200`         | The width of each image in pixels.                                                                                              | Yes      |
+| `imageHeight`           | `number`                | `200`         | The height of each image in pixels.                                                                                             | Yes      |
+| `imageMargin`           | `number`                | `5`           | The margin between individual images in pixels.                                                                                 | Yes      |
+| `imageBorderRadius`     | `string`                | `5`           | The border radius for each image in the carousel.                                                                               | Yes      |
+| `buttonBackgroundColor` | `string`                | `"#d3d3d3aa"` | The background color of navigation buttons.                                                                                     | Yes      |
+| `buttonIconColor`       | `string`                | `"black"`     | The color of the navigation button icons.                                                                                       | Yes      |
+| `autoplayTimer`         | `number`                | `-1`          | Interval in milliseconds for autoplay (min: 500ms). Set to `-1` to disable autoplay.                                            | Yes      |
+| `toggleButtons`         | `boolean`               | `true`        | Whether to show navigation buttons (`true`) or hide them (`false`).                                                             | Yes      |
