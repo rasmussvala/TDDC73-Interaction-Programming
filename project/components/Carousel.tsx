@@ -20,6 +20,7 @@ type Props = {
   imageWidth?: number;
   imageHeight?: number;
   imageMargin?: number;
+  imageBorderRadius?: number;
 
   buttonBackgroundColor?: string;
   buttonIconColor?: string;
@@ -38,6 +39,7 @@ type Props = {
  * @param {number} props.imageWidth - The width of each image in pixels. Default is 100.
  * @param {number} props.imageHeight - The height of each image in pixels. Default is 100.
  * @param {number} props.imageMargin - The margin between individual images in pixels. Default is 5.
+ * @param {string} props.imageBorderRadius - The border radius for each image in the carousel.
  * @param {string} props.buttonBackgroundColor - The background color of navigation buttons. Default is "#d3d3d3aa".
  * @param {string} props.buttonIconColor - The color of the navigation button icons. Default is "black".
  * @returns The rendered carousel component.
@@ -57,6 +59,7 @@ const Carousel = ({
   imageWidth = 100,
   imageHeight = 100,
   imageMargin = 5,
+  imageBorderRadius = 5,
   buttonBackgroundColor = "#d3d3d3aa",
   buttonIconColor = "black",
 }: Props) => {
@@ -99,6 +102,7 @@ const Carousel = ({
       width: imageWidth,
       height: imageHeight,
       margin: imageMargin,
+      borderRadius: imageBorderRadius,
     },
 
     imageContainer: {
