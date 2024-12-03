@@ -42,7 +42,7 @@ type Props = {
  * @param {string} props.buttonIconColor - The color of the navigation button icons. Default is "black".
  * @returns The rendered carousel component.
  *
- * * @example
+ * @example
  * const images = [
  *   require("./image1.png"),
  *   require("./image2.png"),
