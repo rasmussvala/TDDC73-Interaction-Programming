@@ -32,12 +32,12 @@ type Props = {
 /**
  * Carousel Component
  *
- * A React Native component for displaying a horizontally scrolling set of images.
+ * A React Native component for displaying a horizontally scrolling set of images. 1 - 3 images can be visable at the same time.
  * Learn more about how to use this component in the: [Carousel README](https://www.google.se)
  *
  * @component
  * @param {Object} props - The props for the component.
- * @param {ImageSourcePropType[]} props.images - An array of image sources to display in the carousel (e.g., require('./image.png')).
+ * @param {ImageSourcePropType[]} props.images - An array of image sources to display in the carousel (e.g., require('./image.png')). Requires at least two images to function.
  * @param {number} props.wrapperWidth - The width of the carousel wrapper in pixels. Default is 220.
  * @param {number} props.imageWidth - The width of each image in pixels. Default is 100.
  * @param {number} props.imageHeight - The height of each image in pixels. Default is 100.
@@ -70,6 +70,13 @@ const Carousel = ({
   autoplayTimer = -1,
   toggleButtons = true,
 }: Props) => {
+  useEffect(() => {
+    if (images.length < 2)
+      throw new Error(
+        "The Carousel component requires at least two images to function correctly. Please provide an array with two or more images."
+      );
+  }, [images]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const translateX = useSharedValue(0);
   const translateXValue = imageWidth + 2 * imageMargin;
