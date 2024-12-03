@@ -26,6 +26,7 @@ type Props = {
   buttonIconColor?: string;
 
   autoplayTimer?: number;
+  toggleButtons?: boolean;
 };
 
 /**
@@ -45,6 +46,7 @@ type Props = {
  * @param {string} props.buttonBackgroundColor - The background color of navigation buttons. Default is "#d3d3d3aa".
  * @param {string} props.buttonIconColor - The color of the navigation button icons. Default is "black".
  * @param {number} props.autoplayTimer - The interval of how long an image is visible. Minimum is 500 ms. If no value is given autoplay is off.
+ * @param {boolean} props.toggleButtons - Toggle buttons on (true) or off (false). Default is true.
  * @returns The rendered carousel component.
  *
  * @example
@@ -66,6 +68,7 @@ const Carousel = ({
   buttonBackgroundColor = "#d3d3d3aa",
   buttonIconColor = "black",
   autoplayTimer = -1,
+  toggleButtons = true,
 }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const translateX = useSharedValue(0);
@@ -189,14 +192,16 @@ const Carousel = ({
         </Animated.View>
       </View>
       <View style={styles.buttonWrapper}></View>
-      <View style={styles.buttonContainter}>
-        <TouchableOpacity style={styles.button} onPress={handlePrevious}>
-          <Text style={styles.buttonIcon}>🡨</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleNext}>
-          <Text style={styles.buttonIcon}>🡪</Text>
-        </TouchableOpacity>
-      </View>
+      {toggleButtons && (
+        <View style={styles.buttonContainter}>
+          <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+            <Text style={styles.buttonIcon}>🡨</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleNext}>
+            <Text style={styles.buttonIcon}>🡪</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
