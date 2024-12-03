@@ -202,10 +202,10 @@ const Carousel = ({
       {toggleButtons && (
         <View style={styles.buttonContainter}>
           <TouchableOpacity style={styles.button} onPress={handlePrevious}>
-            <Text style={styles.buttonIcon}>🡨</Text>
+            <Text style={styles.buttonIcon}>←</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={handleNext}>
-            <Text style={styles.buttonIcon}>🡪</Text>
+            <Text style={styles.buttonIcon}>→</Text>
           </TouchableOpacity>
         </View>
       )}
