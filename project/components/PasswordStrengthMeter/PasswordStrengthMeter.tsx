@@ -17,7 +17,7 @@ type PasswordStrengthMeterProps = {
   onStrengthChange?: (strength: number) => void;
   showRecomendations?: boolean;
   colorPalette?: { [key: string]: string };
-  streangthText?: string[];
+  strengthText?: string[];
 };
 
 /**
@@ -40,10 +40,7 @@ type PasswordStrengthMeterProps = {
  * @param {string} [props.colorPalette.thirdColor] - Color for the medium strength level.
  * @param {string} [props.colorPalette.forthColor] - Color for the strongest strength level.
  * @param {string} [props.colorPalette.warning] - Color for warnings (e.g., mismatched passwords).
- * @param {string} [props.colorPalette.darkColor] - Dark color for text or other components.
- * @param {string} [props.colorPalette.mediumDarkColor] - Medium-dark color for secondary elements.
- * @param {string} [props.colorPalette.lightColor] - Light color for backgrounds or accents.
- * @param {string[]} [props.streangthText] - Custom labels for strength levels (must be an array of 4 strings).
+ * @param {string[]} [props.strengthText] - Custom labels for strength levels (must be an array of 4 strings).
  */
 const PasswordStrengthMeter = ({
   nrOfChars = 8,
@@ -54,7 +51,7 @@ const PasswordStrengthMeter = ({
   onStrengthChange,
   showRecomendations = true,
   colorPalette,
-  streangthText,
+  strengthText,
 }: PasswordStrengthMeterProps) => {
   const [password, setPassword] = useState<string>("");
   const [passwordChecker, setPasswordChecker] = useState<string>("");
@@ -82,9 +79,9 @@ const PasswordStrengthMeter = ({
         colors.yellow = colorPalette.thirdColor ?? colors.yellow;
         colors.green = colorPalette.forthColor ?? colors.green;
         colors.warning = colorPalette.warning ?? colors.warning;
-        colors.black = colorPalette.darkColor ?? colors.black;
-        colors.darkGray = colorPalette.mediumDarkColor ?? colors.darkGray;
-        colors.gray = colorPalette.lightColor ?? colors.gray;
+        colors.black = colors.black;
+        colors.darkGray = colors.darkGray;
+        colors.gray = colors.gray;
       }
     };
     setUserColors();
@@ -92,19 +89,19 @@ const PasswordStrengthMeter = ({
 
   useEffect(() => {
     const setUserStreangthText = () => {
-      if (!streangthText || streangthText.length < 4) {
+      if (!strengthText || strengthText.length < 4) {
         setTextStatusArray(textStatusArrayInit);
         return;
       }
       setTextStatusArray([
-        streangthText[0],
-        streangthText[1],
-        streangthText[2],
-        streangthText[3],
+        strengthText[0],
+        strengthText[1],
+        strengthText[2],
+        strengthText[3],
       ]);
     };
     setUserStreangthText();
-  }, [streangthText]);
+  }, [strengthText]);
 
   useEffect(() => {
     const evaluatePasswordStrength = () => {
