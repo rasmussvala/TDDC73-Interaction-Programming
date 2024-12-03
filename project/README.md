@@ -5,11 +5,11 @@ A customizable React Native component for evaluating and displaying password str
 ## Features
 
 - **Password Strength Evaluation:** Dynamically evaluates the strength of a password, in the rage 0 to 1, based on configurable rules (length, uppercase, special characters, and numbers).
-- **Customizable Color Palette:** Modify strength bar colors, warning colors.
-- **Recommendations Display:** Shows user-friendly recommendations for creating strong passwords.
-- **Password Confirmation:** Includes an optional confirm-password field to ensure password consistency.
-- **Dynamic Strength Bar:** A visual indicator that adapts to the strength of the entered password.
-- **Fully Responsive:** Mobile-friendly design with adjustable styles.
+- Modify strength bar colors, warning colors.
+- Shows user-friendly recommendations for creating strong passwords.
+- Includes an optional confirm-password field to ensure password consistency.
+- A visual indicator that adapts to the strength of the entered password.
+- Mobile-friendly design with adjustable styles.
 
 ## Usage
 
