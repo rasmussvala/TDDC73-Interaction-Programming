@@ -15,6 +15,7 @@ type Props = {
   hasAtLeastOneNumber?: boolean;
   confirmPassword?: boolean;
   onStrengthChange?: (strength: number) => void;
+  isEqualPasswords?: (equalPasswords: boolean) => void;
   showRecomendations?: boolean;
   colorPalette?: { [key: string]: string };
   strengthText?: string[];
@@ -33,6 +34,7 @@ type Props = {
  * @param {boolean} [props.hasAtLeastOneNumber=true] - Whether the password must include at least one number.
  * @param {boolean} [props.confirmPassword=true] - Whether to include the confirm password input field.
  * @param {(strength: number) => void} [props.onStrengthChange] - Callback triggered when the password strength changes.
+ * @param {(equalPasswords: boolean) => void} [props.isEqualPasswords] - Callback returning a boolean indicating whether the passwords in both inputs are the same. If password confirmation is disabled, the function will return true.
  * @param {boolean} [props.showRecomendations=true] - Whether to display password recommendations.
  * @param {Object} [props.colorPalette] - Custom color palette for styling various components.
  * @param {string} [props.colorPalette.firstColor] - Color for the weakest strength level.
@@ -49,6 +51,7 @@ const PasswordStrengthMeter = ({
   hasAtLeastOneNumber = true,
   confirmPassword = true,
   onStrengthChange,
+  isEqualPasswords,
   showRecomendations = true,
   colorPalette,
   strengthText,
@@ -136,7 +139,9 @@ const PasswordStrengthMeter = ({
   }, [password]);
 
   useEffect(() => {
-    setEqualPasswords(confirmPassword ? password === passwordChecker : true);
+    setEqualPasswords(
+      confirmPassword ? password === passwordChecker && password !== "" : true
+    );
   }, [password, passwordChecker]);
 
   useEffect(() => {
@@ -153,6 +158,10 @@ const PasswordStrengthMeter = ({
 
     determineStatusBar();
   }, [strength]);
+
+  useEffect(() => {
+    isEqualPasswords?.(equalPasswords);
+  }, [equalPasswords]);
 
   return (
     <View style={styles.wrapper}>
