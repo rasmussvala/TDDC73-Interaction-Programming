@@ -2,13 +2,12 @@ import { View } from "react-native";
 import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated";
 import { styles } from "../../styles/styles";
 
-const StatusBarText = ({
-  strength,
-  textStatusArray,
-}: {
+type Props = {
   strength: number;
   textStatusArray: string[];
-}) => {
+};
+
+const StatusBarText = ({ strength, textStatusArray }: Props) => {
   const textStatus =
     strength >= 1.0
       ? textStatusArray[3]

@@ -9,6 +9,15 @@ type AchievementColors = {
   number: string;
 };
 
+type Props = {
+  achievementColors: AchievementColors;
+  nrOfChars: number;
+  hasAtLeastOneUpperCase: boolean;
+  hasAtLeastOneSpecialChar: boolean;
+  hasAtLeastOneNumber: boolean;
+  visible?: boolean;
+};
+
 const Recommendations = ({
   achievementColors,
   nrOfChars,
@@ -16,14 +25,7 @@ const Recommendations = ({
   hasAtLeastOneSpecialChar,
   hasAtLeastOneNumber,
   visible = true,
-}: {
-  achievementColors: AchievementColors;
-  nrOfChars: number;
-  hasAtLeastOneUpperCase: boolean;
-  hasAtLeastOneSpecialChar: boolean;
-  hasAtLeastOneNumber: boolean;
-  visible?: boolean;
-}) => {
+}: Props) => {
   return (
     <View>
       {visible && (

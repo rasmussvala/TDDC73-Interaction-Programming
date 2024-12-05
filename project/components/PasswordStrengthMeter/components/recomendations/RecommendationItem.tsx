@@ -1,15 +1,13 @@
 import { View, Text } from "react-native";
 import { styles } from "../../styles/styles";
 
-const RecommendationItem = ({
-  text,
-  color,
-  achieved,
-}: {
+type Props = {
   text: string;
   color: string;
   achieved: boolean;
-}) => {
+};
+
+const RecommendationItem = ({ text, color, achieved }: Props) => {
   return (
     achieved && (
       <View style={styles.recommendation}>

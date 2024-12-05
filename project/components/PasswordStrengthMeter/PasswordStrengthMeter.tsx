@@ -8,7 +8,7 @@ import StatusBarText from "./components/status/StatusBarText";
 import Recommendations from "./components/recomendations/Recommendations";
 import ConfirmPasswordInput from "./components/inputs/ConfirmPasswordInput";
 
-type PasswordStrengthMeterProps = {
+type Props = {
   nrOfChars?: number;
   hasAtLeastOneUpperCase?: boolean;
   hasAtLeastOneSpecialChar?: boolean;
@@ -52,7 +52,7 @@ const PasswordStrengthMeter = ({
   showRecomendations = true,
   colorPalette,
   strengthText,
-}: PasswordStrengthMeterProps) => {
+}: Props) => {
   const [password, setPassword] = useState<string>("");
   const [passwordChecker, setPasswordChecker] = useState<string>("");
   const [strength, setStrength] = useState<number>(0.0);
@@ -88,7 +88,7 @@ const PasswordStrengthMeter = ({
   }, [colorPalette]);
 
   useEffect(() => {
-    const setUserStreangthText = () => {
+    const setUserStrengthText = () => {
       if (!strengthText || strengthText.length < 4) {
         setTextStatusArray(textStatusArrayInit);
         return;
@@ -100,7 +100,7 @@ const PasswordStrengthMeter = ({
         strengthText[3],
       ]);
     };
-    setUserStreangthText();
+    setUserStrengthText();
   }, [strengthText]);
 
   useEffect(() => {

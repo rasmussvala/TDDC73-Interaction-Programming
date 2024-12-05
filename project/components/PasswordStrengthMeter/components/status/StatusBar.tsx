@@ -2,9 +2,9 @@ import { View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { styles } from "../../styles/styles";
 
-type StatusBarProps = { colors: string[] };
+type Props = { colors: string[] };
 
-const StatusBar = ({ colors }: StatusBarProps) => {
+const StatusBar = ({ colors }: Props) => {
   return (
     <View style={styles.status}>
       {colors.map((color, index) => (
