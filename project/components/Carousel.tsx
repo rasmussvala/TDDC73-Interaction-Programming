@@ -86,27 +86,25 @@ const Carousel = ({
     translateX.value = withTiming(
       -translateXValue,
       { duration: animationTime },
-      () => {}
+      () => {
+        setCurrentIndex(
+          (prevCurrentIndex) => (prevCurrentIndex + 1) % images.length
+        );
+      }
     );
-    setTimeout(() => {
-      setCurrentIndex(
-        (prevCurrentIndex) => (prevCurrentIndex + 1) % images.length
-      );
-    }, animationTime);
   };
 
   const handlePrevious = () => {
     translateX.value = withTiming(
       translateXValue,
       { duration: animationTime },
-      () => {}
+      () => {
+        setCurrentIndex(
+          (prevCurrentIndex) =>
+            (prevCurrentIndex - 1 + images.length) % images.length
+        );
+      }
     );
-    setTimeout(() => {
-      setCurrentIndex(
-        (prevCurrentIndex) =>
-          (prevCurrentIndex - 1 + images.length) % images.length
-      );
-    }, animationTime);
   };
 
   useEffect(() => {
