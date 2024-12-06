@@ -1,50 +1,115 @@
-# Welcome to your Expo app 👋
+# 🔒 PasswordStrengthMeter
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A customizable React Native component for evaluating and displaying password strength. It provides password recommendations, dynamic status indicators, and support for password confirmation with visual feedback.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Password Strength Evaluation:** Dynamically evaluates the strength of a password, in the rage 0 to 1, based on configurable rules (length, uppercase, special characters, and numbers).
+- Modify strength bar colors, warning colors.
+- Shows user-friendly recommendations for creating strong passwords.
+- Includes an optional confirm-password field to ensure password consistency.
+- A visual indicator that adapts to the strength of the entered password.
+- Mobile-friendly design with adjustable styles.
 
-   ```bash
-   npm install
-   ```
+## Usage
 
-2. Start the app
+Below is an example of how to use the PasswordStrengthMeter component in your project. This example demonstrates how to configure the component with various options, such as minimum password length, character requirements, and the callback for password strength changes.
 
-   ```bash
-    npx expo start
-   ```
+```typescript
+const App = () => {
+  const handleStrengthChange = (strength: number) => {
+    if (strength === 1) {
+      // Password is strong. Do something
+    }
+  };
 
-In the output, you'll find options to open the app in a
+  return (
+    <PasswordStrengthMeter
+      nrOfChars={8}
+      hasAtLeastOneUpperCase={true}
+      hasAtLeastOneSpecialChar={true}
+      hasAtLeastOneNumber={true}
+      confirmPassword={true}
+      onStrengthChange={handleStrengthChange}
+      showRecomendations={true}
+      colorPalette={{
+        firstColor: "#ffcccc",
+        secondColor: "#ffe066",
+        thirdColor: "#9bf6ff",
+        forthColor: "#2a9d8f",
+        warning: "#e76f51",
+      }}
+      streangthText={["Weak", "Okay", "Good", "Strong"]}
+    />
+  );
+};
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+export default YourApp;
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Props
 
-## Learn more
+| Name                       | Type       | Default Value                        | Description                                                                                  | Optional |
+| -------------------------- | ---------- | ------------------------------------ | -------------------------------------------------------------------------------------------- | -------- |
+| `nrOfChars`                | `number`   | `8`                                  | Minimum number of characters for a strong password.                                          | Yes      |
+| `hasAtLeastOneUpperCase`   | `boolean`  | `true`                               | Whether the password must include at least one uppercase letter.                             | Yes      |
+| `hasAtLeastOneSpecialChar` | `boolean`  | `true`                               | Whether the password must include at least one special character.                            | Yes      |
+| `hasAtLeastOneNumber`      | `boolean`  | `true`                               | Whether the password must include at least one number.                                       | Yes      |
+| `confirmPassword`          | `boolean`  | `true`                               | Whether to include the confirm password input field and its functionality.                   | Yes      |
+| `onStrengthChange`         | `function` |                                      | Callback triggered when the password strength changes. Return a strength number between 0-1. | Yes      |
+| `showRecomendations`       | `boolean`  | `true`                               | Whether to display password recommendations to the user.                                     | Yes      |
+| `colorPalette`             | `object`   |                                      | Custom color palette for styling various components.                                         | Yes      |
+| `colorPalette.firstColor`  | `string`   | `#e76f51`                            | Color for the weakest strength level.                                                        | Yes      |
+| `colorPalette.secondColor` | `string`   | `#f4a261`                            | Color for the low strength level.                                                            | Yes      |
+| `colorPalette.thirdColor`  | `string`   | `#bbce60`                            | Color for the medium strength level.                                                         | Yes      |
+| `colorPalette.forthColor`  | `string`   | `#2a9d8f`                            | Color for the strongest strength level.                                                      | Yes      |
+| `colorPalette.warning`     | `string`   | `#e76f5177`                          | Color for warnings (e.g., mismatched passwords).                                             | Yes      |
+| `strengthText`             | `string[]` | `["Weak", "Okay", "Good", "Strong"]` | Custom labels for strength levels (array of exactly 4 strings).                              | Yes      |
 
-To learn more about developing your project with Expo, look at the following resources:
+# 🎠 Carousel
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+A React Native component for displaying a horizontally scrolling set of images. The Carousel is versatile, customizable, and can display 1–3 images at a time.
 
-## Join the community
+## Features
 
-Join our community of developers creating universal apps.
+- Display 1–3 images simultaneously in a rotating carousel.
+- Configurable image dimensions, margins, and border radius.
+- Optional navigation buttons for manual control.
+- Autoplay functionality with configurable intervals.
+- Customizable button styles, including background color and icon color.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Usage
+
+To use the Carousel you need to pass the images as arguments to the Carousel component.
+
+```typescript
+const App = () => {
+  const images = [
+    require('./image1.jpg'),
+    require('./image2.jpg'),
+    require('./image3.jpg'),
+    // Add all your images here
+  ];
+
+  return (
+    <Carousel images={{images}}>
+  );
+};
+
+export default Carousel;
+```
+
+## Props
+
+| Name                    | Type                    | Default       | Description                                                                                                                     | Optional |
+| ----------------------- | ----------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `images`                | `ImageSourcePropType[]` | **Required**  | An array of image sources to display in the carousel (e.g., `require('./image.png')`) Requires at least two images to function. | No       |
+| `wrapperWidth`          | `number`                | `350`         | The width of the carousel wrapper in pixels.                                                                                    | Yes      |
+| `imageWidth`            | `number`                | `200`         | The width of each image in pixels.                                                                                              | Yes      |
+| `imageHeight`           | `number`                | `200`         | The height of each image in pixels.                                                                                             | Yes      |
+| `imageMargin`           | `number`                | `5`           | The margin between individual images in pixels.                                                                                 | Yes      |
+| `imageBorderRadius`     | `string`                | `5`           | The border radius for each image in the carousel.                                                                               | Yes      |
+| `buttonBackgroundColor` | `string`                | `"#d3d3d3aa"` | The background color of navigation buttons.                                                                                     | Yes      |
+| `buttonIconColor`       | `string`                | `"black"`     | The color of the navigation button icons.                                                                                       | Yes      |
+| `autoplayTimer`         | `number`                | `-1`          | Interval in milliseconds for autoplay (min: 500ms). Set to `-1` to disable autoplay.                                            | Yes      |
+| `toggleButtons`         | `boolean`               | `true`        | Whether to show navigation buttons (`true`) or hide them (`false`).                                                             | Yes      |
