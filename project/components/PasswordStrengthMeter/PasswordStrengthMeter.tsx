@@ -16,6 +16,7 @@ type Props = {
   confirmPassword?: boolean;
   onStrengthChange?: (strength: number) => void;
   isEqualPasswords?: (equalPasswords: boolean) => void;
+  onPasswordChange?: (password: string) => void;
   showRecomendations?: boolean;
   colorPalette?: { [key: string]: string };
   strengthText?: string[];
@@ -35,6 +36,7 @@ type Props = {
  * @param {boolean} [props.confirmPassword=true] - Whether to include the confirm password input field.
  * @param {(strength: number) => void} [props.onStrengthChange] - Callback triggered when the password strength changes.
  * @param {(equalPasswords: boolean) => void} [props.isEqualPasswords] - Callback returning a boolean indicating whether the passwords in both inputs are the same. If password confirmation is disabled, the function will return true.
+ * @param {(password: string) => void} [props.onPasswordChange] -  Callback returning the password written. Can be used to store and save password in your project.
  * @param {boolean} [props.showRecomendations=true] - Whether to display password recommendations.
  * @param {Object} [props.colorPalette] - Custom color palette for styling various components.
  * @param {string} [props.colorPalette.firstColor] - Color for the weakest strength level.
@@ -52,6 +54,7 @@ const PasswordStrengthMeter = ({
   confirmPassword = true,
   onStrengthChange,
   isEqualPasswords,
+  onPasswordChange,
   showRecomendations = true,
   colorPalette,
   strengthText,
@@ -136,6 +139,7 @@ const PasswordStrengthMeter = ({
     };
 
     evaluatePasswordStrength();
+    onPasswordChange?.(password);
   }, [password]);
 
   useEffect(() => {
